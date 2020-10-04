@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "802751588722",
+    "firebase_url": "https://guardini-4844c.firebaseio.com",
+    "project_id": "guardini-4844c",
+    "storage_bucket": "guardini-4844c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802751588722:android:fe6fc62979270152ac15eb",
+        "android_client_info": {
+          "package_name": "com.kmguardini.guardini"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "802751588722-422c7rvmf5ff1ucl1l5njg1ct7dtbi85.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8bFHHoq5TKsoBc9y7jEs3HsNFtmikZ0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "802751588722-422c7rvmf5ff1ucl1l5njg1ct7dtbi85.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
