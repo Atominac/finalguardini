@@ -112,7 +112,7 @@ class _HomeState extends State<Home> {
         _locationData.latitude.toString() +
             "," +
             _locationData.longitude.toString());
-    fetchadddress(_locationData.latitude, _locationData.longitude);
+    // fetchadddress(_locationData.latitude, _locationData.longitude);
   }
 
   final Distance distance = new Distance();
@@ -414,10 +414,10 @@ class _HomeState extends State<Home> {
                       child: Row(
                         children: <Widget>[
                           Icon(
-                            Icons.location_on,
-                            color: Colors.white.withOpacity(0.8),
-                            size: 14,
-                          ),
+                          Icons.store_mall_directory,
+                          color: Colors.white.withOpacity(0.7),
+                          size: 14,
+                        ),
                           Container(
                             padding: EdgeInsets.only(left: 3),
                             child: Text(
@@ -644,26 +644,26 @@ class _HomeState extends State<Home> {
                                         (BuildContext context, int index) {
                                       return GestureDetector(
                                         onTap: () {
-                                          print(outlets[index]["geolocation"]);
-                                          var x = getdist(
-                                              outlets[index]["geolocation"]);
+                                          // print(outlets[index]["geolocation"]);
+                                          // var x = getdist(
+                                          //     outlets[index]["geolocation"]);
 
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => Items(
-                                                  x == "null"
-                                                      ? "0"
-                                                      : getdist(outlets[index]
-                                                          ["geolocation"]),
-                                                  outlets[index]["locality"],
-                                                  outlets[index]
-                                                      ["workinghours"],
-                                                  outlets[index]["workingdays"],
-                                                  outlets[index]["id"],
-                                                  outlets[index]["imageurl"]),
-                                            ),
-                                          );
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) => Items(
+                                          //         x == "null"
+                                          //             ? "0"
+                                          //             : getdist(outlets[index]
+                                          //                 ["geolocation"]),
+                                          //         outlets[index]["locality"],
+                                          //         outlets[index]
+                                          //             ["workinghours"],
+                                          //         outlets[index]["workingdays"],
+                                          //         outlets[index]["id"],
+                                          //         outlets[index]["imageurl"]),
+                                          //   ),
+                                          // );
                                         },
                                         child: Column(
                                           mainAxisAlignment:

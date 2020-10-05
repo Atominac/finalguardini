@@ -101,6 +101,7 @@ class _AddItemsState extends State<AddItems> {
         items = jsondecoded["data"];
         selecteditems = items;
         blank = items;
+        for (var i = 0; i < items.length; i++) {}
       });
     } else {
       setState(() {});
@@ -183,7 +184,7 @@ class _AddItemsState extends State<AddItems> {
     price = selecteditems[index]["services"][pricetype]["price"];
     print(price);
     // return;
-    price=int.parse(price);
+    price = int.parse(price);
     if (action == "p") {
       if (itemdialogue == 1) {
         if (selecteditems[index].containsKey('count')) {
@@ -311,11 +312,10 @@ class _AddItemsState extends State<AddItems> {
     print(selecteditems);
   }
 
-  georderdetails() async{
+  georderdetails() async {
     blank = [];
     var item;
-        final user = await SharedPreferences.getInstance();
-
+    final user = await SharedPreferences.getInstance();
 
     // print("bdy");
     // print(orderdetails["outlet"]);
@@ -335,17 +335,20 @@ class _AddItemsState extends State<AddItems> {
         //   price = selecteditems[selectedindex[i]]["premiumpressing"];
         // }
 
-price = selecteditems[selectedindex[i]]["services"][paymenttype[j]]["price"];
-price=int.parse(price);
+        price = selecteditems[selectedindex[i]]["services"][paymenttype[j]]
+            ["price"];
+        price = int.parse(price);
 
         item = {
           "id": selecteditems[selectedindex[i]]["id"],
           "name": selecteditems[selectedindex[i]]["name"],
           "price": price,
           "imgurl": selecteditems[selectedindex[i]]["imageurl"],
-          "type": selecteditems[selectedindex[i]]["services"][paymenttype[j]]["service_id"],
-          "servicename":selecteditems[selectedindex[i]]["services"][paymenttype[j]]["name"],
-          "packagingoption":selecteditems[selectedindex[i]]["packgingtype"]
+          "type": selecteditems[selectedindex[i]]["services"][paymenttype[j]]
+              ["service_id"],
+          "servicename": selecteditems[selectedindex[i]]["services"]
+              [paymenttype[j]]["name"],
+          "packagingoption": selecteditems[selectedindex[i]]["packgingtype"]
         };
         // print("item");
         // print(item);
@@ -357,10 +360,10 @@ price=int.parse(price);
     // print(blank);
     orderdetails = item;
     orderdetails = {};
-     if(user.getString("outletid")==null){
+    if (user.getString("outletid") == null) {
       showsnack("Something Went wrong");
-    }else{
-      orderdetails["outlet"]=user.getString("outletid");
+    } else {
+      orderdetails["outlet"] = user.getString("outletid");
     }
     orderdetails["quantity"] = totalitems;
     orderdetails["price"] = totalprice;
@@ -1109,19 +1112,31 @@ price=int.parse(price);
                                                                   index]
                                                               .containsKey(
                                                                   'paymenttype'));
-                                                          print(selectedservices);
+                                                          print(
+                                                              selectedservices);
                                                           // return;
-                                                          if(selecteditems[
+                                                          if (selecteditems[
                                                                   index]
                                                               .containsKey(
-                                                                  'paymenttype')){
-                                                            for (var x = 0; x < selecteditems[index]["paymenttype"].length; x++) {
-                                                              selectedservices[selecteditems[index]["paymenttype"][x]]++;
-                                                              tempitems+=1;
+                                                                  'paymenttype')) {
+                                                            for (var x = 0;
+                                                                x <
+                                                                    selecteditems[index]
+                                                                            [
+                                                                            "paymenttype"]
+                                                                        .length;
+                                                                x++) {
+                                                              selectedservices[
+                                                                  selecteditems[
+                                                                          index]
+                                                                      [
+                                                                      "paymenttype"][x]]++;
+                                                              tempitems += 1;
                                                             }
                                                           }
                                                           print(tempitems);
-                                                          print(selectedservices);
+                                                          print(
+                                                              selectedservices);
                                                           // return;
                                                           priceoption(
                                                               selecteditems[
@@ -1257,65 +1272,65 @@ price=int.parse(price);
                 // Container()
                 Positioned(
                   bottom: 0,
-                  child: Container(
-                      height: 55,
-                      padding: EdgeInsets.only(
-                        left: 16,
-                        top: 7,
-                        right: 16,
-                        bottom: 7,
-                      ),
-                      width: size.width,
-                      color: Hexcolor('#FFC233'),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    "₹ " + "${totalprice}",
-                                    // "₹ " + totalprice.toString(),
-                                    style: TextStyle(
-                                      color: Hexcolor('#252525'),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
+                  child: GestureDetector(
+                     onTap: () {
+                    print(selecteditems);
+                    // return;
+                    georderdetails();
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) =>
+                    //           CartScreen(orderdetails)),
+                  },
+                                      child: Container(
+                        height: 55,
+                        padding: EdgeInsets.only(
+                          left: 16,
+                          top: 7,
+                          right: 16,
+                          bottom: 7,
+                        ),
+                        width: size.width,
+                        color: Hexcolor('#FFC233'),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "₹ " + "${totalprice}",
+                                      // "₹ " + totalprice.toString(),
+                                      style: TextStyle(
+                                        color: Hexcolor('#252525'),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    ' (Estimated)',
-                                    style: TextStyle(
-                                      color: Hexcolor('#404040'),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Text(
-                                totalitems.toString() + " pieces",
-                                style: TextStyle(
-                                  color: Hexcolor('#404040'),
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w500,
+                                    Text(
+                                      ' (Estimated)',
+                                      style: TextStyle(
+                                        color: Hexcolor('#404040'),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              print(selecteditems);
-                              // return;
-                              georderdetails();
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) =>
-                              //           CartScreen(orderdetails)),
-                            },
-                            child: Row(
+                                Text(
+                                  totalitems.toString() + " pieces",
+                                  style: TextStyle(
+                                    color: Hexcolor('#404040'),
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
                               children: [
                                 Text(
                                   "View Basket",
@@ -1334,53 +1349,53 @@ price=int.parse(price);
                                 ),
                               ],
                             ),
-                          ),
-                        ],
-                      )
-                      // ),
-                      // child: Container(
-                      //   margin: EdgeInsets.all(10),
-                      //   child: Column(
-                      //     children: <Widget>[
-                      //       GestureDetector(
-                      //         onTap: () {
-                      //           georderdetails();
-                      //         },
-                      //         child: Container(
-                      //           child: Row(
-                      //             mainAxisAlignment:
-                      //                 MainAxisAlignment.spaceBetween,
-                      //             children: <Widget>[
-                      //               Row(
-                      //                 children: <Widget>[
-                      //                   Icon(
-                      //                     LineAwesomeIcons.shopping_cart,
-                      //                     size: 27,
-                      //                   ),
-                      //                   Text(
-                      //                     totalitems.toString() + " item(s)",
-                      //                     style: TextStyle(
-                      //                         fontSize: 17,
-                      //                         color: Colors.black87,
-                      //                         fontWeight: FontWeight.bold),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //               Text(
-                      //                 "₹ " + totalprice.toString(),
-                      //                 style: TextStyle(
-                      //                     fontSize: 17,
-                      //                     color: Colors.black87,
-                      //                     fontWeight: FontWeight.bold),
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ),
-                      //       )
-                      //     ],
-                      //   ),
-                      // ),
-                      ),
+                          ],
+                        )
+                        // ),
+                        // child: Container(
+                        //   margin: EdgeInsets.all(10),
+                        //   child: Column(
+                        //     children: <Widget>[
+                        //       GestureDetector(
+                        //         onTap: () {
+                        //           georderdetails();
+                        //         },
+                        //         child: Container(
+                        //           child: Row(
+                        //             mainAxisAlignment:
+                        //                 MainAxisAlignment.spaceBetween,
+                        //             children: <Widget>[
+                        //               Row(
+                        //                 children: <Widget>[
+                        //                   Icon(
+                        //                     LineAwesomeIcons.shopping_cart,
+                        //                     size: 27,
+                        //                   ),
+                        //                   Text(
+                        //                     totalitems.toString() + " item(s)",
+                        //                     style: TextStyle(
+                        //                         fontSize: 17,
+                        //                         color: Colors.black87,
+                        //                         fontWeight: FontWeight.bold),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //               Text(
+                        //                 "₹ " + totalprice.toString(),
+                        //                 style: TextStyle(
+                        //                     fontSize: 17,
+                        //                     color: Colors.black87,
+                        //                     fontWeight: FontWeight.bold),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
+                        ),
+                  ),
                 ),
               ],
             ),

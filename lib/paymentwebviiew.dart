@@ -30,7 +30,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
           //   ),
           // );
           Navigator.pop(context);
-          // Navigator.pop(context);
+          Navigator.pop(context);
 
         });
       }
@@ -40,16 +40,22 @@ class _PaymentWebViewState extends State<PaymentWebView> {
   finish() {}
   @override
   Widget build(BuildContext context) {
-    return WebviewScaffold(
+    return Platform.isIOS? WebviewScaffold(
       url: widget.full,
       appCacheEnabled: true,
       withLocalStorage: true,
       ignoreSSLErrors: true,
       withJavascript: true,
 
-      appBar: Platform.isIOS?new AppBar(
+      appBar:new AppBar(
         title: new Text("Make Payment"),
-      ):Container(),
+      )
+    ):WebviewScaffold(
+      url: widget.full,
+      appCacheEnabled: true,
+      withLocalStorage: true,
+      ignoreSSLErrors: true,
+      withJavascript: true,
     );
   }
 }

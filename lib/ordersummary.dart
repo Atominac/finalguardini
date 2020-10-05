@@ -2,15 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:guardini/enteraddress.dart';
-import 'package:guardini/paymenttype.dart';
 import 'package:guardini/reviewDetails.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
-import 'package:jiffy/jiffy.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderSummary extends StatefulWidget {
   var order;
@@ -37,14 +34,21 @@ class _OrderSummaryState extends State<OrderSummary> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getdetails();
     getspecialservices();
     orderdetails = widget.order;
     items = orderdetails["items"];
     print("hey");
     print(items);
     date = DateTime.now();
-    ;
+    
   }
+   var outletname;
+  getdetails() async {
+    final user = await SharedPreferences.getInstance();
+    outletname = user.getString("outletname");
+
+   }
 
   getspecialservices() async {
     final String url =
@@ -729,6 +733,7 @@ class _OrderSummaryState extends State<OrderSummary> {
             new FlatButton(
               child: new Text("Continue"),
               onPressed: () {
+                Navigator.pop(context);
                 creteorder();
               },
             ),
@@ -1806,7 +1811,7 @@ var deliverytime;
                         Container(
                           padding: EdgeInsets.only(left: 5),
                           child: Text(
-                            'Choose Outlet',
+                            'Outlet',
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.7),
                               fontWeight: FontWeight.w400,
@@ -1826,7 +1831,7 @@ var deliverytime;
                           Container(
                             width: size.width * 0.7,
                             child: Text(
-                              '24/B Tempo House California, USA',
+                              outletname==null?"Loading..":outletname,
                               // address == null ? disp : address,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -1836,17 +1841,6 @@ var deliverytime;
                               ),
                             ),
                           ),
-                          GestureDetector(
-                            child: Text(
-                              'Change',
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Hexcolor('#ABEDE6'),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            onTap: () {},
-                          )
                         ],
                       ),
                     ),
@@ -1857,23 +1851,9 @@ var deliverytime;
           ),
           Positioned(
             bottom: 0,
-            child: Container(
-                height: 55,
-                padding: EdgeInsets.only(
-                  left: 16,
-                  top: 7,
-                  right: 16,
-                  bottom: 7,
-                ),
-                width: size.width,
-                color: Hexcolor('#FFC233'),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (address == null) {
+            child: GestureDetector(
+              onTap: (){
+                 if (address == null) {
                           showsnack("Please enter address");
                         } else if (date == null || time == null) {
                           showsnack("Please select date and time");
@@ -1881,17 +1861,22 @@ var deliverytime;
                           remarks();
                           print(widget.order);
                         }
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ReviewDetails(widget.order),
-                        //   ),
-                        // );
-                        // }
-                        // printdates();
-                        // checkIfEmpty();
-                      },
-                      child: Row(
+              },
+                          child: Container(
+                  height: 55,
+                  padding: EdgeInsets.only(
+                    left: 16,
+                    top: 7,
+                    right: 16,
+                    bottom: 7,
+                  ),
+                  width: size.width,
+                  color: Hexcolor('#FFC233'),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
                         children: [
                           Text(
                             "Review Details",
@@ -1910,9 +1895,9 @@ var deliverytime;
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                )),
+                    ],
+                  )),
+            ),
           ),
         ],
       ),

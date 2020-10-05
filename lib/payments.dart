@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:guardini/paymentwebviiew.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class PaymentScreen extends StatefulWidget {
   var order;
@@ -17,40 +19,133 @@ class _PaymentScreenState extends State<PaymentScreen> {
     selectedRadioTile = 0;
   }
 
-
-pay() async{
-  final user = await SharedPreferences.getInstance();
-   var ending="?"+"masterhash=${user.getString("masterhash")}&order_id=${widget.order["orderid"]}";
-   var full ="http://guardini.conexo.in/gatewaytest/NON_SEAMLESS_KIT/dataFrom.php"+ending;
+  payviagateway() async {
+    final user = await SharedPreferences.getInstance();
+    var ending = "?" +
+        "masterhash=${user.getString("masterhash")}&order_id=${widget.order["orderid"]}";
+    var full =
+        "http://guardini.conexo.in/gatewaytest/NON_SEAMLESS_KIT/dataFrom.php" +
+            ending;
     print(full);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PaymentWebView("http://guardini.conexo.in/gatewaytest/NON_SEAMLESS_KIT/success.php",widget.order["orderid"]),
-          ),
-        );
-}
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PaymentWebView(full, widget.order["orderid"]),
+      ),
+    );
+  }
+
+  getcredits() async {
+    // _showdialogue();
+    final user = await SharedPreferences.getInstance();
+
+    final String url =
+        "http://34.93.1.41/guardini/public/authenticate.php/user/getbalance";
+    var response = await http.post(
+      //encode url
+      Uri.encodeFull(url),
+      headers: {"accept": "application/json"},
+      body: {"masterhash": user.getString("masterhash")},
+    );
+
+    //print("login response"+response.body);
+    var jsondecoded = json.decode(response.body);
+    var data = jsondecoded["data"];
+    print(jsondecoded);
+    if (jsondecoded['message'] == "success") {
+      return int.parse(data[0]["balancecredits"]);
+    } else {
+      Navigator.pop(context);
+      showsnack("Some error has ouccered");
+      return null;
+    }
+  }
+
+  payviawallet() async {
+    var credits = await getcredits();
+    print(credits);
+    if (credits < int.parse(widget.order["totalprice"])) {
+      showsnack("Please add amount to use this  method");
+    } else {
+      print("wow");
+      walletpay();
+    }
+  }
+
+  void _showdialogue() {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+            child: Container(child: CircularProgressIndicator()),
+          );
+        });
+  }
+
+  walletpay() async {
+    _showdialogue();
+    final user = await SharedPreferences.getInstance();
+
+    final String url =
+        "http://34.93.1.41/guardini/public/authenticate.php/user/balancededuct";
+    var response = await http.post(
+      //encode url
+      Uri.encodeFull(url),
+      headers: {"accept": "application/json"},
+      body: {"masterhash": user.getString("masterhash"),"amount":widget.order["totalprice"]},
+    );
+
+    //print("login response"+response.body);
+    var jsondecoded = json.decode(response.body);
+    print(jsondecoded);
+    if (jsondecoded['message'] == "success") {
+      showsnack("Payment successfull");
+      Navigator.pop(context);
+      Navigator.pop(context);
+
+    } else {
+      Navigator.pop(context);
+      showsnack("Some error has ouccered");
+    }
+  }
+
+  payviacash() {}
+
+  var paytype = 0;
   setSelectedRadioTile(int val) {
     setState(() {
       selectedRadioTile = val;
     });
     switch (selectedRadioTile) {
       case 1:
+        paytype = 1;
         break;
       case 2:
-      pay();
+        paytype = 2;
+        // pay();
         break;
       case 3:
+        paytype = 3;
         break;
       default:
     }
     print(selectedRadioTile);
   }
 
+  showsnack(String message) {
+    //////print(message);
+    final snackBar = SnackBar(content: Text(message));
+    _scafoldkey.currentState.showSnackBar(snackBar);
+  }
+
+  final GlobalKey<ScaffoldState> _scafoldkey = GlobalKey<ScaffoldState>();
+
   int selectedRadioTile;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scafoldkey,
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Payments'),
@@ -292,6 +387,15 @@ pay() async{
                     onTap: () {
                       print(widget.order);
                       // verifyotp(mainotp);
+                      if (paytype == 1) {
+                        payviawallet();
+                      } else if (paytype == 2) {
+                        payviagateway();
+                      } else if (paytype == 3) {
+                        payviacash();
+                      } else {
+                        showsnack("No orders available");
+                      }
                     },
                     splashColor: Color.fromRGBO(255, 194, 51, 0.3),
                     highlightColor: Color.fromRGBO(255, 194, 51, 0.25),

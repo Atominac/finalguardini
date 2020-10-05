@@ -371,7 +371,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        "Delivery Charges : ",
+                       orders["safekeeping"]=="0" ? "Delivery Charges : ":"Safekeeping Charges",
                         style: TextStyle(
                             fontSize:
                                 (4 / 100) * MediaQuery.of(context).size.width,
@@ -390,29 +390,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       )
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Special Serivce : ",
-                        style: TextStyle(
-                            fontSize:
-                                (4 / 100) * MediaQuery.of(context).size.width,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        orders["specialprice"] == null
-                            ? "Rs 0"
-                            : "Rs " + orders["specialprice"].toString(),
-                        style: TextStyle(
-                            fontSize:
-                                (4 / 100) * MediaQuery.of(context).size.width,
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -885,13 +863,14 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 Container(
                                     margin: EdgeInsets.only(top: 10),
                                     child: FlatButton(
-                                      onPressed: () {
-                                        Navigator.push(
+                                      onPressed: () async{
+                                      await  Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => PaymentScreen(orders),
                                       ),
                                     );
+                                    fetchorders();
                                       },
                                       child: Text("PAY"),
                                       textColor: Colors.white,
