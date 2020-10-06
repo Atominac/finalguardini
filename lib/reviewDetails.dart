@@ -1155,7 +1155,7 @@ class _ReviewDetailsState extends State<ReviewDetails> {
               child: Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 8),
+                    margin: EdgeInsets.only(top: 20),
                     child: Row(
                       children: <Widget>[
                         Container(

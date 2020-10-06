@@ -896,8 +896,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       child: Text("PAY"),
                                       textColor: Colors.white,
                                       color: Hexcolor("#FFC233"),
-                                      minWidth: 80,
-                                      height: 40,
+                                      // minWidth: 80,
+                                      // height: 40,
                                     ))
                               ],
                             )

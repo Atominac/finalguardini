@@ -596,7 +596,8 @@ class _HomeState extends State<Home> {
                 child: flag == 0
                     ? Container(
                         margin: EdgeInsets.only(top: 10),
-                        child: Image.asset("assets/noitems.png"))
+                        child: Image.asset("assets/noitems.png"),
+                      )
                     : outlets == null
                         ? Center(
                             child: Center(
@@ -605,17 +606,17 @@ class _HomeState extends State<Home> {
                             // child: CircularProgressIndicator(),
                           )
                         : Container(
-                            height: 630,
+                            height: size.longestSide * 0.6,
                             color: Colors.white,
                             margin: EdgeInsets.only(top: 10, bottom: 0),
                             padding: EdgeInsets.fromLTRB(16, 24, 16, 0),
-                            child: ListView(
-                              physics: NeverScrollableScrollPhysics(),
-                              // crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 //"Other Guardini outlets near you"
                                 Container(
-                                  width: size.width * 0.75,
+                                  width: size.width,
+                                  alignment: Alignment.centerLeft,
                                   child: Text(
                                     'Other Guardini outlets near you',
                                     style: TextStyle(
@@ -625,7 +626,7 @@ class _HomeState extends State<Home> {
                                 ),
                                 //'We provide free pickup and delivery'
                                 Container(
-                                  width: size.width * 0.75,
+                                  width: size.width,
                                   margin: EdgeInsets.only(top: 5, bottom: 30),
                                   child: Text(
                                     'We provide free pickup and delivery',
@@ -673,157 +674,158 @@ class _HomeState extends State<Home> {
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   //Outlet Image
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        right: 16),
-                                                    child: outlets[index]
-                                                                ["imageurl"] ==
-                                                            null
-                                                        ? Image.asset(
-                                                            "assets/logohd.png")
-                                                        : Image.network(
-                                                            outlets[index]
-                                                                ["imageurl"],
-                                                            height: 70,
-                                                            width: 70,
-                                                          ),
-                                                  ),
-
-                                                  Container(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Container(
-                                                          // margin: EdgeInsets.only(
-                                                          //     bottom: 8,),
-                                                          child: Text(
-                                                            outlets[index]["locality"]
-                                                                        .length >
-                                                                    15
-                                                                ? outlets[index]
-                                                                            [
-                                                                            "locality"]
-                                                                        .substring(
-                                                                            0,
-                                                                            12) +
-                                                                    "..."
-                                                                : outlets[index]
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            right: 16),
+                                                        child: outlets[index]
                                                                     [
-                                                                    "locality"],
-                                                            style: TextStyle(
-                                                              fontSize: 14,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        //Chips
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  top: 8,
-                                                                  bottom: 16),
-                                                          child: Row(
-                                                            children: [
-                                                              Container(
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            8,
-                                                                        vertical:
-                                                                            3),
-                                                                decoration: BoxDecoration(
-                                                                    color: Hexcolor(
-                                                                        '#219251'),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20)),
-                                                                child: Text(
-                                                                  outlets[index]
-                                                                      [
-                                                                      "workingdays"],
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
+                                                                    "imageurl"] ==
+                                                                null
+                                                            ? Image.asset(
+                                                                "assets/logohd.png")
+                                                            : Image.network(
+                                                                outlets[index][
+                                                                    "imageurl"],
+                                                                height: 70,
+                                                                width: 70,
                                                               ),
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            8),
-                                                              ),
-                                                              Container(
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            8,
-                                                                        vertical:
-                                                                            3),
-                                                                decoration: BoxDecoration(
-                                                                    color: Hexcolor(
-                                                                        '#219251'),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            20)),
-                                                                child: Text(
-                                                                  outlets[index]
-                                                                      [
-                                                                      "workinghours"],
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        //Outlet Address
-                                                        Row(
+                                                      ),
+                                                      Container(
+                                                        child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
                                                                   .start,
-                                                          children: [
-                                                            Icon(
-                                                              Icons.location_on,
-                                                              size: 20,
-                                                              color:
-                                                                  Colors.green,
-                                                            ),
+                                                          children: <Widget>[
                                                             Container(
+                                                              // margin: EdgeInsets.only(
+                                                              //     bottom: 8,),
                                                               width:
                                                                   size.width *
-                                                                      0.4,
+                                                                      0.45,
                                                               child: Text(
-                                                                'DDA Complex, Rd Number 4, Sector 2, Shanti Niketan, New Delhi, Delhi 110021',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
+                                                                outlets[index][
+                                                                    "locality"],
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
                                                               ),
+                                                            ),
+                                                            //Chips
+                                                            Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      top: 8,
+                                                                      bottom:
+                                                                          16),
+                                                              child: Row(
+                                                                children: [
+                                                                  Container(
+                                                                    padding: EdgeInsets.symmetric(
+                                                                        horizontal:
+                                                                            8,
+                                                                        vertical:
+                                                                            3),
+                                                                    decoration: BoxDecoration(
+                                                                        color: Hexcolor(
+                                                                            '#219251'),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(20)),
+                                                                    child: Text(
+                                                                      outlets[index]
+                                                                          [
+                                                                          "workingdays"],
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                            left:
+                                                                                8),
+                                                                  ),
+                                                                  Container(
+                                                                    padding: EdgeInsets.symmetric(
+                                                                        horizontal:
+                                                                            8,
+                                                                        vertical:
+                                                                            3),
+                                                                    decoration: BoxDecoration(
+                                                                        color: Hexcolor(
+                                                                            '#219251'),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(20)),
+                                                                    child: Text(
+                                                                      outlets[index]
+                                                                          [
+                                                                          "workinghours"],
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            //Outlet Address
+                                                            Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons
+                                                                      .location_on,
+                                                                  size: 20,
+                                                                  color: Colors
+                                                                      .green,
+                                                                ),
+                                                                Container(
+                                                                  width:
+                                                                      size.width *
+                                                                          0.4,
+                                                                  child: Text(
+                                                                    'DDA Complex, Rd Number 4, Sector 2, Shanti Niketan, New Delhi, Delhi 110021',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            14,
+                                                                        fontWeight:
+                                                                            FontWeight.w400),
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
                                                           ],
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
+
                                                   fetchdist != 1
                                                       ? Container()
                                                       : Container(
@@ -865,10 +867,12 @@ class _HomeState extends State<Home> {
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 8.0),
-                                              child: Divider(
-                                                thickness: 0.2,
-                                                color: Colors.black,
-                                              ),
+                                              child: index < 2
+                                                  ? Divider(
+                                                      thickness: 0.2,
+                                                      color: Colors.black,
+                                                    )
+                                                  : Container(),
                                             ),
                                           ],
                                         ),
@@ -879,8 +883,7 @@ class _HomeState extends State<Home> {
                               ],
                             ),
                           ),
-              ),
-              //View all outlets button
+              ), //View all outlets button
               Container(
                 padding: EdgeInsets.only(left: 16, right: 16, bottom: 32),
                 margin: EdgeInsets.only(bottom: 10),
@@ -1076,8 +1079,8 @@ class _HomeState extends State<Home> {
             ],
           ),
           Container(
-            color: Hexcolor('#145730'),
-            height: 24,
+            color: Hexcolor('#219251'),
+            height: MediaQuery.of(context).padding.top,
           )
         ],
       ),

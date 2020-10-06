@@ -737,20 +737,20 @@ class _OrderSummaryState extends State<OrderSummary> {
       },
     );
   }
-var deliverytime;
+
+  var deliverytime;
   void creteorder() {
     orderdetails["address"] = address;
     orderdetails["pickuptime"] =
         date.toString().substring(0, 10) + " " + time.toString();
-    if(deliverytime==null){
-       orderdetails["deliverytime"]="";
-    }else{
-       orderdetails["deliverytime"]=deliverytime;
-
+    if (deliverytime == null) {
+      orderdetails["deliverytime"] = "";
+    } else {
+      orderdetails["deliverytime"] = deliverytime;
     }
     orderdetails["remarks"] = t1.text;
     orderdetails["gst"] = "";
-    print("here it e is: "+orderdetails["deliverytime"]);
+    print("here it e is: " + orderdetails["deliverytime"]);
     print(orderdetails);
     // return;
     Navigator.push(
@@ -759,7 +759,7 @@ var deliverytime;
     );
   }
 
-  var weekday = ["","MON", "TUE", "WED", "THU", "FRI", "SAT","SUN"];
+  var weekday = ["", "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
   var dateindex = 0;
   var datearr = [];
 
@@ -771,7 +771,7 @@ var deliverytime;
     // return;
     var jdate = DateTime.now();
     var todaydate = DateTime.now();
-    print("date========"+todaydate.toString());
+    print("date========" + todaydate.toString());
     var limitstring = todaydate.toString().substring(0, 10) + " 18:00:00";
     print(limitstring.toString());
     var ghgh = DateTime.parse(limitstring).difference(DateTime.now()).inMinutes;
@@ -866,8 +866,6 @@ var deliverytime;
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var height = size.height;
-    var heading = (2.5 / 100) * height;
-    var subheading = (2 / 100) * height;
     var i = 16;
     return Scaffold(
       key: _scafoldkey,
@@ -894,7 +892,7 @@ var deliverytime;
           ListView(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 165),
+                margin: EdgeInsets.only(top: 152),
                 padding: EdgeInsets.only(top: 18, left: 16),
                 color: Colors.white,
                 child: Column(
@@ -912,13 +910,14 @@ var deliverytime;
                       ),
                     ),
                     Container(
-                      width: size.width * 0.8,
+                      margin: EdgeInsets.only(top: 6, bottom: 8),
+                      width: size.width * 0.9,
                       child: Text(
                         'Our correspondent will arrive at this address on the specified date to pickup clothes',
                         style: TextStyle(
                           fontSize: 14,
                           color: Hexcolor('#737373'),
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ),
@@ -956,16 +955,18 @@ var deliverytime;
                           Padding(
                             padding: EdgeInsets.only(left: 6),
                           ),
-                          Text(
-                            address == null
-                                ? "SET PICKUP ADRESS"
-                                : address.length > 30
-                                    ? address.substring(0, 30) + "..."
-                                    : address,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Hexcolor('#00B6BC'),
-                              fontWeight: FontWeight.w500,
+                          Container(
+                            width: size.width * 0.82,
+                            child: Text(
+                              address == null
+                                  ? "SET PICKUP ADRESS"
+                                  : address,
+                                  overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Hexcolor('#00B6BC'),
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ],
@@ -973,7 +974,7 @@ var deliverytime;
                       Icon(
                         Icons.arrow_forward_ios,
                         color: Hexcolor('#00B6BC'),
-                        size: heading,
+                        size: 14,
                       )
                     ],
                   ),
@@ -1041,7 +1042,7 @@ var deliverytime;
 
               Container(
                 // height: 150,
-                padding: EdgeInsets.only(left: 16, bottom: 40, top: 8),
+                padding: EdgeInsets.only(left: 16, bottom: 16, top: 8),
                 color: Colors.white,
                 child: Column(
                   children: [
@@ -1065,6 +1066,7 @@ var deliverytime;
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       child: Wrap(
+                        
                         children: [
                           DateTime.parse(date.toString().substring(0, 10) +
                                           " 09:00:00")
@@ -1299,9 +1301,15 @@ var deliverytime;
                 ),
               ),
 
+              //Divider
+              Container(
+                color: Colors.white,
+                child: Divider(
+                  thickness: 1.2,
+                ),
+              ),
 
-
-               Container(
+              Container(
                 // height: 150,
                 padding: EdgeInsets.only(left: 16, bottom: 40, top: 8),
                 color: Colors.white,
@@ -1329,195 +1337,194 @@ var deliverytime;
                       child: Wrap(
                         children: [
                           GestureDetector(
-                                  onTap: () {
-                                    this.deliverytime = "9am-10am";
-                                    delslotselected = 1;
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 1
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
+                            onTap: () {
+                              this.deliverytime = "9am-10am";
+                              delslotselected = 1;
+                              print(time);
+                              setState(() {});
+                              // Navigator.pop(context);
+                              // datetime();
+                            },
+                            child: Container(
+                              width: size.width * 0.27,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: delslotselected == 1
+                                    ? Hexcolor('#00B6BC')
+                                    : Colors.white,
 
-                                      border: Border.all(
-                                          color: Hexcolor('#00B6BC'),
-                                          width: 0.7),
-                                      // borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "9 am - 10 am",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
+                                border: Border.all(
+                                    color: Hexcolor('#00B6BC'), width: 0.7),
+                                // borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 4),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: Text(
+                                "9 am - 10 am",
+                                style: TextStyle(fontSize: 13),
+                              ),
+                            ),
+                          ),
                           GestureDetector(
-                                  onTap: () {
-                                    delslotselected = 2;
-                                    deliverytime = "10am-12pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 2
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "10 am - 12 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
+                            onTap: () {
+                              delslotselected = 2;
+                              deliverytime = "10am-12pm";
+                              print(time);
+                              setState(() {});
+                              // Navigator.pop(context);
+                              // datetime();
+                            },
+                            child: Container(
+                              width: size.width * 0.27,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: delslotselected == 2
+                                    ? Hexcolor('#00B6BC')
+                                    : Colors.white,
+                                border: Border.all(
+                                  color: Hexcolor('#00B6BC'),
+                                  width: 0.7,
                                 ),
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 4),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: Text(
+                                "10 am - 12 pm",
+                                style: TextStyle(fontSize: 13),
+                              ),
+                            ),
+                          ),
                           GestureDetector(
-                                  onTap: () {
-                                    delslotselected = 3;
-                                    deliverytime = "12 pm - 2 pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 3
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "12 pm - 2 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
+                            onTap: () {
+                              delslotselected = 3;
+                              deliverytime = "12 pm - 2 pm";
+                              print(time);
+                              setState(() {});
+                              // Navigator.pop(context);
+                              // datetime();
+                            },
+                            child: Container(
+                              width: size.width * 0.27,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: delslotselected == 3
+                                    ? Hexcolor('#00B6BC')
+                                    : Colors.white,
+                                border: Border.all(
+                                  color: Hexcolor('#00B6BC'),
+                                  width: 0.7,
                                 ),
-                         GestureDetector(
-                                  onTap: () {
-                                    delslotselected = 4;
-                                    deliverytime = "2 pm - 4 pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 4
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "2 pm - 4 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 4),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: Text(
+                                "12 pm - 2 pm",
+                                style: TextStyle(fontSize: 13),
+                              ),
+                            ),
+                          ),
                           GestureDetector(
-                                  onTap: () {
-                                    deliverytime = "4 pm - 6 pm";
-                                    delslotselected = 5;
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 5
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "4 pm - 6 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
+                            onTap: () {
+                              delslotselected = 4;
+                              deliverytime = "2 pm - 4 pm";
+                              print(time);
+                              setState(() {});
+                              // Navigator.pop(context);
+                              // datetime();
+                            },
+                            child: Container(
+                              width: size.width * 0.27,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: delslotselected == 4
+                                    ? Hexcolor('#00B6BC')
+                                    : Colors.white,
+                                border: Border.all(
+                                  color: Hexcolor('#00B6BC'),
+                                  width: 0.7,
                                 ),
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 4),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: Text(
+                                "2 pm - 4 pm",
+                                style: TextStyle(fontSize: 13),
+                              ),
+                            ),
+                          ),
                           GestureDetector(
-                                  onTap: () {
-                                    delslotselected = 6;
-                                    deliverytime = "6pm-7pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 6
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "6 pm - 7 pm",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.black87,
-                                      ),
-                                    ),
-                                  ),
+                            onTap: () {
+                              deliverytime = "4 pm - 6 pm";
+                              delslotselected = 5;
+                              print(time);
+                              setState(() {});
+                              // Navigator.pop(context);
+                              // datetime();
+                            },
+                            child: Container(
+                              width: size.width * 0.27,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: delslotselected == 5
+                                    ? Hexcolor('#00B6BC')
+                                    : Colors.white,
+                                border: Border.all(
+                                  color: Hexcolor('#00B6BC'),
+                                  width: 0.7,
                                 ),
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 4),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: Text(
+                                "4 pm - 6 pm",
+                                style: TextStyle(fontSize: 13),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              delslotselected = 6;
+                              deliverytime = "6pm-7pm";
+                              print(time);
+                              setState(() {});
+                              // Navigator.pop(context);
+                              // datetime();
+                            },
+                            child: Container(
+                              width: size.width * 0.27,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: delslotselected == 6
+                                    ? Hexcolor('#00B6BC')
+                                    : Colors.white,
+                                border: Border.all(
+                                  color: Hexcolor('#00B6BC'),
+                                  width: 0.7,
+                                ),
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 4),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: Text(
+                                "6 pm - 7 pm",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -1770,7 +1777,7 @@ var deliverytime;
               child: Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 8),
+                    margin: EdgeInsets.only(top: 20),
                     child: Row(
                       children: <Widget>[
                         Container(

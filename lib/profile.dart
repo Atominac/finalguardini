@@ -20,7 +20,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  var name, mobile, email, status,address;
+  var name, mobile, email, status, address;
   final TextEditingController t1 = new TextEditingController(text: "");
 
   @override
@@ -30,9 +30,9 @@ class _ProfileState extends State<Profile> {
     getcredits();
   }
 
-var balancecredits;
+  var balancecredits;
 // var balancestatus="loading...";
-   getcredits() async {
+  getcredits() async {
     // _showdialogue();
     final user = await SharedPreferences.getInstance();
 
@@ -50,19 +50,13 @@ var balancecredits;
     var data = jsondecoded["data"];
     print(jsondecoded);
     if (jsondecoded['message'] == "success") {
-      balancecredits="₹ "+data[0]["balancecredits"].toString();
-      setState(() {
-        
-      });
-    
-    } 
-    else {
+      balancecredits = "₹ " + data[0]["balancecredits"].toString();
+      setState(() {});
+    } else {
       Navigator.pop(context);
       showsnack("Some error has ouccered");
-      balancecredits="NOT VALID";
-  setState(() {
-    
-  });
+      balancecredits = "NOT VALID";
+      setState(() {});
     }
     //parameter_missing
     //parameter_missing
@@ -285,7 +279,7 @@ var balancecredits;
                           child: Column(
                             children: <Widget>[
                               //Profile Details
-                               Container(
+                              Container(
                                 margin: EdgeInsets.only(bottom: 5),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 16),
@@ -336,7 +330,10 @@ var balancecredits;
                                                 margin: EdgeInsets.only(
                                                     left: 22, top: 14),
                                                 child: Text(
-                                                  balancecredits==null?"Loading":balancecredits.toString(),
+                                                  balancecredits == null
+                                                      ? "Loading"
+                                                      : balancecredits
+                                                          .toString(),
                                                   style: TextStyle(
                                                     color: Hexcolor('#404040'),
                                                     fontSize: 14,
@@ -344,7 +341,6 @@ var balancecredits;
                                                   ),
                                                 ),
                                               ),
-                                             
                                             ],
                                           ),
                                         )
@@ -513,75 +509,91 @@ var balancecredits;
                                                 ),
                                               ),
                                               //'Home'
-                                              address==null?Container(margin: EdgeInsets.only(
-                                                    left: 22, top: 14),child: GestureDetector(
-                                            onTap: () async {
-                                             await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EnterAddress()));
-                                                          setState(() {
-                                                            
-                                                          });
-                                            },
-                                            child: Text(
-                                              'ADD ADDRESS',
-                                              style: TextStyle(
-                                                color: Hexcolor('#00B6BC'),
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),):Column(
-                                                children: [
-                                              //     Container(
-                                              //   margin: EdgeInsets.only(
-                                              //       left: 22, top: 14),
-                                              //   child: Text(
-                                              //     'Home',
-                                              //     style: TextStyle(
-                                              //       color: Hexcolor('#404040'),
-                                              //       fontSize: 14,
-                                              //       fontWeight: FontWeight.w500,
-                                              //     ),
-                                              //   ),
-                                              // ),
-                                              //Address
-                                              Container(
-                                                width: size.width * 0.7,
-                                                margin: EdgeInsets.only(
-                                                    left: 22, top: 3),
-                                                child: Text(
-                                                  'B-214, South Moti Bagh, New Delhi, 110021',
-                                                  style: TextStyle(
-                                                    color: Hexcolor('#595959'),
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ),
-                                                ],
-                                              )
+                                              address == null
+                                                  ? Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 22, top: 14),
+                                                      child: GestureDetector(
+                                                        onTap: () async {
+                                                          await Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          EnterAddress()));
+                                                          setState(() {});
+                                                        },
+                                                        child: Text(
+                                                          'ADD ADDRESS',
+                                                          style: TextStyle(
+                                                            color: Hexcolor(
+                                                                '#00B6BC'),
+                                                            fontSize: 13,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Column(
+                                                      children: [
+                                                        //     Container(
+                                                        //   margin: EdgeInsets.only(
+                                                        //       left: 22, top: 14),
+                                                        //   child: Text(
+                                                        //     'Home',
+                                                        //     style: TextStyle(
+                                                        //       color: Hexcolor('#404040'),
+                                                        //       fontSize: 14,
+                                                        //       fontWeight: FontWeight.w500,
+                                                        //     ),
+                                                        //   ),
+                                                        // ),
+                                                        //Address
+                                                        Container(
+                                                          width:
+                                                              size.width * 0.7,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 22,
+                                                                  top: 3),
+                                                          child: Text(
+                                                            'B-214, South Moti Bagh, New Delhi, 110021',
+                                                            style: TextStyle(
+                                                              color: Hexcolor(
+                                                                  '#595959'),
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
                                             ],
                                           ),
-                                         address!=null? GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EnterAddress()));
-                                            },
-                                            child: Text(
-                                              'EDIT',
-                                              style: TextStyle(
-                                                color: Hexcolor('#00B6BC'),
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ):Container(),
+                                          address != null
+                                              ? GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                EnterAddress()));
+                                                  },
+                                                  child: Text(
+                                                    'EDIT',
+                                                    style: TextStyle(
+                                                      color:
+                                                          Hexcolor('#00B6BC'),
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container(),
                                         ],
                                       ),
                                     )
@@ -765,8 +777,7 @@ var balancecredits;
                         ),
                         Padding(padding: EdgeInsets.all(3)),
                         Text(
-                          name
-                              ,
+                          name,
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -776,10 +787,10 @@ var balancecredits;
                     ),
                   ),
                 ),
-                Container(
-                  color: Hexcolor('#145730'),
-                  height: 24,
-                )
+          Container(
+            color: Hexcolor('#219251'),
+            height: MediaQuery.of(context).padding.top,
+          )
               ],
             ),
     );
