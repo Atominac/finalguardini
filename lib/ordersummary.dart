@@ -806,9 +806,11 @@ class _OrderSummaryState extends State<OrderSummary> {
             setState(() {});
           },
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.12,
-            height: 57,
-            // alignment: Alignment.center,
+            width: MediaQuery.of(context).size.height > 1200
+                ? MediaQuery.of(context).size.width * 0.12
+                : MediaQuery.of(context).size.width * 0.11,
+            height: MediaQuery.of(context).size.height > 1200 ? 57 : 45,
+            // lignment: Alignment.center,
             decoration: BoxDecoration(
               color: dateindex == index ? Hexcolor('#00B6BC') : Colors.white,
               border: Border.all(color: Hexcolor('#00B6BC'), width: 0.7),
@@ -823,14 +825,16 @@ class _OrderSummaryState extends State<OrderSummary> {
                 Text(
                   "${jdate.day}",
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize:
+                        MediaQuery.of(context).size.height > 1200 ? 12 : 10,
                     color: Hexcolor('#252525'),
                   ),
                 ),
                 Text(
                   '${weekday[jdate.weekday]}',
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize:
+                        MediaQuery.of(context).size.height > 1200 ? 12 : 10,
                     color: Hexcolor('#252525'),
                   ),
                 )
@@ -903,7 +907,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                       child: Text(
                         "Pickup Address and Date",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: size.height > 1280 ? 16 : 14,
                           // color: Colors.black54,
                           fontWeight: FontWeight.w500,
                         ),
@@ -915,7 +919,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                       child: Text(
                         'Our correspondent will arrive at this address on the specified date to pickup clothes',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: size.height > 1280 ? 14 : 12,
                           color: Hexcolor('#737373'),
                           fontWeight: FontWeight.w400,
                         ),
@@ -941,7 +945,9 @@ class _OrderSummaryState extends State<OrderSummary> {
                 },
                 child: Container(
                   color: Colors.white,
-                  padding: EdgeInsets.all(16),
+                  padding: EdgeInsets.all(
+                    size.height > 1280 ? 14 : 12,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -950,20 +956,18 @@ class _OrderSummaryState extends State<OrderSummary> {
                           Icon(
                             Icons.location_on,
                             color: Colors.grey[400],
-                            size: 14,
+                            size: size.height > 1280 ? 14 : 12,
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 6),
                           ),
                           Container(
-                            width: size.width * 0.82,
+                            width: size.width * 0.8,
                             child: Text(
-                              address == null
-                                  ? "SET PICKUP ADRESS"
-                                  : address,
-                                  overflow: TextOverflow.ellipsis,
+                              address == null ? "SET PICKUP ADRESS" : address,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: size.height > 1280 ? 14 : 12,
                                 color: Hexcolor('#00B6BC'),
                                 fontWeight: FontWeight.w500,
                               ),
@@ -974,7 +978,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                       Icon(
                         Icons.arrow_forward_ios,
                         color: Hexcolor('#00B6BC'),
-                        size: 14,
+                        size: size.height > 1280 ? 14 : 12,
                       )
                     ],
                   ),
@@ -990,7 +994,9 @@ class _OrderSummaryState extends State<OrderSummary> {
 
               Container(
                 color: Colors.white,
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(
+                  size.height > 1280 ? 16 : 12,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -1000,14 +1006,14 @@ class _OrderSummaryState extends State<OrderSummary> {
                           Icon(
                             Icons.watch_later,
                             color: Hexcolor('#737373'),
-                            size: 14,
+                            size: size.height > 1280 ? 14 : 12,
                           ),
                           Padding(padding: EdgeInsets.only(left: 8)),
                           Text(
                             'SET DATE',
                             style: TextStyle(
                               color: Hexcolor('#737373'),
-                              fontSize: 12,
+                              fontSize: size.height > 1280 ? 12 : 10,
                             ),
                           )
                         ],
@@ -1024,7 +1030,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                           "SELECT A CUSTOM DATE",
                           style: TextStyle(
                             color: Hexcolor('#00B6BC'),
-                            fontSize: 10,
+                            fontSize: size.height > 1280 ? 10 : 8,
                           ),
                         ),
                       ),
@@ -1045,20 +1051,21 @@ class _OrderSummaryState extends State<OrderSummary> {
                 padding: EdgeInsets.only(left: 16, bottom: 16, top: 8),
                 color: Colors.white,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
                         Icon(
                           Icons.watch_later,
                           color: Hexcolor('#737373'),
-                          size: 14,
+                          size: size.height > 1280 ? 14 : 12,
                         ),
                         Padding(padding: EdgeInsets.only(left: 8)),
                         Text(
                           'SET PICKUP TIME',
                           style: TextStyle(
                             color: Hexcolor('#737373'),
-                            fontSize: 12,
+                            fontSize: size.height > 1280 ? 12 : 10,
                           ),
                         )
                       ],
@@ -1066,7 +1073,8 @@ class _OrderSummaryState extends State<OrderSummary> {
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       child: Wrap(
-                        
+                        crossAxisAlignment: WrapCrossAlignment.start,
+                        alignment: WrapAlignment.start,
                         children: [
                           DateTime.parse(date.toString().substring(0, 10) +
                                           " 09:00:00")
@@ -1084,7 +1092,9 @@ class _OrderSummaryState extends State<OrderSummary> {
                                     // datetime();
                                   },
                                   child: Container(
-                                    width: size.width * 0.27,
+                                    width: size.height > 1280
+                                        ? size.width * 0.27
+                                        : size.width * 0.23,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       color: slotselected == 1
@@ -1099,10 +1109,13 @@ class _OrderSummaryState extends State<OrderSummary> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 2, vertical: 4),
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
+                                        horizontal: size.height > 1280 ? 10 : 6,
+                                        vertical: 5),
                                     child: Text(
                                       "9 am - 10 am",
-                                      style: TextStyle(fontSize: 13),
+                                      style: TextStyle(
+                                        fontSize: size.height > 1280 ? 12 : 10,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -1122,24 +1135,30 @@ class _OrderSummaryState extends State<OrderSummary> {
                                     // datetime();
                                   },
                                   child: Container(
-                                    width: size.width * 0.27,
+                                    width: size.height > 1280
+                                        ? size.width * 0.27
+                                        : size.width * 0.245,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       color: slotselected == 2
                                           ? Hexcolor('#00B6BC')
                                           : Colors.white,
+
                                       border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7),
+                                      // borderRadius: BorderRadius.circular(5.0),
                                     ),
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 2, vertical: 4),
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
+                                        horizontal: size.height > 1280 ? 10 : 6,
+                                        vertical: 5),
                                     child: Text(
                                       "10 am - 12 pm",
-                                      style: TextStyle(fontSize: 13),
+                                      style: TextStyle(
+                                        fontSize: size.height > 1280 ? 12 : 10,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -1159,24 +1178,30 @@ class _OrderSummaryState extends State<OrderSummary> {
                                     // datetime();
                                   },
                                   child: Container(
-                                    width: size.width * 0.27,
+                                    width: size.height > 1280
+                                        ? size.width * 0.27
+                                        : size.width * 0.23,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       color: slotselected == 3
                                           ? Hexcolor('#00B6BC')
                                           : Colors.white,
+
                                       border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7),
+                                      // borderRadius: BorderRadius.circular(5.0),
                                     ),
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 2, vertical: 4),
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
+                                        horizontal: size.height > 1280 ? 10 : 6,
+                                        vertical: 5),
                                     child: Text(
                                       "12 pm - 2 pm",
-                                      style: TextStyle(fontSize: 13),
+                                      style: TextStyle(
+                                        fontSize: size.height > 1280 ? 12 : 10,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -1196,24 +1221,30 @@ class _OrderSummaryState extends State<OrderSummary> {
                                     // datetime();
                                   },
                                   child: Container(
-                                    width: size.width * 0.27,
+                                    width: size.height > 1280
+                                        ? size.width * 0.27
+                                        : size.width * 0.23,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       color: slotselected == 4
                                           ? Hexcolor('#00B6BC')
                                           : Colors.white,
+
                                       border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7),
+                                      // borderRadius: BorderRadius.circular(5.0),
                                     ),
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 2, vertical: 4),
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
+                                        horizontal: size.height > 1280 ? 10 : 6,
+                                        vertical: 5),
                                     child: Text(
                                       "2 pm - 4 pm",
-                                      style: TextStyle(fontSize: 13),
+                                      style: TextStyle(
+                                        fontSize: size.height > 1280 ? 12 : 10,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -1233,24 +1264,30 @@ class _OrderSummaryState extends State<OrderSummary> {
                                     // datetime();
                                   },
                                   child: Container(
-                                    width: size.width * 0.27,
+                                    width: size.height > 1280
+                                        ? size.width * 0.27
+                                        : size.width * 0.23,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       color: slotselected == 5
                                           ? Hexcolor('#00B6BC')
                                           : Colors.white,
+
                                       border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7),
+                                      // borderRadius: BorderRadius.circular(5.0),
                                     ),
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 2, vertical: 4),
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
+                                        horizontal: size.height > 1280 ? 10 : 6,
+                                        vertical: 5),
                                     child: Text(
                                       "4 pm - 6 pm",
-                                      style: TextStyle(fontSize: 13),
+                                      style: TextStyle(
+                                        fontSize: size.height > 1280 ? 12 : 10,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -1270,26 +1307,29 @@ class _OrderSummaryState extends State<OrderSummary> {
                                     // datetime();
                                   },
                                   child: Container(
-                                    width: size.width * 0.27,
+                                    width: size.height > 1280
+                                        ? size.width * 0.27
+                                        : size.width * 0.23,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       color: slotselected == 6
                                           ? Hexcolor('#00B6BC')
                                           : Colors.white,
+
                                       border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7),
+                                      // borderRadius: BorderRadius.circular(5.0),
                                     ),
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 2, vertical: 4),
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
+                                        horizontal: size.height > 1280 ? 10 : 6,
+                                        vertical: 5),
                                     child: Text(
                                       "6 pm - 7 pm",
                                       style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.black87,
+                                        fontSize: size.height > 1280 ? 12 : 10,
                                       ),
                                     ),
                                   ),
@@ -1314,6 +1354,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                 padding: EdgeInsets.only(left: 16, bottom: 40, top: 8),
                 color: Colors.white,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
@@ -1340,13 +1381,15 @@ class _OrderSummaryState extends State<OrderSummary> {
                             onTap: () {
                               this.deliverytime = "9am-10am";
                               delslotselected = 1;
-                              print(time);
+                              print(deliverytime);
                               setState(() {});
                               // Navigator.pop(context);
                               // datetime();
                             },
                             child: Container(
-                              width: size.width * 0.27,
+                              width: size.height > 1280
+                                  ? size.width * 0.27
+                                  : size.width * 0.23,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color: delslotselected == 1
@@ -1360,10 +1403,13 @@ class _OrderSummaryState extends State<OrderSummary> {
                               margin: EdgeInsets.symmetric(
                                   horizontal: 2, vertical: 4),
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
+                                  horizontal: size.height > 1280 ? 10 : 6,
+                                  vertical: 5),
                               child: Text(
                                 "9 am - 10 am",
-                                style: TextStyle(fontSize: 13),
+                                style: TextStyle(
+                                  fontSize: size.height > 1280 ? 12 : 10,
+                                ),
                               ),
                             ),
                           ),
@@ -1371,30 +1417,35 @@ class _OrderSummaryState extends State<OrderSummary> {
                             onTap: () {
                               delslotselected = 2;
                               deliverytime = "10am-12pm";
-                              print(time);
+                              print(deliverytime);
                               setState(() {});
                               // Navigator.pop(context);
                               // datetime();
                             },
                             child: Container(
-                              width: size.width * 0.27,
+                              width: size.height > 1280
+                                  ? size.width * 0.27
+                                  : size.width * 0.245,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 color: delslotselected == 2
                                     ? Hexcolor('#00B6BC')
                                     : Colors.white,
+
                                 border: Border.all(
-                                  color: Hexcolor('#00B6BC'),
-                                  width: 0.7,
-                                ),
+                                    color: Hexcolor('#00B6BC'), width: 0.7),
+                                // borderRadius: BorderRadius.circular(5.0),
                               ),
                               margin: EdgeInsets.symmetric(
                                   horizontal: 2, vertical: 4),
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
+                                  horizontal: size.height > 1280 ? 10 : 6,
+                                  vertical: 5),
                               child: Text(
                                 "10 am - 12 pm",
-                                style: TextStyle(fontSize: 13),
+                                style: TextStyle(
+                                  fontSize: size.height > 1280 ? 12 : 10,
+                                ),
                               ),
                             ),
                           ),
@@ -1402,128 +1453,149 @@ class _OrderSummaryState extends State<OrderSummary> {
                             onTap: () {
                               delslotselected = 3;
                               deliverytime = "12 pm - 2 pm";
-                              print(time);
+                              print(deliverytime);
                               setState(() {});
                               // Navigator.pop(context);
                               // datetime();
                             },
-                            child: Container(
-                              width: size.width * 0.27,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: delslotselected == 3
-                                    ? Hexcolor('#00B6BC')
-                                    : Colors.white,
-                                border: Border.all(
-                                  color: Hexcolor('#00B6BC'),
-                                  width: 0.7,
-                                ),
-                              ),
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 2, vertical: 4),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              child: Text(
-                                "12 pm - 2 pm",
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
+                                  child: Container(
+                                    width: size.height > 1280
+                                        ? size.width * 0.27
+                                        : size.width * 0.23,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: delslotselected == 3
+                                          ? Hexcolor('#00B6BC')
+                                          : Colors.white,
+
+                                      border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7),
+                                      // borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 2, vertical: 4),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: size.height > 1280 ? 10 : 6,
+                                        vertical: 5),
+                                    child: Text(
+                                      "12 pm - 2 pm",
+                                      style: TextStyle(
+                                        fontSize: size.height > 1280 ? 12 : 10,
+                                      ),
+                                    ),
+                                  ),
                           ),
                           GestureDetector(
                             onTap: () {
                               delslotselected = 4;
                               deliverytime = "2 pm - 4 pm";
-                              print(time);
+                              print(deliverytime);
                               setState(() {});
                               // Navigator.pop(context);
                               // datetime();
                             },
-                            child: Container(
-                              width: size.width * 0.27,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: delslotselected == 4
-                                    ? Hexcolor('#00B6BC')
-                                    : Colors.white,
-                                border: Border.all(
-                                  color: Hexcolor('#00B6BC'),
-                                  width: 0.7,
-                                ),
-                              ),
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 2, vertical: 4),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              child: Text(
-                                "2 pm - 4 pm",
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
+                                  child: Container(
+                                    width: size.height > 1280
+                                        ? size.width * 0.27
+                                        : size.width * 0.23,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: delslotselected == 4
+                                          ? Hexcolor('#00B6BC')
+                                          : Colors.white,
+
+                                      border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7),
+                                      // borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 2, vertical: 4),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: size.height > 1280 ? 10 : 6,
+                                        vertical: 5),
+                                    child: Text(
+                                      "2 pm - 4 pm",
+                                      style: TextStyle(
+                                        fontSize: size.height > 1280 ? 12 : 10,
+                                      ),
+                                    ),
+                                  ),
                           ),
                           GestureDetector(
                             onTap: () {
                               deliverytime = "4 pm - 6 pm";
                               delslotselected = 5;
-                              print(time);
+                              print(deliverytime);
                               setState(() {});
                               // Navigator.pop(context);
                               // datetime();
                             },
-                            child: Container(
-                              width: size.width * 0.27,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: delslotselected == 5
-                                    ? Hexcolor('#00B6BC')
-                                    : Colors.white,
-                                border: Border.all(
-                                  color: Hexcolor('#00B6BC'),
-                                  width: 0.7,
-                                ),
-                              ),
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 2, vertical: 4),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              child: Text(
-                                "4 pm - 6 pm",
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
+                                  child: Container(
+                                    width: size.height > 1280
+                                        ? size.width * 0.27
+                                        : size.width * 0.23,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: delslotselected == 5
+                                          ? Hexcolor('#00B6BC')
+                                          : Colors.white,
+
+                                      border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7),
+                                      // borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 2, vertical: 4),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: size.height > 1280 ? 10 : 6,
+                                        vertical: 5),
+                                    child: Text(
+                                      "4 pm - 6 pm",
+                                      style: TextStyle(
+                                        fontSize: size.height > 1280 ? 12 : 10,
+                                      ),
+                                    ),
+                                  ),
                           ),
                           GestureDetector(
                             onTap: () {
                               delslotselected = 6;
                               deliverytime = "6pm-7pm";
-                              print(time);
+                              print(deliverytime);
                               setState(() {});
                               // Navigator.pop(context);
                               // datetime();
                             },
-                            child: Container(
-                              width: size.width * 0.27,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: delslotselected == 6
-                                    ? Hexcolor('#00B6BC')
-                                    : Colors.white,
-                                border: Border.all(
-                                  color: Hexcolor('#00B6BC'),
-                                  width: 0.7,
-                                ),
-                              ),
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 2, vertical: 4),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              child: Text(
-                                "6 pm - 7 pm",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ),
+                                  child: Container(
+                                    width: size.height > 1280
+                                        ? size.width * 0.27
+                                        : size.width * 0.23,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: delslotselected == 6
+                                          ? Hexcolor('#00B6BC')
+                                          : Colors.white,
+
+                                      border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7),
+                                      // borderRadius: BorderRadius.circular(5.0),
+                                    ),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 2, vertical: 4),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: size.height > 1280 ? 10 : 6,
+                                        vertical: 5),
+                                    child: Text(
+                                      "6 pm - 7 pm",
+                                      style: TextStyle(
+                                        fontSize: size.height > 1280 ? 12 : 10,
+                                      ),
+                                    ),
+                                  ),
                           ),
                         ],
                       ),
@@ -1777,7 +1849,9 @@ class _OrderSummaryState extends State<OrderSummary> {
               child: Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 20),
+                    margin: EdgeInsets.only(
+                      top: size.height > 1280 ? 20 : 10,
+                    ),
                     child: Row(
                       children: <Widget>[
                         Container(
@@ -1865,7 +1939,7 @@ class _OrderSummaryState extends State<OrderSummary> {
           Positioned(
             bottom: 0,
             child: Container(
-                height: 55,
+                height: size.height > 1280 ? 55 : 40,
                 padding: EdgeInsets.only(
                   left: 16,
                   top: 7,
@@ -1905,14 +1979,14 @@ class _OrderSummaryState extends State<OrderSummary> {
                             // "₹ " + totalprice.toString(),
                             style: TextStyle(
                               color: Hexcolor('#252525'),
-                              fontSize: 14,
+                              fontSize: size.height > 1280 ? 14 : 12,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           Padding(padding: EdgeInsets.only(left: 5)),
                           Icon(
                             Icons.arrow_forward_ios,
-                            size: 14,
+                            size: size.height > 1280 ? 14 : 12,
                             color: Hexcolor('#252525'),
                           ),
                         ],

@@ -389,8 +389,8 @@ class _HomeState extends State<Home> {
                               child: Image.asset(
                                 "assets/newuser.png",
                                 fit: BoxFit.cover,
-                                width: (10 / 100) * size.width,
-                                height: (10 / 100) * size.width,
+                                width: size.height > 1280 ? 40 : 30,
+                                height: size.height > 1280 ? 40 : 30,
                               ),
                             ),
                           ),
@@ -400,7 +400,7 @@ class _HomeState extends State<Home> {
                               'Hi, $firstName',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: size.height > 1280 ? 18 : 15,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -425,7 +425,7 @@ class _HomeState extends State<Home> {
                               style: TextStyle(
                                 color: Colors.white.withOpacity(0.7),
                                 fontWeight: FontWeight.w400,
-                                fontSize: 12,
+                                fontSize: size.height > 1280 ? 12 : 10,
                               ),
                             ),
                           )
@@ -457,7 +457,7 @@ class _HomeState extends State<Home> {
                                 child: Text(
                                   'Change',
                                   style: TextStyle(
-                                    fontSize: 13,
+                                    fontSize: size.height > 1280 ? 12 : 10,
                                     color: Hexcolor('#ABEDE6'),
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -511,7 +511,7 @@ class _HomeState extends State<Home> {
                     ),
               //GridView
               Container(
-                height: 420,
+                height: size.height > 1280 ? 420 : 320,
                 color: Colors.white,
                 margin: EdgeInsets.only(top: 10),
                 padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
@@ -523,7 +523,9 @@ class _HomeState extends State<Home> {
                       child: Text(
                         'Drycleaning services for a wide range of options!',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                          fontSize: size.height > 1280 ? 18 : 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     Container(
@@ -533,7 +535,7 @@ class _HomeState extends State<Home> {
                         'Choose a category to add garments to your basket',
                         style: TextStyle(
                           color: Hexcolor('#737373'),
-                          fontSize: 12,
+                          fontSize: size.height > 1280 ? 12 : 10,
                         ),
                       ),
                     ),
@@ -544,7 +546,7 @@ class _HomeState extends State<Home> {
                           crossAxisCount: 4,
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 30,
-                          childAspectRatio: 0.65,
+                          childAspectRatio: size.height > 1280 ? 0.65 : 0.75,
                         ),
                         itemCount: gridImages.length,
                         itemBuilder: (BuildContext context, int index) =>
@@ -552,11 +554,12 @@ class _HomeState extends State<Home> {
                           children: [
                             GestureDetector(
                               child: Container(
-                                height: 100,
+                                height: size.height > 1280 ? 100 : 70,
                                 color: Hexcolor('#EFE9E0'),
                                 child: Container(
                                   // color: Colors.amber,
-                                  padding: EdgeInsets.all(10),
+                                  padding: EdgeInsets.all(
+                                      size.height > 1280 ? 8 : 6),
                                   // height: 10,
                                   // width: 10,
                                   child: Image.asset(
@@ -575,12 +578,12 @@ class _HomeState extends State<Home> {
                               },
                             ),
                             Container(
-                              padding: EdgeInsets.only(top: 3),
+                              padding: EdgeInsets.only(top: 2),
                               alignment: Alignment.center,
                               child: Text(
                                 itemName[index],
                                 style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: size.height > 1280 ? 12 : 10,
                                 ),
                               ),
                             ),
@@ -606,7 +609,9 @@ class _HomeState extends State<Home> {
                             // child: CircularProgressIndicator(),
                           )
                         : Container(
-                            height: size.longestSide * 0.6,
+                            height: size.height > 1280
+                                ? size.height * 0.7
+                                : size.height * 0.81,
                             color: Colors.white,
                             margin: EdgeInsets.only(top: 10, bottom: 0),
                             padding: EdgeInsets.fromLTRB(16, 24, 16, 0),
@@ -671,16 +676,17 @@ class _HomeState extends State<Home> {
                                               MainAxisAlignment.spaceAround,
                                           children: [
                                             Container(
+                                              width: size.width,
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
                                                 children: [
-                                                  //Outlet Image
                                                   Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
+                                                      //Outlet Image
                                                       Container(
                                                         margin: EdgeInsets.only(
                                                             right: 16),
@@ -693,8 +699,16 @@ class _HomeState extends State<Home> {
                                                             : Image.network(
                                                                 outlets[index][
                                                                     "imageurl"],
-                                                                height: 70,
-                                                                width: 70,
+                                                                height:
+                                                                    size.height >
+                                                                            1280
+                                                                        ? 65
+                                                                        : 45,
+                                                                width:
+                                                                    size.height >
+                                                                            1280
+                                                                        ? 65
+                                                                        : 45,
                                                               ),
                                                       ),
                                                       Container(
@@ -703,28 +717,56 @@ class _HomeState extends State<Home> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: <Widget>[
-                                                            Container(
-                                                              // margin: EdgeInsets.only(
-                                                              //     bottom: 8,),
-                                                              width:
-                                                                  size.width *
-                                                                      0.45,
-                                                              child: Text(
-                                                                outlets[index][
-                                                                    "locality"],
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
+                                                            Row(
+                                                              children: [
+                                                                //Name of outlet
+                                                                Container(
+                                                                  width:
+                                                                      size.width *
+                                                                          0.4,
+                                                                  child: Text(
+                                                                    outlets[index]
+                                                                        [
+                                                                        "name"],
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize: size.height >
+                                                                              1280
+                                                                          ? 14
+                                                                          : 12,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                    ),
+                                                                  ),
                                                                 ),
-                                                              ),
+                                                                //Distance to outlet
+                                                                fetchdist != 1
+                                                                    ? Container()
+                                                                    : Container(
+                                                                        child:
+                                                                            Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.subdirectory_arrow_right,
+                                                                              size: size.height > 1280 ? 14 : 12,
+                                                                              color: Color.fromRGBO(28, 147, 85, 1),
+                                                                            ),
+                                                                            Text(
+                                                                              " " + getdist(outlets[index]["geolocation"]) + " Km",
+                                                                              style: TextStyle(fontSize: size.height > 1280 ? 14 : 12, color: Colors.black54, fontWeight: FontWeight.bold),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                              ],
                                                             ),
                                                             //Chips
                                                             Container(
@@ -736,11 +778,18 @@ class _HomeState extends State<Home> {
                                                               child: Row(
                                                                 children: [
                                                                   Container(
-                                                                    padding: EdgeInsets.symmetric(
-                                                                        horizontal:
-                                                                            8,
-                                                                        vertical:
-                                                                            3),
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .symmetric(
+                                                                      horizontal:
+                                                                          size.height > 1280
+                                                                              ? 8
+                                                                              : 5,
+                                                                      vertical: size.height >
+                                                                              1280
+                                                                          ? 3
+                                                                          : 1.9,
+                                                                    ),
                                                                     decoration: BoxDecoration(
                                                                         color: Hexcolor(
                                                                             '#219251'),
@@ -752,8 +801,10 @@ class _HomeState extends State<Home> {
                                                                           "workingdays"],
                                                                       style:
                                                                           TextStyle(
-                                                                        fontSize:
-                                                                            12,
+                                                                        fontSize: size.height >
+                                                                                1280
+                                                                            ? 12
+                                                                            : 10,
                                                                         color: Colors
                                                                             .white,
                                                                       ),
@@ -765,12 +816,20 @@ class _HomeState extends State<Home> {
                                                                             left:
                                                                                 8),
                                                                   ),
+                                                                  //Working hours
                                                                   Container(
-                                                                    padding: EdgeInsets.symmetric(
-                                                                        horizontal:
-                                                                            8,
-                                                                        vertical:
-                                                                            3),
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .symmetric(
+                                                                      horizontal:
+                                                                          size.height > 1280
+                                                                              ? 8
+                                                                              : 5,
+                                                                      vertical: size.height >
+                                                                              1280
+                                                                          ? 3
+                                                                          : 1.9,
+                                                                    ),
                                                                     decoration: BoxDecoration(
                                                                         color: Hexcolor(
                                                                             '#219251'),
@@ -782,8 +841,10 @@ class _HomeState extends State<Home> {
                                                                           "workinghours"],
                                                                       style:
                                                                           TextStyle(
-                                                                        fontSize:
-                                                                            12,
+                                                                        fontSize: size.height >
+                                                                                1280
+                                                                            ? 12
+                                                                            : 10,
                                                                         color: Colors
                                                                             .white,
                                                                       ),
@@ -801,19 +862,30 @@ class _HomeState extends State<Home> {
                                                                 Icon(
                                                                   Icons
                                                                       .location_on,
-                                                                  size: 20,
+                                                                  size: size.height >
+                                                                          1280
+                                                                      ? 18
+                                                                      : 14,
                                                                   color: Colors
                                                                       .green,
                                                                 ),
                                                                 Container(
                                                                   width:
                                                                       size.width *
-                                                                          0.4,
+                                                                          0.55,
                                                                   child: Text(
-                                                                    'DDA Complex, Rd Number 4, Sector 2, Shanti Niketan, New Delhi, Delhi 110021',
+                                                                    outlets[index]
+                                                                            [
+                                                                            "address1"] +
+                                                                        " " +
+                                                                        outlets[index]
+                                                                            [
+                                                                            "address2"],
                                                                     style: TextStyle(
-                                                                        fontSize:
-                                                                            14,
+                                                                        fontSize: size.height >
+                                                                                1280
+                                                                            ? 14
+                                                                            : 10,
                                                                         fontWeight:
                                                                             FontWeight.w400),
                                                                   ),
@@ -825,42 +897,6 @@ class _HomeState extends State<Home> {
                                                       ),
                                                     ],
                                                   ),
-
-                                                  fetchdist != 1
-                                                      ? Container()
-                                                      : Container(
-                                                          margin:
-                                                              EdgeInsets.all(3),
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons
-                                                                    .subdirectory_arrow_right,
-                                                                size: 15,
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        28,
-                                                                        147,
-                                                                        85,
-                                                                        1),
-                                                              ),
-                                                              Text(
-                                                                " " +
-                                                                    getdist(outlets[
-                                                                            index]
-                                                                        [
-                                                                        "geolocation"]) +
-                                                                    " Km",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black54,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
                                                 ],
                                               ),
                                             ),
@@ -868,10 +904,7 @@ class _HomeState extends State<Home> {
                                               padding: const EdgeInsets.only(
                                                   top: 8.0),
                                               child: index < 2
-                                                  ? Divider(
-                                                      thickness: 0.2,
-                                                      color: Colors.black,
-                                                    )
+                                                  ? Divider()
                                                   : Container(),
                                             ),
                                           ],
@@ -883,9 +916,10 @@ class _HomeState extends State<Home> {
                               ],
                             ),
                           ),
-              ), //View all outlets button
+              ),
+              //View all outlets button
               Container(
-                padding: EdgeInsets.only(left: 16, right: 16, bottom: 32),
+                padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
                 margin: EdgeInsets.only(bottom: 10),
                 color: Colors.white,
                 child: RaisedButton(
@@ -908,13 +942,13 @@ class _HomeState extends State<Home> {
               //Testimonial
               Container(
                 color: Colors.white,
-                padding: EdgeInsets.only(left: 16, bottom: 32),
+                padding: EdgeInsets.only(left: 0, bottom: 32),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //"What our customers are saying"
                     Container(
-                      margin: EdgeInsets.fromLTRB(0, 24, 16, 24),
+                      margin: EdgeInsets.fromLTRB(16, 24, 16, 24),
                       child: Text(
                         'What our customers are saying',
                         style: TextStyle(
@@ -924,133 +958,129 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Container(
-                      height: 190,
+                      height: size.height > 1280 ? 190 : 175,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                color: Color.fromRGBO(171, 237, 230, 0.5),
-                                padding: EdgeInsets.only(right: 16),
-                                margin: EdgeInsets.only(right: 16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          top: 25, bottom: 15, left: 16),
-                                      child:
-                                          Image.asset('assets/quote_icon.png'),
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.fromLTRB(16, 0, 16, 16),
-                                      width: size.shortestSide * 0.5,
-                                      child: Text(
-                                        'Amazing services. Personalized and good standards for drycleaning. Fully satisfied',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.fromLTRB(16, 0, 16, 16),
-                                      width: size.shortestSide * 0.5,
-                                      child: Text(
-                                        '- Mr & Mrs John Doe',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5),
-                                      ),
-                                    ),
-                                  ],
+                          Container(
+                            color: Color.fromRGBO(171, 237, 230, 0.5),
+                            padding: EdgeInsets.only(right: 8),
+                            margin: EdgeInsets.only(left: 16, right: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top: size.height > 1200 ? 25 : 20,
+                                      bottom: 12,
+                                      left: 16),
+                                  child: Image.asset('assets/quote_icon.png'),
                                 ),
-                              ),
-                              Container(
-                                color: Color.fromRGBO(171, 237, 230, 0.5),
-                                padding: EdgeInsets.only(right: 16),
-                                margin: EdgeInsets.only(right: 16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          top: 25, bottom: 15, left: 16),
-                                      child:
-                                          Image.asset('assets/quote_icon.png'),
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.fromLTRB(16, 0, 16, 16),
-                                      width: size.shortestSide * 0.5,
-                                      child: Text(
-                                        'Amazing services. Personalized and good standards for drycleaning. Fully satisfied',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.fromLTRB(16, 0, 16, 16),
-                                      width: size.shortestSide * 0.5,
-                                      child: Text(
-                                        '- Mr & Mrs John Doe',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5),
-                                      ),
-                                    ),
-                                  ],
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                  width: size.shortestSide * 0.5,
+                                  child: Text(
+                                    'Amazing services. Personalized and good standards for drycleaning. Fully satisfied',
+                                    style: TextStyle(
+                                        fontSize: size.height > 1280 ? 14 : 12,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.5),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                color: Color.fromRGBO(171, 237, 230, 0.5),
-                                padding: EdgeInsets.only(right: 16),
-                                margin: EdgeInsets.only(right: 16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          top: 25, bottom: 15, left: 16),
-                                      child:
-                                          Image.asset('assets/quote_icon.png'),
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                  width: size.shortestSide * 0.5,
+                                  child: Text(
+                                    '- Mr & Mrs John Doe',
+                                    style: TextStyle(
+                                      fontSize: size.height > 1280 ? 12 : 10,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.5,
                                     ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.fromLTRB(16, 0, 16, 16),
-                                      width: size.shortestSide * 0.5,
-                                      child: Text(
-                                        'Amazing services. Personalized and good standards for drycleaning. Fully satisfied',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.fromLTRB(16, 0, 16, 16),
-                                      width: size.shortestSide * 0.5,
-                                      child: Text(
-                                        '- Mr & Mrs John Doe',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                          ),
+                          Container(
+                            color: Color.fromRGBO(171, 237, 230, 0.5),
+                            padding: EdgeInsets.only(right: 16),
+                            margin: EdgeInsets.only(right: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top: size.height > 1200 ? 25 : 20,
+                                      bottom: 12,
+                                      left: 16),
+                                  child: Image.asset('assets/quote_icon.png'),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                  width: size.shortestSide * 0.5,
+                                  child: Text(
+                                    'Amazing services. Personalized and good standards for drycleaning. Fully satisfied',
+                                    style: TextStyle(
+                                        fontSize: size.height > 1280 ? 14 : 12,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.5),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                  width: size.shortestSide * 0.5,
+                                  child: Text(
+                                    '- Mr & Mrs John Doe',
+                                    style: TextStyle(
+                                      fontSize: size.height > 1280 ? 12 : 10,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            color: Color.fromRGBO(171, 237, 230, 0.5),
+                            padding: EdgeInsets.only(right: 16),
+                            margin: EdgeInsets.only(right: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top: size.height > 1200 ? 25 : 20,
+                                      bottom: 12,
+                                      left: 16),
+                                  child: Image.asset('assets/quote_icon.png'),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                  width: size.shortestSide * 0.5,
+                                  child: Text(
+                                    'Amazing services. Personalized and good standards for drycleaning. Fully satisfied',
+                                    style: TextStyle(
+                                        fontSize: size.height > 1280 ? 14 : 12,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.5),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                                  width: size.shortestSide * 0.5,
+                                  child: Text(
+                                    '- Mr & Mrs John Doe',
+                                    style: TextStyle(
+                                      fontSize: size.height > 1280 ? 12 : 10,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

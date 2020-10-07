@@ -62,7 +62,6 @@ class _CartState extends State<Cart> {
   }
 
   start() async {
-
     orderdetails = widget.order;
     items = orderdetails["items"];
     print("hellooooooooooooooooooooooooo");
@@ -70,22 +69,20 @@ class _CartState extends State<Cart> {
     print("byeeeeeeeeee");
 
     await getppdplan();
-   
+
     // print(widget.selectedindex);
     var tax = 0.0;
     var totalammount = orderdetails["price"];
     deliveryprice = 0;
     if (planstatus == 1) {
-      orderdetails["ppdstatus"]=1;
+      orderdetails["ppdstatus"] = 1;
       var disc = (ppddiscount / 100) * totalammount;
       totalammount = totalammount - disc;
       discounttemp = disc.toString();
       orderdetails["discount"] = disc;
       orderdetails["ppddiscount"] = ppddiscount;
-
-
-    }else{
-       orderdetails["ppdstatus"]=0;
+    } else {
+      orderdetails["ppdstatus"] = 0;
     }
     tax = ((18 / 100) * totalammount);
     print(orderdetails["price"] + tax.round() + deliveryprice);
@@ -145,9 +142,9 @@ class _CartState extends State<Cart> {
           _result = 1;
 
           deliveryprice = 0;
-          var totalamount =orderdetails["price"];
+          var totalamount = orderdetails["price"];
           var tax = 0.0;
-          // totalamount = 
+          // totalamount =
           if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
             totalamount = totalamount - disc.round();
@@ -198,7 +195,7 @@ class _CartState extends State<Cart> {
 
           break;
         case 3:
-            print("hey");
+          print("hey");
 
           _result = 4;
           deliveryprice = safekeep60;
@@ -214,15 +211,14 @@ class _CartState extends State<Cart> {
           orderdetails["deliverytype"] = "5";
           orderdetails["deliveryprice"] = deliveryprice;
           orderdetails["tax"] = tax.round();
-          orderdetails["totalprice"] =
-              totalamount + tax.round();
+          orderdetails["totalprice"] = totalamount + tax.round();
           orderdetails["safekeeping"] = 1;
           print("yha tk=" + orderdetails["totalprice"].toString());
           break;
         case 4:
           _result = 5;
           deliveryprice = safekeep30;
-         var totalamount = orderdetails["price"] + deliveryprice;
+          var totalamount = orderdetails["price"] + deliveryprice;
           var tax = 0.0;
           if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
@@ -232,19 +228,18 @@ class _CartState extends State<Cart> {
           orderdetails["deliverytype"] = "4";
           orderdetails["deliveryprice"] = deliveryprice;
           orderdetails["tax"] = tax.round();
-          orderdetails["totalprice"] =
-              totalamount + tax.round() ;
+          orderdetails["totalprice"] = totalamount + tax.round();
           orderdetails["safekeeping"] = 1;
           break;
         case 5:
           _result = 5;
 
-          var totalamount =  orderdetails["price"];
+          var totalamount = orderdetails["price"];
           var tax = 0.0;
           // totalamount = orderdetails["price"];
           deliveryprice = ((50 / 100) * totalamount).round();
           totalamount += deliveryprice;
-           if (planstatus == 1) {
+          if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
             totalamount = totalamount - disc.round();
           }
@@ -1529,108 +1524,110 @@ class _CartState extends State<Cart> {
                   ),
                 ),
                 //Promos
-               planstatus==0? GestureDetector(
-                  onTap: () async {
-                    var offer;
-                    var totalammount = orderdetails["price"];
-                    var discount;
-                    var tax;
+                planstatus == 0
+                    ? GestureDetector(
+                        onTap: () async {
+                          var offer;
+                          var totalammount = orderdetails["price"];
+                          var discount;
+                          var tax;
 
-                    if (orderdetails["items"].length == 0) {
-                      showsnack("Please select items to add an offer");
-                    } else {
-                      offer = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Promos(totalammount)),
-                      );
-                      if (offer != null) {
-                        totalammount = 0;
-                        discount = 0;
-                        totalammount = orderdetails["price"];
-                        print(totalammount);
-                        // print("ss" + orderdetails["specialprice"]);
-                        // totalammount += int.parse(orderdetails["specialprice"]);
-                         orderdetails["promoid"]=offer["promoid"];
-                        print(offer);
-                        print(totalammount);
-                        if (offer["type"] == "0") {
-                          print("percent");
-                          var value = int.parse(offer["value"]);
-                          discount = (value / 100) * totalammount;
-                          if (discount > int.parse(offer["max"])) {
-                            discount = int.parse(offer["max"]);
-                          }
-                          totalammount = totalammount - discount;
-                          orderdetails["offertype"] = offer["type"];
-                        }
-                        if (offer["type"] == "1") {
-                          print("value");
-                          discount = int.parse(offer["value"]);
-                          if (discount > int.parse(offer["max"])) {
-                            discount = int.parse(offer["max"]);
-                          }
-                          totalammount = totalammount - discount;
-                          orderdetails["offertype"] = offer["type"];
-                        }
+                          if (orderdetails["items"].length == 0) {
+                            showsnack("Please select items to add an offer");
+                          } else {
+                            offer = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Promos(totalammount)),
+                            );
+                            if (offer != null) {
+                              totalammount = 0;
+                              discount = 0;
+                              totalammount = orderdetails["price"];
+                              print(totalammount);
+                              // print("ss" + orderdetails["specialprice"]);
+                              // totalammount += int.parse(orderdetails["specialprice"]);
+                              orderdetails["promoid"] = offer["promoid"];
+                              print(offer);
+                              print(totalammount);
+                              if (offer["type"] == "0") {
+                                print("percent");
+                                var value = int.parse(offer["value"]);
+                                discount = (value / 100) * totalammount;
+                                if (discount > int.parse(offer["max"])) {
+                                  discount = int.parse(offer["max"]);
+                                }
+                                totalammount = totalammount - discount;
+                                orderdetails["offertype"] = offer["type"];
+                              }
+                              if (offer["type"] == "1") {
+                                print("value");
+                                discount = int.parse(offer["value"]);
+                                if (discount > int.parse(offer["max"])) {
+                                  discount = int.parse(offer["max"]);
+                                }
+                                totalammount = totalammount - discount;
+                                orderdetails["offertype"] = offer["type"];
+                              }
 
-                        if (orderdetails["safekeeping"] == 0) {
-                          totalammount += orderdetails["deliveryprice"];
-                          tax = ((18 / 100) * totalammount);
-                          totalammount = totalammount + tax.round();
-                          if (totalammount < 0) {
-                            totalammount = 0;
-                          }
-                        } else {
-                          totalammount += orderdetails["deliveryprice"];
-                          tax = ((18 / 100) * totalammount);
-                          totalammount = totalammount + tax.round();
+                              if (orderdetails["safekeeping"] == 0) {
+                                totalammount += orderdetails["deliveryprice"];
+                                tax = ((18 / 100) * totalammount);
+                                totalammount = totalammount + tax.round();
+                                if (totalammount < 0) {
+                                  totalammount = 0;
+                                }
+                              } else {
+                                totalammount += orderdetails["deliveryprice"];
+                                tax = ((18 / 100) * totalammount);
+                                totalammount = totalammount + tax.round();
 
-                          if (totalammount < 0) {
-                            totalammount = 0;
+                                if (totalammount < 0) {
+                                  totalammount = 0;
+                                }
+                                //hre totalammount += orderdetails["deliveryprice"];
+                              }
+                              orderdetails["offervalue"] = offer["value"];
+                              print(totalammount);
+                              orderdetails["totalprice"] = totalammount;
+                              discounttemp = discount.toString();
+                              setState(() {});
+                            }
+                            orderdetails["discount"] = discounttemp;
+                            showsnack("Promo Applied");
                           }
-                          //hre totalammount += orderdetails["deliveryprice"];
-                        }
-                        orderdetails["offervalue"] = offer["value"];
-                        print(totalammount);
-                        orderdetails["totalprice"] = totalammount;
-                        discounttemp = discount.toString();
-                        setState(() {});
-                      }
-                      orderdetails["discount"] = discounttemp;
-                      showsnack("Promo Applied");
-                    }
-                  },
-                  child: Container(
-                    color: Colors.white,
-                    child: ListTile(
-                      title: Text(
-                        'APPLY PROMO CODE',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Hexcolor('#00B6BC'),
+                        },
+                        child: Container(
+                          color: Colors.white,
+                          child: ListTile(
+                            title: Text(
+                              'APPLY PROMO CODE',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Hexcolor('#00B6BC'),
+                              ),
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios,
+                              size: 15,
+                              color: Hexcolor('#00B6BC'),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(
+                        color: Colors.white,
+                        child: ListTile(
+                          title: Text(
+                            ppddiscount.toString() +
+                                " % discount applicable for PPD members",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Hexcolor('#00B6BC'),
+                            ),
+                          ),
                         ),
                       ),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
-                        color: Hexcolor('#00B6BC'),
-                      ),
-                    ),
-                  ),
-                ): Container(
-                    color: Colors.white,
-                    child: ListTile(
-                      title: Text(
-                        ppddiscount.toString()+" % discount applicable for PPD members",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Hexcolor('#00B6BC'),
-                        ),
-                      ),
-                     
-                    ),
-                  ),
 
                 Container(
                   margin: EdgeInsets.only(top: 5),
@@ -1865,7 +1862,7 @@ class _CartState extends State<Cart> {
                 // checkIfEmpty();
               },
               child: Container(
-                  height: 55,
+                  height: size.height > 1280 ? 55 : 40,
                   padding: EdgeInsets.only(
                     left: 16,
                     top: 7,
@@ -1889,7 +1886,7 @@ class _CartState extends State<Cart> {
                                 // "₹ " + totalprice.toString(),
                                 style: TextStyle(
                                   color: Hexcolor('#252525'),
-                                  fontSize: 16,
+                                  fontSize: size.height > 1280 ? 16 : 14,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -1897,17 +1894,17 @@ class _CartState extends State<Cart> {
                                 ' (Estimated)',
                                 style: TextStyle(
                                   color: Hexcolor('#404040'),
-                                  fontSize: 10,
+                                  fontSize: size.height > 1280 ? 10 : 8,
                                   fontWeight: FontWeight.w600,
                                 ),
                               )
                             ],
                           ),
                           Text(
-                            (widget.totalItems).toString() + ' items',
+                            (widget.totalItems).toString() + ' pieces',
                             style: TextStyle(
                               color: Hexcolor('#404040'),
-                              fontSize: 10,
+                              fontSize: size.height > 1280 ? 10 : 8,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -1920,14 +1917,14 @@ class _CartState extends State<Cart> {
                             // "₹ " + totalprice.toString(),
                             style: TextStyle(
                               color: Hexcolor('#252525'),
-                              fontSize: 14,
+                              fontSize: size.height > 1280 ? 14 : 12,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           Padding(padding: EdgeInsets.only(left: 8)),
                           Icon(
                             Icons.arrow_forward_ios,
-                            size: 14,
+                            size: size.height > 1280 ? 14 : 12,
                             color: Hexcolor('#252525'),
                           ),
                         ],

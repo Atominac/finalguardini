@@ -756,14 +756,6 @@ class _AddItemsState extends State<AddItems> {
     );
   }
 
-  // List<String> gridImages = [
-  //   'assets/capri.png',
-  //   'assets/shorts.png',
-  //   'assets/outfits.png',
-  //   'assets/shirt.png',
-  //   'assets/trousers.png',
-  //   'assets/upholestry.png',
-  // ];
   @override
   Widget build(BuildContext context) {
     Random r = new Random();
@@ -775,7 +767,10 @@ class _AddItemsState extends State<AddItems> {
       child: Scaffold(
         key: _scafoldkey,
         appBar: AppBar(
-          title: Text("Select items for drycleaning"),
+          title: Text(
+            "Select items for drycleaning",
+            style: TextStyle(fontSize: size.height > 1280 ? 16 : 14),
+          ),
           backgroundColor: Hexcolor('#219251'),
           bottom: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
@@ -872,17 +867,11 @@ class _AddItemsState extends State<AddItems> {
                         height: size.height * 0.8,
                         padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                         child: flag == 0
-                            ? ListView(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Container(
-                                          margin: EdgeInsets.only(top: 10),
-                                          child:
-                                              Image.asset("assets/noitems.png"))
-                                    ],
-                                  )
-                                ],
+                            ? Container(
+                                margin: EdgeInsets.only(top: 10),
+                                child: Center(
+                                  child: Image.asset("assets/noitems.png"),
+                                ),
                               )
                             : items == null
                                 ? Container(
@@ -890,328 +879,362 @@ class _AddItemsState extends State<AddItems> {
                                       child: CircularProgressIndicator(),
                                     ),
                                   )
-                                : ListView(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          showModal();
-                                        },
-                                        child: Container(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 12, 0, 12),
-                                          margin: EdgeInsets.only(
-                                              top: 10,
-                                              bottom: 10,
-                                              left: 5,
-                                              right: 5),
-                                          decoration: BoxDecoration(
-                                            color: Color.fromRGBO(
-                                                171, 237, 230, 0.4),
-                                            border: Border.all(
+                                : Container(
+                                    height: size.height * 0.7,
+                                    child: Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            showModal();
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0,
+                                                size.height > 1280 ? 10 : 6,
+                                                0,
+                                                size.height > 1280 ? 10 : 6),
+                                            margin: EdgeInsets.only(
+                                              top: 0,
+                                              bottom: 5,
+                                            ),
+                                            decoration: BoxDecoration(
                                               color: Color.fromRGBO(
-                                                  0, 182, 188, 0.4),
+                                                  171, 237, 230, 0.4),
+                                              border: Border.all(
+                                                color: Color.fromRGBO(
+                                                    0, 182, 188, 0.4),
+                                              ),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "What is premium and regular wash?",
+                                              style: TextStyle(
+                                                fontSize: size.height > 1280
+                                                    ? 12
+                                                    : 10,
+                                                color: Hexcolor('#00B6BC'),
+                                              ),
                                             ),
                                           ),
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            "What is premium and regular wash?",
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                color: Hexcolor('#00B6BC'),
-                                                height: 1.5),
-                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        height: size.height * 0.7,
-                                        child: GridView.builder(
-                                          gridDelegate:
-                                              SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            childAspectRatio: 0.57,
-                                            crossAxisSpacing: 16,
-                                            mainAxisSpacing: 16,
-                                          ),
-                                          itemCount: selecteditems.length,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return Container(
-                                              margin: EdgeInsets.symmetric(
-                                                horizontal: 5,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Color.fromRGBO(
-                                                        1, 25, 79, 0.2),
-                                                    blurRadius: 4,
-                                                    spreadRadius: 1,
-                                                    offset: Offset(0, 3),
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  Container(
-                                                    color: Hexcolor('#EFE9E0'),
-                                                    width: size.width * 0.4,
-                                                    height: 150,
-                                                    margin: EdgeInsets.all(8),
-                                                    child: Column(
-                                                      children: [
-                                                        Container(
-                                                          height: 110,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Image.network(
-                                                            items[index]
-                                                                ["imageurl"],
-                                                            fit: BoxFit
-                                                                .fitHeight,
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  vertical:
-                                                                      8.0),
-                                                          child: Text(
-                                                            items[index]
-                                                                ["name"],
-                                                            style: TextStyle(
-                                                              fontSize: 16,
+                                        Expanded(
+                                          child: GridView.builder(
+                                            gridDelegate:
+                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2,
+                                              childAspectRatio:
+                                                  size.height > 1280
+                                                      ? 0.57
+                                                      : 0.57,
+                                              crossAxisSpacing:
+                                                  size.height > 1280 ? 15 : 10,
+                                              mainAxisSpacing: 16,
+                                            ),
+                                            itemCount: selecteditems.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return Container(
+                                                margin: EdgeInsets.symmetric(
+                                                  horizontal: 5,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Color.fromRGBO(
+                                                          1, 25, 79, 0.2),
+                                                      blurRadius: 4,
+                                                      spreadRadius: 1,
+                                                      offset: Offset(0, 3),
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      color:
+                                                          Hexcolor('#EFE9E0'),
+                                                      width: size.width * 0.4,
+                                                      height: size.height > 1280
+                                                          ? 150
+                                                          : 120,
+                                                      margin: EdgeInsets.all(8),
+                                                      child: Column(
+                                                        children: [
+                                                          Container(
+                                                            height:
+                                                                size.height >
+                                                                        1280
+                                                                    ? 100
+                                                                    : 90,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    top: 8.0),
+                                                            child:
+                                                                Image.network(
+                                                              items[index]
+                                                                  ["imageurl"],
+                                                              fit: BoxFit
+                                                                  .fitWidth,
                                                             ),
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: 5, left: 8),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        items[index][
-                                                                    "regularprice"] ==
-                                                                "0"
-                                                            ? Container()
-                                                            : Container(
-                                                                child: Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(
-                                                                      "₹ " +
-                                                                          items[index]
-                                                                              [
-                                                                              "regularprice"] +
-                                                                          " pp",
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              14,
-                                                                          color: Hexcolor(
-                                                                              '#737373'),
-                                                                          fontWeight:
-                                                                              FontWeight.w600),
-                                                                    ),
-                                                                    Container(
-                                                                      child:
-                                                                          Text(
-                                                                        "Regular Care ",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              12,
-                                                                          color:
-                                                                              Hexcolor(
-                                                                            '#737373',
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        8.0),
+                                                            child: Text(
+                                                              items[index]
+                                                                  ["name"],
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    size.height >
+                                                                            1280
+                                                                        ? 16
+                                                                        : 12,
                                                               ),
-                                                        items[index][
-                                                                    "delicateprice"] ==
-                                                                '0'
-                                                            ? Container()
-                                                            : Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        top:
-                                                                            16),
-                                                                child: Column(
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(
-                                                                      "₹ " +
-                                                                          items[index]
-                                                                              [
-                                                                              "delicateprice"] +
-                                                                          " pp",
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              14,
-                                                                          color: Hexcolor(
-                                                                              '#737373'),
-                                                                          fontWeight:
-                                                                              FontWeight.w600),
-                                                                    ),
-                                                                    Container(
-                                                                      child:
-                                                                          Text(
-                                                                        "Premium Care ",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              12,
-                                                                          color:
-                                                                              Hexcolor(
-                                                                            '#737373',
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.all(3),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            children: <
-                                                                Widget>[],
+                                                            ),
                                                           ),
-                                                        )
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.only(bottom: 5),
-                                                    // margin: EdgeInsets.only(
-                                                    //     top: size.height * 0.12, bottom: 10),
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        tempitems = 0;
-                                                        selectedservices = List<
-                                                                int>.generate(
-                                                            selecteditems
-                                                                    .length +
-                                                                1,
-                                                            (i) => 0);
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: 5, left: 8),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          items[index][
+                                                                      "regularprice"] ==
+                                                                  "0"
+                                                              ? Container()
+                                                              : Container(
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        "₹ " +
+                                                                            items[index]["regularprice"] +
+                                                                            " pp",
+                                                                        style: TextStyle(
+                                                                            fontSize: size.height > 1280
+                                                                                ? 14
+                                                                                : 12,
+                                                                            color:
+                                                                                Hexcolor('#737373'),
+                                                                            fontWeight: FontWeight.w600),
+                                                                      ),
+                                                                      Container(
+                                                                        child:
+                                                                            Text(
+                                                                          "Regular Care ",
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize: size.height > 1280
+                                                                                ? 12
+                                                                                : 10,
+                                                                            color:
+                                                                                Hexcolor(
+                                                                              '#737373',
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                          items[index][
+                                                                      "delicateprice"] ==
+                                                                  '0'
+                                                              ? Container()
+                                                              : Container(
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          top:
+                                                                              16),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        "₹ " +
+                                                                            items[index]["delicateprice"] +
+                                                                            " pp",
+                                                                        style: TextStyle(
+                                                                            fontSize: size.height > 1280
+                                                                                ? 14
+                                                                                : 12,
+                                                                            color:
+                                                                                Hexcolor('#737373'),
+                                                                            fontWeight: FontWeight.w600),
+                                                                      ),
+                                                                      Container(
+                                                                        child:
+                                                                            Text(
+                                                                          "Premium Care ",
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize: size.height > 1280
+                                                                                ? 12
+                                                                                : 10,
+                                                                            color:
+                                                                                Hexcolor(
+                                                                              '#737373',
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.all(
+                                                                    3),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: <
+                                                                  Widget>[],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          bottom: 5),
+                                                      // margin: EdgeInsets.only(
+                                                      //     top: size.height * 0.12, bottom: 10),
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          tempitems = 0;
+                                                          selectedservices = List<
+                                                                  int>.generate(
+                                                              selecteditems
+                                                                      .length +
+                                                                  1,
+                                                              (i) => 0);
 
-                                                        print(selecteditems[
-                                                                index]
-                                                            .containsKey(
-                                                                'paymenttype'));
-                                                        print(selectedservices);
-                                                        // return;
-                                                        if (selecteditems[index]
-                                                            .containsKey(
-                                                                'paymenttype')) {
-                                                          for (var x = 0;
-                                                              x <
+                                                          print(selecteditems[
+                                                                  index]
+                                                              .containsKey(
+                                                                  'paymenttype'));
+                                                          print(
+                                                              selectedservices);
+                                                          // return;
+                                                          if (selecteditems[
+                                                                  index]
+                                                              .containsKey(
+                                                                  'paymenttype')) {
+                                                            for (var x = 0;
+                                                                x <
+                                                                    selecteditems[index]
+                                                                            [
+                                                                            "paymenttype"]
+                                                                        .length;
+                                                                x++) {
+                                                              selectedservices[
                                                                   selecteditems[
-                                                                              index]
-                                                                          [
-                                                                          "paymenttype"]
-                                                                      .length;
-                                                              x++) {
-                                                            selectedservices[
-                                                                selecteditems[
-                                                                            index]
-                                                                        [
-                                                                        "paymenttype"]
-                                                                    [x]]++;
-                                                            tempitems += 1;
+                                                                          index]
+                                                                      [
+                                                                      "paymenttype"][x]]++;
+                                                              tempitems += 1;
+                                                            }
                                                           }
-                                                        }
-                                                        print(tempitems);
-                                                        print(selectedservices);
-                                                        // return;
-                                                        priceoption(
+                                                          print(tempitems);
+                                                          print(
+                                                              selectedservices);
+                                                          // return;
+                                                          priceoption(
+                                                              selecteditems[
+                                                                      index]
+                                                                  ["name"],
+                                                              selecteditems[
+                                                                      index][
+                                                                  "regularprice"],
+                                                              selecteditems[
+                                                                      index][
+                                                                  "delicateprice"],
+                                                              index,
+                                                              "p");
+                                                        },
+                                                        // enableFeedback: true,
+                                                        splashColor:
+                                                            Color.fromRGBO(255,
+                                                                194, 51, 0.3),
+                                                        highlightColor:
+                                                            Color.fromRGBO(255,
+                                                                194, 51, 0.25),
+                                                        child: Container(
+                                                          width:
+                                                              size.width * 0.4,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          255,
+                                                                          194,
+                                                                          51,
+                                                                          0.4),
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Hexcolor(
+                                                                        '#FFC233'),
+                                                                    width: 0.5,
+                                                                  )),
+                                                          height:
+                                                              size.height > 1280
+                                                                  ? 50
+                                                                  : 30,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
                                                             selecteditems[index]
-                                                                ["name"],
-                                                            selecteditems[index]
-                                                                [
-                                                                "regularprice"],
-                                                            selecteditems[index]
-                                                                [
-                                                                "delicateprice"],
-                                                            index,
-                                                            "p");
-                                                      },
-                                                      // enableFeedback: true,
-                                                      splashColor:
-                                                          Color.fromRGBO(255,
-                                                              194, 51, 0.3),
-                                                      highlightColor:
-                                                          Color.fromRGBO(255,
-                                                              194, 51, 0.25),
-                                                      child: Container(
-                                                        width: size.width * 0.4,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        255,
-                                                                        194,
-                                                                        51,
-                                                                        0.4),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: Hexcolor(
-                                                                      '#FFC233'),
-                                                                  width: 0.5,
-                                                                )),
-                                                        height: 50,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Text(
-                                                          selecteditems[index][
-                                                                          "count"] ==
-                                                                      null ||
-                                                                  selecteditems[
-                                                                              index]
-                                                                          [
-                                                                          "count"] ==
-                                                                      "0"
-                                                              ? 'Add to basket'
-                                                              : 'Edit',
-                                                          style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Hexcolor(
-                                                                '#404040'),
+                                                                            [
+                                                                            "count"] ==
+                                                                        null ||
+                                                                    selecteditems[index]
+                                                                            [
+                                                                            "count"] ==
+                                                                        "0"
+                                                                ? 'Add to basket'
+                                                                : 'Edit',
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  size.height >
+                                                                          1280
+                                                                      ? 15
+                                                                      : 13,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: Hexcolor(
+                                                                  '#404040'),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                       ),
                     ],
@@ -1223,7 +1246,7 @@ class _AddItemsState extends State<AddItems> {
                 Positioned(
                   bottom: 0,
                   child: Container(
-                      height: 55,
+                      height: size.height > 1280 ? 55 : 40,
                       padding: EdgeInsets.only(
                         left: 16,
                         top: 7,
@@ -1245,7 +1268,7 @@ class _AddItemsState extends State<AddItems> {
                                     // "₹ " + totalprice.toString(),
                                     style: TextStyle(
                                       color: Hexcolor('#252525'),
-                                      fontSize: 16,
+                                      fontSize: size.height > 1280 ? 16 : 14,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -1253,7 +1276,7 @@ class _AddItemsState extends State<AddItems> {
                                     ' (Estimated)',
                                     style: TextStyle(
                                       color: Hexcolor('#404040'),
-                                      fontSize: 10,
+                                      fontSize: size.height > 1280 ? 10 : 8,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   )
@@ -1263,7 +1286,7 @@ class _AddItemsState extends State<AddItems> {
                                 totalitems.toString() + " pieces",
                                 style: TextStyle(
                                   color: Hexcolor('#404040'),
-                                  fontSize: 10,
+                                  fontSize: size.height > 1280 ? 10 : 8,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -1272,80 +1295,29 @@ class _AddItemsState extends State<AddItems> {
                           GestureDetector(
                             onTap: () {
                               print(selecteditems);
-                              // return;
                               georderdetails();
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) =>
-                              //           CartScreen(orderdetails)),
                             },
                             child: Row(
                               children: [
                                 Text(
                                   "View Basket",
-                                  // "₹ " + totalprice.toString(),
                                   style: TextStyle(
                                     color: Hexcolor('#252525'),
-                                    fontSize: 14,
+                                    fontSize: size.height > 1280 ? 14 : 12,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
                                 Padding(padding: EdgeInsets.only(left: 8)),
                                 Icon(
                                   Icons.arrow_forward_ios,
-                                  size: 14,
+                                  size: size.height > 1280 ? 14 : 12,
                                   color: Hexcolor('#252525'),
                                 ),
                               ],
                             ),
                           ),
                         ],
-                      )
-                      // ),
-                      // child: Container(
-                      //   margin: EdgeInsets.all(10),
-                      //   child: Column(
-                      //     children: <Widget>[
-                      //       GestureDetector(
-                      //         onTap: () {
-                      //           georderdetails();
-                      //         },
-                      //         child: Container(
-                      //           child: Row(
-                      //             mainAxisAlignment:
-                      //                 MainAxisAlignment.spaceBetween,
-                      //             children: <Widget>[
-                      //               Row(
-                      //                 children: <Widget>[
-                      //                   Icon(
-                      //                     LineAwesomeIcons.shopping_cart,
-                      //                     size: 27,
-                      //                   ),
-                      //                   Text(
-                      //                     totalitems.toString() + " item(s)",
-                      //                     style: TextStyle(
-                      //                         fontSize: 17,
-                      //                         color: Colors.black87,
-                      //                         fontWeight: FontWeight.bold),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //               Text(
-                      //                 "₹ " + totalprice.toString(),
-                      //                 style: TextStyle(
-                      //                     fontSize: 17,
-                      //                     color: Colors.black87,
-                      //                     fontWeight: FontWeight.bold),
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ),
-                      //       )
-                      //     ],
-                      //   ),
-                      // ),
-                      ),
+                      )),
                 ),
               ],
             ),

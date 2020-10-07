@@ -49,20 +49,17 @@ class _HomeScreenState extends State<HomeScreen>
   //   print(versionCode);
   // }
 
-
-  checkoutlet () async{
-  final user = await SharedPreferences.getInstance();
-  print("yha aya");
-  if(user.getString("outletid")==null){
-    print("fr yha aya");
-   Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Outlets()),
-    );
-
+  checkoutlet() async {
+    final user = await SharedPreferences.getInstance();
+    print("yha aya");
+    if (user.getString("outletid") == null) {
+      print("fr yha aya");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Outlets()),
+      );
+    }
   }
-
-}
 
   @override
   void dispose() {
@@ -167,72 +164,57 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  static List<Widget> _widgetOptions = <Widget>[
+    Home(),
+    Orders(),
+    Profile(),
+  ];
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () {
         _leave();
       },
       child: Scaffold(
         key: _scafoldkey,
-        body: TabBarView(
-          children: <Widget>[
-            Home(),
-            Orders(),
-            Profile(),
+        body: _widgetOptions.elementAt(_selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          selectedItemColor: Hexcolor('#219251'),
+showUnselectedLabels: false,
+          onTap: _onItemTapped,
+          // indicatorPadding: EdgeInsets.zero,
+          // indicatorWeight: 5,
+          // labelColor: Color.fromRGBO(38, 179, 163, 1),
+          // controller: tabController,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              title: Text('Home'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.list,
+              ),
+              title: Text('Orders'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
+              title: Text('Profile'),
+            ),
           ],
-          controller: tabController,
-        ),
-        bottomNavigationBar: new Material(
-          child: TabBar(
-            labelColor: Color.fromRGBO(38, 179, 163, 1),
-            controller: tabController,
-            tabs: <Widget>[
-              Tab(
-                child: Container(
-                  height: 100.0,
-                  padding: EdgeInsets.all(0.0),
-                  child: Column(
-                    children: <Widget>[
-                      // SvgPicture.asset('assets/icons/home_icon.svg'),
-                      Icon(
-                            Icons.home,
-                          ),
-                      Text(
-                        "Home",
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Tab(
-                  child: Container(
-                      height: 100.0,
-                      padding: EdgeInsets.all(0.0),
-                      child: Column(
-                        children: <Widget>[
-                          Icon(
-                            LineAwesomeIcons.list,
-                          ),
-                          Text("Orders")
-                        ],
-                      ))),
-              Tab(
-                child: Container(
-                  height: 100.0,
-                  padding: EdgeInsets.all(00.0),
-                  child: Column(
-                    children: <Widget>[
-                      Icon(
-                        Icons.person,
-                      ),
-                      Text("Profile")
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
