@@ -1,20 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:guardini/enteraddress.dart';
-import 'package:guardini/failed.dart';
-import 'package:guardini/ordersuccess.dart';
-import 'package:guardini/paymenttype.dart';
+
 import 'package:hexcolor/hexcolor.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:intl/intl.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jiffy/jiffy.dart';
 
 import 'orderPlaced.dart';
-import 'ordersummary.dart';
 
 class ReviewDetails extends StatefulWidget {
   var order;
@@ -445,7 +440,7 @@ placeorder() async {
                                       CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '${widget.order["pickuptime"].toString().substring(0, widget.order["pickuptime"].toString().indexOf(" "))}',
+                                      '${Jiffy(widget.order["pickuptime"].toString().substring(0, widget.order["pickuptime"].toString().indexOf(" "))).format("do MMMM yyyy")}',
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: Hexcolor('#404040'),
@@ -525,7 +520,7 @@ placeorder() async {
                         Container(
                           padding: EdgeInsets.only(left: 5),
                           child: Text(
-                            'Choose Outlet',
+                            'Outlet',
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.7),
                               fontWeight: FontWeight.w400,

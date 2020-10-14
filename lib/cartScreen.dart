@@ -56,13 +56,11 @@ class _CartState extends State<Cart> {
     getspecialservices();
     start();
 
-    return;
     // print("hey");
     // print(items);
   }
 
   start() async {
-
     orderdetails = widget.order;
     items = orderdetails["items"];
     print("hellooooooooooooooooooooooooo");
@@ -70,22 +68,22 @@ class _CartState extends State<Cart> {
     print("byeeeeeeeeee");
 
     await getppdplan();
-   
+
     // print(widget.selectedindex);
     var tax = 0.0;
     var totalammount = orderdetails["price"];
     deliveryprice = 0;
+    print("fir bad em yeh");
+   await applyppddiscount(totalammount);
     if (planstatus == 1) {
-      orderdetails["ppdstatus"]=1;
+      orderdetails["ppdstatus"] = 1;
       var disc = (ppddiscount / 100) * totalammount;
       totalammount = totalammount - disc;
       discounttemp = disc.toString();
       orderdetails["discount"] = disc;
       orderdetails["ppddiscount"] = ppddiscount;
-
-
-    }else{
-       orderdetails["ppdstatus"]=0;
+    } else {
+      orderdetails["ppdstatus"] = 0;
     }
     tax = ((18 / 100) * totalammount);
     print(orderdetails["price"] + tax.round() + deliveryprice);
@@ -93,7 +91,7 @@ class _CartState extends State<Cart> {
     orderdetails["deliverytype"] = "1";
     orderdetails["tax"] = tax.round();
     // return;
-    orderdetails["totalprice"] = totalammount + tax.round() + deliveryprice;
+    orderdetails["totalprice"] = totalammount.round() + tax.round() + deliveryprice;
     orderdetails["safekeeping"] = 0;
     setState(() {});
     // print(_result);
@@ -101,6 +99,7 @@ class _CartState extends State<Cart> {
     safekeep60 = (2 * (20 / 100) * orderdetails["price"]).toInt();
   }
 
+  var allplans;
   getppdplan() async {
     final user = await SharedPreferences.getInstance();
 
@@ -115,10 +114,10 @@ class _CartState extends State<Cart> {
 
     //print("login response"+response.body);
     var jsondecoded = json.decode(response.body);
-    var data = jsondecoded["data"];
+    allplans = jsondecoded["all_plans"];
     print(jsondecoded);
     if (jsondecoded['message'] == "success") {
-      ppddiscount = int.parse(data[0]["discount"]);
+      // ppddiscount = int.parse(data[0]["discount"]);
       planstatus = 1;
       setState(() {});
     } else if (jsondecoded['message'] == "no_active_plan") {
@@ -130,38 +129,79 @@ class _CartState extends State<Cart> {
       // ppddiscount="NOT VALID";
       setState(() {});
     }
+    print("plan api");
+  }
+
+  applyppddiscount(totalammount) {
+    var applied=0;
+    var caplimit=0;
+    for (var item in allplans) {
+      // print("hey1");
+      var tempdisc = int.parse(item["discount"]);
+      // print("hey2");
+
+      var disc = totalammount - ((tempdisc / 100) * totalammount);
+      // print("hey3 "+disc.toString());
+      caplimit=caplimit+int.parse(item["total_amount"]);
+      if(disc<caplimit){
+        ppddiscount=tempdisc;
+        // print("ppad disct"+ppddiscount.toString());
+        applied++;
+        break;
+      }
+      // print("hey1");
+
+    }
+    if(applied==0){
+      planstatus=0;
+    }
+    setState(() {
+      
+    });
   }
 
   var deliveryprice = 1;
 
   int _radioValue = 0;
   double _result = 0.0;
-  void _handleRadioValueChange(int value) {
-    setState(() {
+  void _handleRadioValueChange(int value) async{
+   
       _radioValue = value;
 
       switch (_radioValue) {
         case 0:
+        print(0);
+        print("from here========================================");
           _result = 1;
 
           deliveryprice = 0;
-          var totalamount =orderdetails["price"];
+          var totalamount = orderdetails["price"];
+          print("totalamt"+totalamount.toString());
           var tax = 0.0;
-          // totalamount = 
+          // totalamount =
+         await applyppddiscount(totalamount);
           if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
+            discounttemp=disc.toString();
             totalamount = totalamount - disc.round();
+          // print("totalamt1"+totalamount.toString());
+
           }
+          print("totalamt1"+totalamount.toString());
+
           tax = ((18 / 100) * totalamount);
           orderdetails["deliverytype"] = "1";
           orderdetails["tax"] = tax.round();
           orderdetails["deliveryprice"] = deliveryprice;
           orderdetails["totalprice"] =
-              orderdetails["price"] + tax.round() + deliveryprice;
+          totalamount + tax.round() + deliveryprice;
           orderdetails["safekeeping"] = 0;
+        print("to here========================================");
 
           break;
         case 1:
+        print(1);
+
           _result = 2;
 
           var totalamount = orderdetails["price"];
@@ -169,9 +209,12 @@ class _CartState extends State<Cart> {
           // totalamount = orderdetails["price"];
           deliveryprice = totalamount;
           totalamount += deliveryprice;
+         await applyppddiscount(totalamount);
+
           print(totalamount);
           if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
+            discounttemp=disc.toString();
             totalamount = totalamount - disc.round();
           }
           tax = ((18 / 100) * totalamount);
@@ -183,29 +226,44 @@ class _CartState extends State<Cart> {
 
           break;
         case 2:
+        print(2);
+
           _result = 3;
           deliveryprice = 0;
           var totalamount = 0;
           var tax = 0.0;
           totalamount = orderdetails["price"];
+          await applyppddiscount(totalamount);
+
+          if (planstatus == 1) {
+            var disc = (ppddiscount / 100) * totalamount;
+            discounttemp=disc.toString();
+            totalamount = totalamount - disc.round();
+          }
+
           tax = ((18 / 100) * totalamount);
           orderdetails["deliverytype"] = "0";
           orderdetails["deliveryprice"] = deliveryprice;
           orderdetails["tax"] = tax.round();
           orderdetails["totalprice"] =
-              orderdetails["price"] + tax.round() + deliveryprice;
+          totalamount + tax.round() + deliveryprice;
           orderdetails["safekeeping"] = 0;
 
           break;
         case 3:
-            print("hey");
+        print(3);
+
+          print("hey");
 
           _result = 4;
           deliveryprice = safekeep60;
           var totalamount = orderdetails["price"] + deliveryprice;
           var tax = 0.0;
+         await applyppddiscount(totalamount);
+
           if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
+            discounttemp=disc.toString();
             totalamount = totalamount - disc.round();
           }
           print("yha se=" + totalamount.toString());
@@ -214,38 +272,46 @@ class _CartState extends State<Cart> {
           orderdetails["deliverytype"] = "5";
           orderdetails["deliveryprice"] = deliveryprice;
           orderdetails["tax"] = tax.round();
-          orderdetails["totalprice"] =
-              totalamount + tax.round();
+          orderdetails["totalprice"] = totalamount + tax.round();
           orderdetails["safekeeping"] = 1;
           print("yha tk=" + orderdetails["totalprice"].toString());
           break;
         case 4:
+        print(4);
+
           _result = 5;
           deliveryprice = safekeep30;
-         var totalamount = orderdetails["price"] + deliveryprice;
+          var totalamount = orderdetails["price"] + deliveryprice;
           var tax = 0.0;
+         await applyppddiscount(totalamount);
+
           if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
+            discounttemp=disc.toString();
             totalamount = totalamount - disc.round();
           }
           tax = ((18 / 100) * totalamount);
           orderdetails["deliverytype"] = "4";
           orderdetails["deliveryprice"] = deliveryprice;
           orderdetails["tax"] = tax.round();
-          orderdetails["totalprice"] =
-              totalamount + tax.round() ;
+          orderdetails["totalprice"] = totalamount + tax.round();
           orderdetails["safekeeping"] = 1;
           break;
         case 5:
+        print(5);
+
           _result = 5;
 
-          var totalamount =  orderdetails["price"];
+          var totalamount = orderdetails["price"];
           var tax = 0.0;
           // totalamount = orderdetails["price"];
           deliveryprice = ((50 / 100) * totalamount).round();
           totalamount += deliveryprice;
-           if (planstatus == 1) {
+         await applyppddiscount(totalamount);
+
+          if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
+            discounttemp=disc.toString();
             totalamount = totalamount - disc.round();
           }
           tax = ((18 / 100) * totalamount);
@@ -256,9 +322,10 @@ class _CartState extends State<Cart> {
           orderdetails["safekeeping"] = 0;
 
           break;
+
       }
-      print(_result);
-      setState(() {});
+      // print(_result);
+       setState(() {
     });
   }
 
@@ -284,609 +351,7 @@ class _CartState extends State<Cart> {
     }
   }
 
-  DateTime _date = new DateTime.now();
-  TimeOfDay _time = new TimeOfDay.now();
-
-  var date, time;
-  var formatter = new DateFormat("dd-MMM-yy");
-  var checktime;
-  Future<Null> _selectdate(BuildContext context) async {
-    //   DateTime now = DateTime.now();
-    //   String formattedTime = DateFormat.Hms();
-    //   print(formattedTime);
-    //  var ghgh= DateTime.parse(formattedTime).difference(DateTime.parse("06:0000")).inHours;
-    var todaydate = DateTime.now();
-    // print(todaydate.toString());
-    var limitstring = todaydate.toString().substring(0, 10) + " 18:00:00";
-    // print(limitstring.toString());
-    var ghgh = DateTime.parse(limitstring).difference(DateTime.now()).inMinutes;
-    // print(ghgh);
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate:
-          ghgh < 0 ? DateTime.now().add(new Duration(days: 1)) : DateTime.now(),
-      lastDate: DateTime(2050),
-      firstDate:
-          ghgh < 0 ? DateTime.now().add(new Duration(days: 1)) : DateTime.now(),
-    );
-
-    if (picked != null) {
-      // print("date: ${_date.toString()}");
-      setState(() {
-        _date = picked;
-        date = _date;
-        // print("date: ${date.toString()}");
-      });
-    }
-    checktime = date.toString().substring(0, 10) + " 18:00:00";
-    // _selecttime(context);
-    Navigator.pop(context);
-    datetime();
-  }
-
-  Future<Null> _selecttime(BuildContext context) async {
-    final TimeOfDay picked =
-        await showTimePicker(context: context, initialTime: _time);
-    if (picked != null && picked != _time) {
-      // print("date: ${_date.toString()}");
-      setState(() {
-        _time = picked;
-        time = _time.hour.toString() + ":" + _time.minute.toString();
-      });
-      // print(time);
-    }
-  }
-
-  void deliveryoption() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text(
-            'Please select the type of Delivery',
-            style: TextStyle(
-                fontSize: 17,
-                color: Colors.black87,
-                fontWeight: FontWeight.bold),
-          ),
-          content: Container(
-            margin: EdgeInsets.only(top: 20),
-            child: SizedBox(
-              height: 350,
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Color.fromRGBO(253, 186, 37, 1)),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    margin: EdgeInsets.all(5),
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Self Pickup",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 50,
-                          child: RaisedButton(
-                            onPressed: () {
-                              // itemcount(index, action, 1);
-                              orderdetails["deliverytype"] = "0";
-                              orderdetails["deliveryprice"] = 0;
-                              var totalprice = orderdetails["deliveryprice"] +
-                                  orderdetails["price"];
-                              orderdetails["totalprice"] = totalprice;
-                              setState(() {
-                                // print(orderdetails);
-                              });
-                              Navigator.of(context).pop();
-                            },
-                            color: Color.fromRGBO(38, 179, 163, 1),
-                            padding: EdgeInsets.all(2.0),
-                            child: Text(
-                              "+ add",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Color.fromRGBO(253, 186, 37, 1)),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    margin: EdgeInsets.all(5),
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Normal",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "₹ " + "50",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 50,
-                          child: RaisedButton(
-                            onPressed: () {
-                              // itemcount(index, action, 1);
-                              orderdetails["deliverytype"] = "1";
-                              orderdetails["deliveryprice"] = 50;
-                              var totalprice = orderdetails["deliveryprice"] +
-                                  orderdetails["price"];
-                              orderdetails["totalprice"] = totalprice;
-                              setState(() {
-                                // print(orderdetails);
-                              });
-                              Navigator.of(context).pop();
-                            },
-                            color: Color.fromRGBO(38, 179, 163, 1),
-                            padding: EdgeInsets.all(2.0),
-                            child: Text(
-                              "+ add",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Color.fromRGBO(253, 186, 37, 1)),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    margin: EdgeInsets.all(5),
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Express",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "₹ " + "100",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 50,
-                          child: RaisedButton(
-                            onPressed: () {
-                              // itemcount(index, action, 2);
-                              orderdetails["deliverytype"] = "2";
-                              orderdetails["deliveryprice"] = 100;
-                              var totalprice = orderdetails["deliveryprice"] +
-                                  orderdetails["price"];
-                              orderdetails["totalprice"] = totalprice;
-                              setState(() {
-                                // print(orderdetails);
-                              });
-                              Navigator.pop(context);
-                            },
-                            color: Color.fromRGBO(38, 179, 163, 1),
-                            padding: EdgeInsets.all(2.0),
-                            child: Text(
-                              "+ add",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void datetime() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text(
-            'Please select time of pickup',
-            style: TextStyle(
-                fontSize: 17,
-                color: Colors.black87,
-                fontWeight: FontWeight.bold),
-          ),
-          content: Container(
-            margin: EdgeInsets.only(top: 40),
-            child: SizedBox(
-              height: 350,
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Color.fromRGBO(253, 186, 37, 1)),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    margin: EdgeInsets.all(5),
-                    padding: EdgeInsets.all(5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              date == null
-                                  ? "Select date"
-                                  : formatter.format(date).toString(),
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 60,
-                          child: RaisedButton(
-                            onPressed: () {
-                              // itemcount(index, action, 1);
-                              _selectdate(context);
-                            },
-                            color: Color.fromRGBO(38, 179, 163, 1),
-                            padding: EdgeInsets.all(2.0),
-                            child: Text(
-                              "Select",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Color.fromRGBO(253, 186, 37, 1)),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    margin: EdgeInsets.all(5),
-                    padding: EdgeInsets.all(5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              time == null ? "Select time" : time.toString(),
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 60,
-                          child: RaisedButton(
-                            onPressed: () {
-                              // itemcount(index, action, 1);
-                              Navigator.pop(context);
-                              if (date == null) {
-                                // _selectdate(context);
-                                showsnack("Please select date");
-                              } else {
-                                timeslot();
-                              }
-                            },
-                            color: Color.fromRGBO(38, 179, 163, 1),
-                            padding: EdgeInsets.all(2.0),
-                            child: Text(
-                              "Select",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Continue"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void timeslot() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text(
-            'Please select a time slot',
-            style: TextStyle(
-                fontSize: 17,
-                color: Colors.black87,
-                fontWeight: FontWeight.bold),
-          ),
-          content: Container(
-            height: 200,
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      DateTime.parse(date.toString().substring(0, 10) +
-                                      " 09:00:00")
-                                  .difference(DateTime.now())
-                                  .inMinutes <=
-                              0
-                          ? Container()
-                          : GestureDetector(
-                              onTap: () {
-                                this.time = "9am-10am";
-                                // print(time);
-                                setState(() {});
-                                Navigator.pop(context);
-                                datetime();
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Color.fromRGBO(38, 179, 163, 1)),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                margin: EdgeInsets.all(5),
-                                padding: EdgeInsets.all(5),
-                                child: Text(
-                                  "9am-10am",
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                              ),
-                            ),
-                      DateTime.parse(date.toString().substring(0, 10) +
-                                      " 10:00:00")
-                                  .difference(DateTime.now())
-                                  .inMinutes <=
-                              0
-                          ? Container()
-                          : GestureDetector(
-                              onTap: () {
-                                this.time = "10am-12pm";
-                                // print(time);
-                                setState(() {});
-                                Navigator.pop(context);
-                                datetime();
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Color.fromRGBO(38, 179, 163, 1)),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                margin: EdgeInsets.all(5),
-                                padding: EdgeInsets.all(5),
-                                child: Text(
-                                  "10am-12pm",
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                              ),
-                            ),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    DateTime.parse(date.toString().substring(0, 10) +
-                                    " 12:00:00")
-                                .difference(DateTime.now())
-                                .inMinutes <=
-                            0
-                        ? Container()
-                        : GestureDetector(
-                            onTap: () {
-                              this.time = "12pm-2pm";
-                              // print(time);
-                              setState(() {});
-                              Navigator.pop(context);
-                              datetime();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Color.fromRGBO(38, 179, 163, 1)),
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              margin: EdgeInsets.all(5),
-                              padding: EdgeInsets.all(5),
-                              child: Text(
-                                "12pm-2pm",
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                          ),
-                    DateTime.parse(date.toString().substring(0, 10) +
-                                    " 14:00:00")
-                                .difference(DateTime.now())
-                                .inMinutes <=
-                            0
-                        ? Container()
-                        : GestureDetector(
-                            onTap: () {
-                              this.time = "2pm-4pm";
-                              // print(time);
-                              setState(() {});
-                              Navigator.pop(context);
-                              datetime();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Color.fromRGBO(38, 179, 163, 1)),
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              margin: EdgeInsets.all(5),
-                              padding: EdgeInsets.all(5),
-                              child: Text(
-                                "2pm-4pm",
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                          ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    DateTime.parse(date.toString().substring(0, 10) +
-                                    " 16:00:00")
-                                .difference(DateTime.now())
-                                .inMinutes <=
-                            0
-                        ? Container()
-                        : GestureDetector(
-                            onTap: () {
-                              this.time = "4pm-6pm";
-                              // print(time);
-                              setState(() {});
-                              Navigator.pop(context);
-                              datetime();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Color.fromRGBO(38, 179, 163, 1)),
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              margin: EdgeInsets.all(5),
-                              padding: EdgeInsets.all(5),
-                              child: Text(
-                                "4pm-6pm",
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                          ),
-                    DateTime.parse(date.toString().substring(0, 10) +
-                                    " 18:00:00")
-                                .difference(DateTime.now())
-                                .inMinutes <=
-                            0
-                        ? Container()
-                        : GestureDetector(
-                            onTap: () {
-                              this.time = "6pm-7pm";
-                              // print(time);
-                              setState(() {});
-                              Navigator.pop(context);
-                              datetime();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Color.fromRGBO(38, 179, 163, 1)),
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              margin: EdgeInsets.all(5),
-                              padding: EdgeInsets.all(5),
-                              child: Text(
-                                "6pm-7pm",
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                          ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            new FlatButton(
-              child: new Text("Continue"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  
 
   final TextEditingController t1 = new TextEditingController(text: "");
   // final TextEditingController t2 = new TextEditingController(text: "");
@@ -1094,15 +559,39 @@ class _CartState extends State<Cart> {
     return sum;
   }
 
+
+
+eachtotal(sel){
+
+    print(sel);
+    // return;
+    var amt = 0;
+    int count = 0;
+    print(sel["services"][sel["paymenttype"][0]]);
+    for (int i = 0; i < sel["services"].length; i++) {
+      for (int j = 0; j < sel["paymenttype"].length; j++) {
+        if (i == sel["paymenttype"][j]) {
+          count++;
+        }
+      }
+
+      if (count > 0) {
+        // str += sel["services"][i]["name"] + "(" + count.toString() + ")";
+        amt=count*int.parse(sel["services"][i]["price"].toString());
+      }
+      count = 0;
+    }
+
+    // }
+    return amt;
+}
   showdiaplay(sel) {
     print("sel");
 
     print(sel);
     // return;
     var str = "";
-    int prev;
     int count = 0;
-    int countitm = 0;
     print(sel["services"][sel["paymenttype"][0]]);
     for (int i = 0; i < sel["services"].length; i++) {
       for (int j = 0; j < sel["paymenttype"].length; j++) {
@@ -1219,7 +708,8 @@ class _CartState extends State<Cart> {
                               ),
                               Container(
                                 child: Text(
-                                  "₹ ",
+                                  "₹ "+eachtotal(widget.selecteditems[
+                                            widget.selectedindex[index]]).toString(),
                                   // calculateEachTotal(widget.selecteditems[
                                   //         widget.selectedindex[index]
 
@@ -1529,108 +1019,110 @@ class _CartState extends State<Cart> {
                   ),
                 ),
                 //Promos
-               planstatus==0? GestureDetector(
-                  onTap: () async {
-                    var offer;
-                    var totalammount = orderdetails["price"];
-                    var discount;
-                    var tax;
+                planstatus == 0
+                    ? GestureDetector(
+                        onTap: () async {
+                          var offer;
+                          var totalammount = orderdetails["price"];
+                          var discount;
+                          var tax;
 
-                    if (orderdetails["items"].length == 0) {
-                      showsnack("Please select items to add an offer");
-                    } else {
-                      offer = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Promos(totalammount)),
-                      );
-                      if (offer != null) {
-                        totalammount = 0;
-                        discount = 0;
-                        totalammount = orderdetails["price"];
-                        print(totalammount);
-                        // print("ss" + orderdetails["specialprice"]);
-                        // totalammount += int.parse(orderdetails["specialprice"]);
-                         orderdetails["promoid"]=offer["promoid"];
-                        print(offer);
-                        print(totalammount);
-                        if (offer["type"] == "0") {
-                          print("percent");
-                          var value = int.parse(offer["value"]);
-                          discount = (value / 100) * totalammount;
-                          if (discount > int.parse(offer["max"])) {
-                            discount = int.parse(offer["max"]);
-                          }
-                          totalammount = totalammount - discount;
-                          orderdetails["offertype"] = offer["type"];
-                        }
-                        if (offer["type"] == "1") {
-                          print("value");
-                          discount = int.parse(offer["value"]);
-                          if (discount > int.parse(offer["max"])) {
-                            discount = int.parse(offer["max"]);
-                          }
-                          totalammount = totalammount - discount;
-                          orderdetails["offertype"] = offer["type"];
-                        }
+                          if (orderdetails["items"].length == 0) {
+                            showsnack("Please select items to add an offer");
+                          } else {
+                            offer = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Promos(totalammount)),
+                            );
+                            if (offer != null) {
+                              totalammount = 0;
+                              discount = 0;
+                              totalammount = orderdetails["price"];
+                              print(totalammount);
+                              // print("ss" + orderdetails["specialprice"]);
+                              // totalammount += int.parse(orderdetails["specialprice"]);
+                              orderdetails["promoid"] = offer["promoid"];
+                              print(offer);
+                              print(totalammount);
+                              if (offer["type"] == "0") {
+                                print("percent");
+                                var value = int.parse(offer["value"]);
+                                discount = (value / 100) * totalammount;
+                                if (discount > int.parse(offer["max"])) {
+                                  discount = int.parse(offer["max"]);
+                                }
+                                totalammount = totalammount - discount;
+                                orderdetails["offertype"] = offer["type"];
+                              }
+                              if (offer["type"] == "1") {
+                                print("value");
+                                discount = int.parse(offer["value"]);
+                                if (discount > int.parse(offer["max"])) {
+                                  discount = int.parse(offer["max"]);
+                                }
+                                totalammount = totalammount - discount;
+                                orderdetails["offertype"] = offer["type"];
+                              }
 
-                        if (orderdetails["safekeeping"] == 0) {
-                          totalammount += orderdetails["deliveryprice"];
-                          tax = ((18 / 100) * totalammount);
-                          totalammount = totalammount + tax.round();
-                          if (totalammount < 0) {
-                            totalammount = 0;
-                          }
-                        } else {
-                          totalammount += orderdetails["deliveryprice"];
-                          tax = ((18 / 100) * totalammount);
-                          totalammount = totalammount + tax.round();
+                              if (orderdetails["safekeeping"] == 0) {
+                                totalammount += orderdetails["deliveryprice"];
+                                tax = ((18 / 100) * totalammount);
+                                totalammount = totalammount + tax.round();
+                                if (totalammount < 0) {
+                                  totalammount = 0;
+                                }
+                              } else {
+                                totalammount += orderdetails["deliveryprice"];
+                                tax = ((18 / 100) * totalammount);
+                                totalammount = totalammount + tax.round();
 
-                          if (totalammount < 0) {
-                            totalammount = 0;
+                                if (totalammount < 0) {
+                                  totalammount = 0;
+                                }
+                                //hre totalammount += orderdetails["deliveryprice"];
+                              }
+                              orderdetails["offervalue"] = offer["value"];
+                              print(totalammount);
+                              orderdetails["totalprice"] = totalammount;
+                              discounttemp = discount.toString();
+                              setState(() {});
+                            }
+                            orderdetails["discount"] = discounttemp;
+                            showsnack("Promo Applied");
                           }
-                          //hre totalammount += orderdetails["deliveryprice"];
-                        }
-                        orderdetails["offervalue"] = offer["value"];
-                        print(totalammount);
-                        orderdetails["totalprice"] = totalammount;
-                        discounttemp = discount.toString();
-                        setState(() {});
-                      }
-                      orderdetails["discount"] = discounttemp;
-                      showsnack("Promo Applied");
-                    }
-                  },
-                  child: Container(
-                    color: Colors.white,
-                    child: ListTile(
-                      title: Text(
-                        'APPLY PROMO CODE',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Hexcolor('#00B6BC'),
+                        },
+                        child: Container(
+                          color: Colors.white,
+                          child: ListTile(
+                            title: Text(
+                              'APPLY PROMO CODE',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Hexcolor('#00B6BC'),
+                              ),
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios,
+                              size: 15,
+                              color: Hexcolor('#00B6BC'),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(
+                        color: Colors.white,
+                        child: ListTile(
+                          title: Text(
+                            ppddiscount.toString() +
+                                " % discount applicable for PPD members",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Hexcolor('#00B6BC'),
+                            ),
+                          ),
                         ),
                       ),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 15,
-                        color: Hexcolor('#00B6BC'),
-                      ),
-                    ),
-                  ),
-                ): Container(
-                    color: Colors.white,
-                    child: ListTile(
-                      title: Text(
-                        ppddiscount.toString()+" % discount applicable for PPD members",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Hexcolor('#00B6BC'),
-                        ),
-                      ),
-                     
-                    ),
-                  ),
 
                 Container(
                   margin: EdgeInsets.only(top: 5),

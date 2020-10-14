@@ -212,7 +212,7 @@ class _EnterAddressState extends State<EnterAddress> {
                     ),
                     // Divider(),
                     Container(
-                      margin: EdgeInsets.only(left: 16, top: 16),
+                      margin: EdgeInsets.all(10),
                       child: Column(
                         children: [
                           Row(
@@ -504,38 +504,38 @@ class _EnterAddressState extends State<EnterAddress> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Save address as",
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Row(
-                        children: [
-                          Radio(
-                            value: 2,
-                            groupValue: 0,
-                            onChanged: null,
-                          ),
-                          Text('Home'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Radio(
-                            value: 2,
-                            groupValue: 0,
-                            onChanged: null,
-                          ),
-                          Text('Work'),
-                        ],
-                      ),
-                    ],
-                  ),
+                  // Text(
+                  //   "Save address as",
+                  //   style: TextStyle(
+                  //     fontSize: 17,
+                  //     color: Colors.black54,
+                  //     fontWeight: FontWeight.w500,
+                  //   ),
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Row(
+                  //       children: [
+                  //         Radio(
+                  //           value: 2,
+                  //           groupValue: 0,
+                  //           onChanged: null,
+                  //         ),
+                  //         Text('Home'),
+                  //       ],
+                  //     ),
+                  //     Row(
+                  //       children: [
+                  //         Radio(
+                  //           value: 2,
+                  //           groupValue: 0,
+                  //           onChanged: null,
+                  //         ),
+                  //         Text('Work'),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
                   Container(
                     margin: EdgeInsets.only(bottom: 16),
                     child: MaterialButton(
@@ -549,7 +549,7 @@ class _EnterAddressState extends State<EnterAddress> {
                                 color: Colors.white, fontSize: 16),
                           ),
                         ),
-                        color: Color.fromRGBO(38, 179, 163, 1),
+                        color: Hexcolor("#FFC233"),
                         textTheme: ButtonTextTheme.normal,
                         height: 50.0,
                         minWidth: MediaQuery.of(context).size.width * 0.4,

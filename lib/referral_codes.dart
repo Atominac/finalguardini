@@ -241,11 +241,10 @@ class _ReferralCodesState extends State<ReferralCodes> {
                   margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.38,
                   ),
-                  width: MediaQuery.of(context).size.width - 32,
                   alignment: Alignment.center,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
                         margin: EdgeInsets.only(top: 20, bottom: 10, right: 18),
@@ -263,12 +262,12 @@ class _ReferralCodesState extends State<ReferralCodes> {
                           splashColor: Color.fromRGBO(255, 194, 51, 0.3),
                           highlightColor: Color.fromRGBO(255, 194, 51, 0.25),
                           child: Container(
-                            width: 160,
+                            width: 140,
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border.all(
                                   color: Hexcolor('#FFC233'),
-                                  width: 0.5,
+                                  // width: 0.5,
                                 )),
                             height: 50,
                             alignment: Alignment.center,
@@ -301,7 +300,7 @@ class _ReferralCodesState extends State<ReferralCodes> {
                           splashColor: Color.fromRGBO(255, 194, 51, 0.3),
                           highlightColor: Color.fromRGBO(255, 194, 51, 0.25),
                           child: Container(
-                            width: 160,
+                            width: 140,
                             decoration: BoxDecoration(
                                 color: Color.fromRGBO(255, 194, 51, 0.4),
                                 border: Border.all(

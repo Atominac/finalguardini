@@ -93,7 +93,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       //encode url
       Uri.encodeFull(url),
       headers: {"accept": "application/json"},
-      body: {"masterhash": user.getString("masterhash"),"amount":widget.order["totalprice"]},
+      body: {"masterhash": user.getString("masterhash"),"amount":widget.order["totalprice"],"orderid":widget.order["orderid"]},
     );
 
     //print("login response"+response.body);
@@ -104,13 +104,59 @@ class _PaymentScreenState extends State<PaymentScreen> {
       Navigator.pop(context);
       Navigator.pop(context);
 
-    } else {
+    }else if (jsondecoded['message'] == "invalid_order") {
+      showsnack("Something went wrong with payment");
+      Navigator.pop(context);
+      Navigator.pop(context);
+
+    } else if (jsondecoded['message'] == "actual_order_amt_0") {
+      showsnack("Invalid order amount");
+      Navigator.pop(context);
+      Navigator.pop(context);
+
+    } else if (jsondecoded['message'] == "payment_not_correct") {
+      showsnack("Invalid amount");
+      Navigator.pop(context);
+      Navigator.pop(context);
+
+    } else if (jsondecoded['message'] == "insufficient_fund") {
+      showsnack("Insufficient balance");
+      Navigator.pop(context);
+      Navigator.pop(context);
+
+    }else {
       Navigator.pop(context);
       showsnack("Some error has ouccered");
     }
   }
 
-  payviacash() {}
+  payviacash() async{
+
+_showdialogue();
+    final user = await SharedPreferences.getInstance();
+
+    final String url =
+        "http://34.93.1.41/guardini/public/authenticate.php/user/paycash";
+    var response = await http.post(
+      //encode url
+      Uri.encodeFull(url),
+      headers: {"accept": "application/json"},
+      body: {"masterhash": user.getString("masterhash"),"orderid":widget.order["orderid"]},
+    );
+
+    //print("login response"+response.body);
+    var jsondecoded = json.decode(response.body);
+    print(jsondecoded);
+    if (jsondecoded['message'] == "success") {
+      showsnack("Payment successfull");
+      Navigator.pop(context);
+      Navigator.pop(context);
+
+    }else {
+      Navigator.pop(context);
+      showsnack("Some error has ouccered");
+    }
+  }
 
   var paytype = 0;
   setSelectedRadioTile(int val) {
@@ -338,7 +384,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           value: 1,
                           groupValue: selectedRadioTile,
                           title: Text(
-                            "Wallet",
+                            "Wallet / PPD Adjustment",
                             style: TextStyle(fontSize: 14),
                           ),
                           onChanged: (val) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -9,10 +10,11 @@ class Promos extends StatefulWidget {
   var totalamount;
   Promos(this.totalamount);
   @override
-  _PromosState createState() => _PromosState();
+  _PromosState createState() => _PromosState(); 
 }
 
 class _PromosState extends State<Promos> {
+  final TextEditingController t1 = new TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -71,8 +73,7 @@ class _PromosState extends State<Promos> {
     }
   }
 
-
-void _showdialogue() {
+  void _showdialogue() {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -82,6 +83,7 @@ void _showdialogue() {
           );
         });
   }
+
   showsnack(String message) {
     //////print(message);
     final snackBar = SnackBar(content: Text(message));
@@ -95,169 +97,199 @@ void _showdialogue() {
     var size = MediaQuery.of(context).size;
     var width = size.width;
     return Scaffold(
+      backgroundColor: Hexcolor('#EFE9E0'),
       key: _scafoldkey,
       appBar: AppBar(
-        title: Text("Select promo"),
-        backgroundColor:Color.fromRGBO(38, 179, 163, 1),
+        title: Text("Apply Promo Code"),
+        backgroundColor: Hexcolor('#219251'),
       ),
       body: Container(
-        margin: EdgeInsets.all(10),
         child: promos == null
             ? Container(
                 child: Center(
                   child: CircularProgressIndicator(),
                 ),
               )
-            : ListView.builder(
-                itemCount: promos.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () async{
-                      var res =await checkeligible(promos[index]["id"]);
-                      if (res == 1) {
-                        if (widget.totalamount >
-                            int.parse(promos[index]["minlimit"])) {
-                          var send = {
-                            "value": promos[index]["value"],
-                            "type": promos[index]["offertype"],
-                            "code": promos[index]["code"],
-                            "max": promos[index]["maxlimit"],
-                            "promoid": promos[index]["id"]
-                          };
-                          Navigator.pop(context, send);
-                        } else {
-                          showsnack(
-                              "only applicable on bill amount greater than Rs ${promos[index]["minlimit"]}");
-                        }
-                      } else {
-                        showsnack("You have already used this promo");
-                      }
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Container(
+                  //   color: Colors.white,
+                  //   padding: EdgeInsets.all(16),
+                  //   margin: EdgeInsets.only(top: 8, bottom: 8),
+                  //   child: new Theme(
+                  //     data: new ThemeData(
+                  //       primaryColor: Colors.redAccent,
+                  //       primaryColorDark: Colors.red,
+                  //     ),
+                  //     child: TextField(
+                  //       style: TextStyle(fontSize: 14),
+                  //       controller: t1,
+                  //       decoration: InputDecoration(
+                  //           contentPadding: const EdgeInsets.symmetric(
+                  //               vertical: 2, horizontal: 10),
+                  //           fillColor: Colors.white,
+                  //           border: OutlineInputBorder(
+                  //             borderSide: BorderSide(color: Colors.red[100]),
+                  //           ),
+                  //           focusedBorder: OutlineInputBorder(
+                  //             borderSide: BorderSide(
+                  //               color: Hexcolor('#00B6BC'),
+                  //             ),
+                  //           ),
+                  //           hintText: 'Enter Promo Code',
+                  //           hintStyle: TextStyle(
+                  //             fontSize: 14,
+                  //           ),
+                  //           // suffixIcon: GestureDetector(
+                  //           //   child: Text('APPLY'),
+                  //           // ),
+                  //           suffix: GestureDetector(
+                  //             child: Text('APPLY'),
+                  //           ),
+                  //           suffixIconConstraints: BoxConstraints()),
+                  //       keyboardType: TextInputType.text,
 
-                      // print(send);
-                    },
-                    child: Container(
-                      child: Card(shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        color: Color.fromRGBO(253, 186, 37, 1),
-                        child: Card(
-                          margin: EdgeInsetsDirectional.only(bottom: 5),
+                  //       // textInputAction: TextInputAction.search,
+                  //     ),
+                  //   ),
+                  // ),
+                  Container(
+                    color: Colors.white,
+                    width: size.width,
+                    padding: EdgeInsets.only(left: 16, top: 16),
+                    child: Text(
+                      'Available promo codes',
+                      style: TextStyle(
+                        color: Hexcolor('#595959'),
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: promos.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () async {
+                            var res = await checkeligible(promos[index]["id"]);
+                            if (res == 1) {
+                              if (widget.totalamount >
+                                  int.parse(promos[index]["minlimit"])) {
+                                var send = {
+                                  "value": promos[index]["value"],
+                                  "type": promos[index]["offertype"],
+                                  "code": promos[index]["code"],
+                                  "max": promos[index]["maxlimit"],
+                                  "promoid": promos[index]["id"]
+                                };
+                                Navigator.pop(context, send);
+                              } else {
+                                showsnack(
+                                    "only applicable on bill amount greater than Rs ${promos[index]["minlimit"]}");
+                              }
+                            } else {
+                              showsnack("You have already used this promo");
+                            }
+
+                            // print(send);
+                          },
                           child: Container(
-                              margin: EdgeInsets.all(10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Image.asset(
-                                        "assets/sale.png",
-                                        height: 50,
-                                        width: 50,
+                            padding: index == promos.length - 1
+                                ? EdgeInsets.only(
+                                    left: 16, right: 16, bottom: 16)
+                                : EdgeInsets.only(left: 16, right: 16),
+                            color: Colors.white,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 24),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 5),
+                                        decoration: BoxDecoration(
+                                          color: Hexcolor('#FFC233')
+                                              .withOpacity(0.2),
+                                          border: Border.all(
+                                            color: Hexcolor('#FFC233')
+                                                .withOpacity(0.7),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          promos[index]["name"],
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                              color: Hexcolor('#404040')),
+                                        ),
                                       ),
-                                      Column(
-                                        children: <Widget>[
-                                          Container(
-                                              margin: EdgeInsets.fromLTRB(
-                                                  10, 10, 10, 0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Container(
-                                                    margin: EdgeInsets.all(5),
-                                                    child: Text(
-                                                      promos[index]["name"],
-                                                      style: TextStyle(
-                                                          fontSize: (5/100)*width,
-                                                          color: Colors.black87,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.all(5),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.start,
-                                                      children: <Widget>[
-                                                        Icon(
-                                                          LineAwesomeIcons.star_o,
-                                                          size: (4/100)*width,
-                                                          color: Color.fromRGBO(
-                                                              28, 147, 85, 1),
-                                                        ),
-                                                        Text(
-                                                          "  " +
-                                                              promos[index]
-                                                                  ["code"],
-                                                          style: TextStyle(
-                                                              fontSize: (4/100)*width,
-                                                              color:
-                                                                  Colors.black54,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    margin: EdgeInsets.all(3),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.start,
-                                                      children: <Widget>[
-                                                        Icon(
-                                                          Icons.watch_later,
-                                                          size: (4/100)*width,
-                                                          color: Color.fromRGBO(
-                                                              28, 147, 85, 1),
-                                                        ),
-                                                        Text(
-                                                          promos[index][
-                                                                      "offertype"] ==
-                                                                  "0"
-                                                              ? "  " +
-                                                                  promos[index]
-                                                                      ["value"] +
-                                                                  "% off" +
-                                                                  " Max " +
-                                                                  "Rs " +
-                                                                  promos[index]
-                                                                      ["maxlimit"]
-                                                              : "  Rs " +
-                                                                  promos[index]
-                                                                      ["value"] +
-                                                                  " off" +
-                                                                  " Max " +
-                                                                  "Rs " +
-                                                                  promos[index][
-                                                                      "maxlimit"],
-                                                          style: TextStyle(
-                                                              fontSize: (4/100)*width,
-                                                              color:
-                                                                  Colors.black87,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
-                                              )),
-                                        ],
+                                      Text(
+                                        'APPLY',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Hexcolor('#00B6BC')),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 16),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        child: Text(
+                                          promos[index]["offertype"] == "0"
+                                              ? promos[index]["value"] +
+                                                  "% off" +
+                                                  " Max " +
+                                                  "Rs " +
+                                                  promos[index]["maxlimit"]
+                                              : "Rs " +
+                                                  promos[index]["value"] +
+                                                  " off" +
+                                                  " Max " +
+                                                  "Rs " +
+                                                  promos[index]["maxlimit"],
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Hexcolor('#252525'),
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Text(
+                                          promos[index]["code"],
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Hexcolor('#595959'),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  Icon(Icons.arrow_forward_ios),
-                                ],
-                              )),
-                        ),
-                      ),
+                                ),
+                                index == promos.length - 1
+                                    ? Container()
+                                    : Divider(),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                }),
+                  ),
+                ],
+              ),
       ),
     );
   }

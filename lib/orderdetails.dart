@@ -30,6 +30,8 @@ class _OrderDetailsState extends State<OrderDetails> {
   ];
   var selected = "Please select";
   var contact;
+  var outletname;
+
   final TextEditingController t1 = new TextEditingController(text: "");
 
   fetchorders() async {
@@ -64,6 +66,7 @@ class _OrderDetailsState extends State<OrderDetails> {
 
       print("het" + x.toString());
       contact = jsondecoded["outletcontact"];
+      outletname=jsondecoded["outletname"];
     } else if (jsondecoded['message'] == "no_orders_found") {
       showsnack("No orders available");
     } else {
@@ -196,7 +199,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           margin: EdgeInsets.only(top: 3),
                           width: MediaQuery.of(context).size.width * .6,
                           child: Text(
-                            'Regular Wash (2), Premium Wash (3)',
+                             items[i]["servicename"],
                             // 'Regular Wash (${calculateRegular(items[i])}), Premium Wash (${calculatePremium(items[i])})',
                             style: TextStyle(
                               fontSize: 12,
@@ -556,7 +559,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                           Padding(padding: EdgeInsets.only(top: 3)),
                           Text(
-                            'Guardini, Tempo House, Gurgoan',
+                            outletname,
                             style: TextStyle(
                               fontSize: 14,
                               color: Hexcolor('#404040'),
@@ -833,7 +836,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   ),
                                 ),
                               ),
-                              orders["paymentstatus"] == "0"
+                              orders["paymentstatus"] == "0" &&  orders["paymentmode"] == null
                                   ? Container(
                                       child: Text(
                                         'Pending',
@@ -857,7 +860,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         ],
                       ),
                       int.parse(orders["orderstatus"]) > 1 &&
-                              orders["paymentstatus"] == "0"
+                              orders["paymentstatus"] == "0" &&   orders["paymentmode"] == null
                           ? Row(
                               children: [
                                 Container(

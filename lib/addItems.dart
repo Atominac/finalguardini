@@ -455,7 +455,7 @@ class _AddItemsState extends State<AddItems> {
                           child: Icon(
                             LineAwesomeIcons.minus,
                             color: Colors.grey,
-                            size: (4 / 100) * MediaQuery.of(context).size.width,
+                            size: (5 / 100) * MediaQuery.of(context).size.width,
                           ),
                         ),
                       ),
@@ -494,7 +494,7 @@ class _AddItemsState extends State<AddItems> {
                           child: Icon(
                             Icons.add,
                             color: Hexcolor('#737373'),
-                            size: (4 / 100) * MediaQuery.of(context).size.width,
+                            size: (5 / 100) * MediaQuery.of(context).size.width,
                           ),
                         ),
                       ),
@@ -706,7 +706,7 @@ class _AddItemsState extends State<AddItems> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: 300,
+          height: 230,
           padding: EdgeInsets.all(16),
           color: Colors.white,
           child: Column(
@@ -714,7 +714,7 @@ class _AddItemsState extends State<AddItems> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Regular Wash',
+                'Regular Care',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -724,7 +724,7 @@ class _AddItemsState extends State<AddItems> {
                 margin: EdgeInsets.only(top: 6),
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: Text(
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the ypesetting industry. Lorem Ipsum has been the',
+                  'Our intelligent Dry Cleaning process using Bio-degradable Multi Solvent with Softners is smell free, give fresh look to your valuable Items.',
                   style: TextStyle(
                     fontSize: 12,
                     height: 1.5,
@@ -733,7 +733,7 @@ class _AddItemsState extends State<AddItems> {
               ),
               Padding(padding: EdgeInsets.only(top: 30)),
               Text(
-                'Premium Wash',
+                'Premium Care',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -743,7 +743,7 @@ class _AddItemsState extends State<AddItems> {
                 margin: EdgeInsets.only(top: 6),
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: Text(
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the ypesetting industry. Lorem Ipsum has been the',
+                  'Introducing PREMIUM service to ensure top quality using specialised cleaning treatments & customised premium packing for your precious branded garments / Items.',
                   style: TextStyle(
                     fontSize: 12,
                     height: 1.5,
@@ -925,14 +925,17 @@ class _AddItemsState extends State<AddItems> {
                                           ),
                                         ),
                                         Container(
-                                          height: size.height * 0.63,
+                                          height: size.height * 0.64,
+                                          padding: EdgeInsets.only(bottom:32),
+                                          margin: EdgeInsets.only(bottom:10),
+
                                           child: GridView.builder(
                                             gridDelegate:
                                                 SliverGridDelegateWithFixedCrossAxisCount(
                                                     crossAxisCount: 2,
                                                     childAspectRatio: 0.57,
-                                                    crossAxisSpacing: 16,
-                                                    mainAxisSpacing: 16),
+                                                    crossAxisSpacing: 5,
+                                                    mainAxisSpacing: 5),
                                             itemCount: selecteditems.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
@@ -958,8 +961,9 @@ class _AddItemsState extends State<AddItems> {
                                                     Container(
                                                       color:
                                                           Hexcolor('#EFE9E0'),
-                                                      width: size.width * 0.4,
-                                                      height: size.height * .22,
+                                                          width:
+                                                                  size.width *
+                                                                      0.4,
                                                       margin: EdgeInsets.all(8),
                                                       child: Column(
                                                         children: [
@@ -967,10 +971,14 @@ class _AddItemsState extends State<AddItems> {
                                                             padding:
                                                                 const EdgeInsets
                                                                     .all(8.0),
-                                                            child: Image
-                                                                .network(items[
-                                                                        index][
-                                                                    "imageurl"]),
+                                                            child:
+                                                                Image.network(
+                                                              items[index]
+                                                                  ["imageurl"],
+                                                              
+                                                              height:80
+                                                                 ,
+                                                            ),
                                                           ),
                                                           Padding(
                                                             padding:
@@ -1098,7 +1106,7 @@ class _AddItemsState extends State<AddItems> {
                                                             Hexcolor('FFEDC2'),
                                                         padding: EdgeInsets
                                                             .symmetric(
-                                                                vertical: 13),
+                                                                vertical: 16),
                                                         onPressed: () {
                                                           tempitems = 0;
                                                           selectedservices = List<
@@ -1273,17 +1281,17 @@ class _AddItemsState extends State<AddItems> {
                 Positioned(
                   bottom: 0,
                   child: GestureDetector(
-                     onTap: () {
-                    print(selecteditems);
-                    // return;
-                    georderdetails();
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) =>
-                    //           CartScreen(orderdetails)),
-                  },
-                                      child: Container(
+                    onTap: () {
+                      print(selecteditems);
+                      // return;
+                      georderdetails();
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) =>
+                      //           CartScreen(orderdetails)),
+                    },
+                    child: Container(
                         height: 55,
                         padding: EdgeInsets.only(
                           left: 16,

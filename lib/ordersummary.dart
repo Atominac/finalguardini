@@ -811,7 +811,7 @@ var deliverytime;
             setState(() {});
           },
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.12,
+            width: MediaQuery.of(context).size.width * 0.115,
             height: 57,
             // alignment: Alignment.center,
             decoration: BoxDecoration(
