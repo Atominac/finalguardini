@@ -19,6 +19,8 @@ import 'package:package_info/package_info.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class AddItemsScreen extends StatefulWidget {
+  var tab;
+  AddItemsScreen(this.tab);
   @override
   _AddItemsScreenState createState() => _AddItemsScreenState();
 }
@@ -100,7 +102,7 @@ class _AddItemsScreenState extends State<AddItemsScreen>
         key: _scafoldkey,
         body: TabBarView(
           children: <Widget>[
-            AddItems(),
+            AddItems(0),
             Orders(),
             Profile(),
           ],

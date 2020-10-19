@@ -6,6 +6,7 @@ import 'package:pin_entry_text_field/pin_entry_text_field.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:hexcolor/hexcolor.dart';
 
 class Otp extends StatefulWidget {
   var mobile, fullname, email,gst;
@@ -135,122 +136,156 @@ class _OtpState extends State<Otp> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scafoldkey,
-      appBar: AppBar(
-        title: Text("OTP Verification"),
-        backgroundColor: Color.fromRGBO(38, 179, 163, 1),
-      ),
-      backgroundColor: Color.fromRGBO(240, 248, 255, 1),
-      body: ListView(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: Column(
-              children: <Widget>[
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Please enter a Verification code",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    )),
-                Card( margin: EdgeInsets.only(top: 20),
-                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  color: Color.fromRGBO(253, 186, 37, 1),
-                                  child: Card(
-                                    margin:
-                                        EdgeInsetsDirectional.only(bottom: 5),
-                    elevation: 2,
-                   
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(top: 20),
-                            child: PinEntryTextField(
-                              fields: 6,
-                              fontSize: 15.0,
-                              fieldWidth:30.0,
-                              onSubmit: (String otp) {
-                                mainotp=otp;
-                                verifyotp(otp); //end showDialog()
-                              }, // end onSubmit
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 60),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  "Didn't recieve?  ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.grey),
-                                ),
-                                GestureDetector(
-                                  onTap: disp == "00" ? () {
-                                    resendotp();
-                                  } : () {},
-                                  child: Text(
-                                    disp == "00"
-                                        ? "Resend"
-                                        : "Resend in 00:" + disp,
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(38, 179, 163, 1),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          ListView(
+            children: <Widget>[
+              Stack(
+                children: [
+                  Container(
+                    margin: EdgeInsets.fromLTRB(
+                      16,
+                      size.height * 0.3,
+                      16,
+                      0,
                     ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: MaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(5.0),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.all(10.0),
-                        child: Align(
-                          alignment: Alignment.center,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        //"Enter OTP sent to your registered mobile number"
+                        Container(
+                          width: size.width * 0.6,
+                          child: Text(
+                            "Enter OTP sent to your registered mobile number",
+                            style: TextStyle(
+                                fontSize: 16, color: Hexcolor('#404040')),
+                          ),
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: PinEntryTextField(
+                            showFieldAsBox: true,
+                            fields: 6,
+                            fontSize: 18.0,
+                            fieldWidth: size.width * 0.125,
+                            onSubmit: (String otp) {
+                              mainotp = otp;
+                              verifyotp(otp); //end showDialog()
+                            }, // end onSubmit
+                          ),
+                        ),
+                        //"Didn't recieve? "
+                        Container(
+                          margin: EdgeInsets.only(top: 60),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                "Verify",
+                                "Didn't recieve? ",
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 17.5),
+                                  color: Hexcolor('#404040'),
+                                ),
                               ),
+                              GestureDetector(
+                                onTap: disp == "00"
+                                    ? () {
+                                        resendotp();
+                                      }
+                                    : () {},
+                                child: Text(
+                                  disp == "00"
+                                      ? "Resend"
+                                      : "Resend in 00:" + disp,
+                                  style: TextStyle(
+                                    color: Hexcolor('#219251'),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         ),
+                        //Verify OTP Button
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: 20, bottom: 10),
+                          child: InkWell(
+                            onTap: () {
+                              verifyotp(mainotp);
+                            },
+                            // enableFeedback: true,
+                            splashColor: Color.fromRGBO(255, 194, 51, 0.3),
+                            highlightColor: Color.fromRGBO(255, 194, 51, 0.25),
+                            child: Container(
+                              width: size.width,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(255, 194, 51, 0.4),
+                                  border: Border.all(
+                                    color: Hexcolor('#FFC233'),
+                                    width: 0.5,
+                                  )),
+                              height: 50,
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Verify OTP',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Hexcolor('#404040'),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Container(
+                      height: size.height * 0.25,
+                      width: size.width,
+                      child: Image.asset(
+                        'assets/signup_bg.png',
+                        fit: BoxFit.cover,
                       ),
-                      color: Color.fromRGBO(38, 179, 163, 1),
-                      textTheme: ButtonTextTheme.normal,
-                      height: 50.0,
-                      minWidth: 600,
-                      onPressed: () {
-                        verifyotp(mainotp);
-                      }),
-                ),
-              ],
-            ),
+                    ),
+                  ),
+                  //"SIGNUP" heading
+                  Positioned(
+                    top: size.height * 0.196,
+                    left: 37.5,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3)),
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 10),
+                      child: Text(
+                        'VERIFICATION',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Hexcolor('#404040'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
+          Container(
+            color: Hexcolor('#145730'),
+            height: 24,
+          )
         ],
       ),
     );
-  }
-}
+  }}

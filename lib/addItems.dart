@@ -14,15 +14,17 @@ import 'dart:math';
 import 'cartScreen.dart';
 
 class AddItems extends StatefulWidget {
+  var tab;
+  AddItems(this.tab);
   // String locality, workinhours, workingdays, outlet, distance, img;
   // AddItems(this.distance, this.locality, this.workinhours, this.workingdays,
   //     this.outlet, this.img);
-  AddItems();
+  // AddItems();
   @override
   _AddItemsState createState() => _AddItemsState();
 }
 
-class _AddItemsState extends State<AddItems> {
+class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
   var items;
 // Map selecteditems = new Map<int, String>();
   var selecteditems;
@@ -34,12 +36,819 @@ class _AddItemsState extends State<AddItems> {
   var pkgoption = 1;
   var tempitems = 0;
   final TextEditingController t1 = new TextEditingController(text: "");
-
+  TabController tabController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchitems();
+
+    start();
+  }
+
+  start() async {
+    await fetchcategories();
+    await fetchitems();
+    tabController = TabController(
+      vsync: this,
+      length: categories.length+1,
+      initialIndex: widget.tab+1,
+    );
+  }
+
+  var categories;
+  fetchcategories() async {
+    final String url =
+        "http://34.93.1.41/guardini/public/listing.php/orders/itemcategory";
+    var response = await http.get(
+      //encode url
+      Uri.encodeFull(url),
+      headers: {"accept": "application/json"},
+    );
+    ////print("login response"+response.body);
+    var jsondecoded = json.decode(response.body);
+    print(jsondecoded);
+
+    if (jsondecoded['message'] == "success") {
+      setState(() {
+        categories = jsondecoded["data"];
+      });
+    } else {
+      setState(() {});
+      showsnack("No categories found");
+    }
+  }
+
+  gettabs() {
+    print("categories start hui");
+    print(categories);
+
+    List<Widget> children = new List<Widget>();
+    children.add(Tab(
+      text: 'All',
+    ));
+    for (var index = 0; index < categories.length; index++) {
+      children.add(Tab(
+        text: categories[index]["name"],
+      ));
+    }
+    return children;
+  }
+
+  getitemtabs(size) {
+    print("categories start hui");
+    print(categories);
+
+    List<Widget> children = new List<Widget>();
+    List<Widget> majorchildren = new List<Widget>();
+
+    // children.add(Tab(
+    //   text: 'All',
+    // ));
+
+    for (var index = 0; index < selecteditems.length; index++) {
+      children.add(Container(
+        margin: EdgeInsets.symmetric(horizontal: 5),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(1, 25, 79, 0.2),
+              blurRadius: 4,
+              spreadRadius: 1,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              color: Hexcolor('#EFE9E0'),
+              width: size.width * 0.4,
+              margin: EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.network(
+                      items[index]["imageurl"],
+                      height: 80,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text(
+                      items[index]["name"],
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+                margin: EdgeInsets.only(top: 5, left: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    items[index]["regularprice"] == "0"
+                        ? Container()
+                        : Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "₹ " + items[index]["regularprice"] + " pp",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Hexcolor('#737373'),
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Container(
+                                  child: Text(
+                                    "Regular Care ",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Hexcolor(
+                                        '#737373',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                    items[index]["delicateprice"] == '0'
+                        ? Container()
+                        : Container(
+                            margin: EdgeInsets.only(top: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "₹ " + items[index]["delicateprice"] + " pp",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Hexcolor('#737373'),
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Container(
+                                  child: Text(
+                                    "Premium Care ",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Hexcolor(
+                                        '#737373',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                    Container(
+                      margin: EdgeInsets.all(3),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[],
+                      ),
+                    )
+                  ],
+                )),
+            Container(
+              width: size.width * 0.4,
+              decoration: BoxDecoration(
+                  border: Border.all(color: Hexcolor('#FFC233'), width: 1)),
+              child: RaisedButton(
+                color: Hexcolor('FFEDC2'),
+                padding: EdgeInsets.symmetric(vertical: 16),
+                onPressed: () {
+                  tempitems = 0;
+                  selectedservices =
+                      List<int>.generate(selecteditems.length + 1, (i) => 0);
+
+                  print(selecteditems[index].containsKey('paymenttype'));
+                  print(selectedservices);
+                  // return;
+                  if (selecteditems[index].containsKey('paymenttype')) {
+                    for (var x = 0;
+                        x < selecteditems[index]["paymenttype"].length;
+                        x++) {
+                      selectedservices[selecteditems[index]["paymenttype"]
+                          [x]]++;
+                      tempitems += 1;
+                    }
+                  }
+                  print(tempitems);
+                  print(selectedservices);
+                  // return;
+                  priceoption(
+                      selecteditems[index]["name"],
+                      selecteditems[index]["regularprice"],
+                      selecteditems[index]["delicateprice"],
+                      index,
+                      "p");
+                },
+                elevation: 0,
+                child: Text(
+                  selecteditems[index]["count"] == null ||
+                          selecteditems[index]["count"] == "0"
+                      ? 'Add to basket'
+                      : 'Edit',
+                ),
+              ),
+            ),
+          ],
+        ),
+      ));
+    }
+
+    majorchildren.add(
+      Stack(
+        children: [
+          Container(
+            child: Column(
+              children: <Widget>[
+                //Search bar
+//                   SizedBox(
+//                     height: 40,
+//                     child: Row(
+//                       children: [
+//                         Container(
+//                           width: (80 / 100) * size.width,
+//                           child: TextFormField(
+//                             decoration: new InputDecoration(
+//                               hintText: "Search",
+//                               border: new OutlineInputBorder(
+//                                 borderRadius: const BorderRadius.all(
+//                                   const Radius.circular(5.0),
+//                                 ),
+//                               ),
+//                             ),
+//                             keyboardType: TextInputType.text,
+//                             controller: t1,
+//                             onChanged: (value) {
+// // _onChangeHandler(value);
+//                               setState(() {});
+//                             },
+//                           ),
+//                         ),
+//                         Container(
+//                           margin: EdgeInsets.only(left: 5),
+//                           child: SizedBox(
+//                             width: (12 / 100) * size.width,
+//                             child: RaisedButton(
+//                                 onPressed: () {
+//                                   // if(t1.text==""){
+//                                   //   showsnack("enter a keyword");
+//                                   // }else{
+
+//                                   search();
+//                                   // }
+//                                 },
+//                                 color: Color.fromRGBO(38, 179, 163, 1),
+//                                 padding: EdgeInsets.all(2.0),
+//                                 child: Icon(
+//                                   Icons.search,
+//                                   color: Colors.white,
+//                                 )),
+//                           ),
+//                         )
+//                       ],
+//                     ),
+//                   ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 60),
+                    child: flag == 0
+                        ? ListView(
+                            children: [
+                              Column(
+                                children: [
+                                  Container(
+                                      margin: EdgeInsets.only(top: 10),
+                                      child: Image.asset("assets/noitems.png"))
+                                ],
+                              )
+                            ],
+                          )
+                        : items == null
+                            ? Container(
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              )
+                            : ListView(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      showModal();
+                                    },
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                      margin: EdgeInsets.only(
+                                          top: 10,
+                                          bottom: 10,
+                                          left: 5,
+                                          right: 5),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            Color.fromRGBO(171, 237, 230, 0.4),
+                                        border: Border.all(
+                                          color:
+                                              Color.fromRGBO(0, 182, 188, 0.4),
+                                        ),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "What is premium and regular wash?",
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: Hexcolor('#00B6BC'),
+                                            height: 1.5),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: size.height * 0.64,
+                                    padding: EdgeInsets.only(bottom: 32),
+                                    margin: EdgeInsets.only(bottom: 10),
+                                    child: GridView.count(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 0.55,
+                                      children: children,
+                                      mainAxisSpacing: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            child: GestureDetector(
+              onTap: () {
+                print(selecteditems);
+                georderdetails();
+              },
+              child: Container(
+                  height: 55,
+                  padding: EdgeInsets.only(
+                    left: 16,
+                    top: 7,
+                    right: 16,
+                    bottom: 7,
+                  ),
+                  width: size.width,
+                  color: Hexcolor('#FFC233'),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "₹ " + "${totalprice}",
+                                // "₹ " + totalprice.toString(),
+                                style: TextStyle(
+                                  color: Hexcolor('#252525'),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                ' (Estimated)',
+                                style: TextStyle(
+                                  color: Hexcolor('#404040'),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            ],
+                          ),
+                          Text(
+                            totalitems.toString() + " pieces",
+                            style: TextStyle(
+                              color: Hexcolor('#404040'),
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "View Basket",
+                            // "₹ " + totalprice.toString(),
+                            style: TextStyle(
+                              color: Hexcolor('#252525'),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Padding(padding: EdgeInsets.only(left: 8)),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 14,
+                            color: Hexcolor('#252525'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    for (var i = 0; i < categories.length; i++) {
+      children = [];
+      for (var index = 0; index < selecteditems.length; index++) {
+        if (categories[i]["id"] == selecteditems[index]["categoryid"]) {
+          children.add(Container(
+            margin: EdgeInsets.symmetric(horizontal: 5),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(1, 25, 79, 0.2),
+                  blurRadius: 4,
+                  spreadRadius: 1,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  color: Hexcolor('#EFE9E0'),
+                  width: size.width * 0.4,
+                  margin: EdgeInsets.all(8),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.network(
+                          items[index]["imageurl"],
+                          height: 80,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(
+                          items[index]["name"],
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                    margin: EdgeInsets.only(top: 5, left: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        items[index]["regularprice"] == "0"
+                            ? Container()
+                            : Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "₹ " +
+                                          items[index]["regularprice"] +
+                                          " pp",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Hexcolor('#737373'),
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        "Regular Care ",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Hexcolor(
+                                            '#737373',
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                        items[index]["delicateprice"] == '0'
+                            ? Container()
+                            : Container(
+                                margin: EdgeInsets.only(top: 16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "₹ " +
+                                          items[index]["delicateprice"] +
+                                          " pp",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Hexcolor('#737373'),
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        "Premium Care ",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Hexcolor(
+                                            '#737373',
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                        Container(
+                          margin: EdgeInsets.all(3),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[],
+                          ),
+                        )
+                      ],
+                    )),
+                Container(
+                  width: size.width * 0.4,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Hexcolor('#FFC233'), width: 1)),
+                  child: RaisedButton(
+                    color: Hexcolor('FFEDC2'),
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    onPressed: () {
+                      tempitems = 0;
+                      selectedservices = List<int>.generate(
+                          selecteditems.length + 1, (i) => 0);
+
+                      print(selecteditems[index].containsKey('paymenttype'));
+                      print(selectedservices);
+                      // return;
+                      if (selecteditems[index].containsKey('paymenttype')) {
+                        for (var x = 0;
+                            x < selecteditems[index]["paymenttype"].length;
+                            x++) {
+                          selectedservices[selecteditems[index]["paymenttype"]
+                              [x]]++;
+                          tempitems += 1;
+                        }
+                      }
+                      print(tempitems);
+                      print(selectedservices);
+                      // return;
+                      priceoption(
+                          selecteditems[index]["name"],
+                          selecteditems[index]["regularprice"],
+                          selecteditems[index]["delicateprice"],
+                          index,
+                          "p");
+                    },
+                    elevation: 0,
+                    child: Text(
+                      selecteditems[index]["count"] == null ||
+                              selecteditems[index]["count"] == "0"
+                          ? 'Add to basket'
+                          : 'Edit',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ));
+        }
+      }
+
+      majorchildren.add(
+        Stack(
+          children: [
+            Container(
+              child: Column(
+                children: <Widget>[
+                  //Search bar
+//                   SizedBox(
+//                     height: 40,
+//                     child: Row(
+//                       children: [
+//                         Container(
+//                           width: (80 / 100) * size.width,
+//                           child: TextFormField(
+//                             decoration: new InputDecoration(
+//                               hintText: "Search",
+//                               border: new OutlineInputBorder(
+//                                 borderRadius: const BorderRadius.all(
+//                                   const Radius.circular(5.0),
+//                                 ),
+//                               ),
+//                             ),
+//                             keyboardType: TextInputType.text,
+//                             controller: t1,
+//                             onChanged: (value) {
+// // _onChangeHandler(value);
+//                               setState(() {});
+//                             },
+//                           ),
+//                         ),
+//                         Container(
+//                           margin: EdgeInsets.only(left: 5),
+//                           child: SizedBox(
+//                             width: (12 / 100) * size.width,
+//                             child: RaisedButton(
+//                                 onPressed: () {
+//                                   // if(t1.text==""){
+//                                   //   showsnack("enter a keyword");
+//                                   // }else{
+
+//                                   search();
+//                                   // }
+//                                 },
+//                                 color: Color.fromRGBO(38, 179, 163, 1),
+//                                 padding: EdgeInsets.all(2.0),
+//                                 child: Icon(
+//                                   Icons.search,
+//                                   color: Colors.white,
+//                                 )),
+//                           ),
+//                         )
+//                       ],
+//                     ),
+//                   ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 60),
+                      child: flag == 0
+                          ? ListView(
+                              children: [
+                                Column(
+                                  children: [
+                                    Container(
+                                        margin: EdgeInsets.only(top: 10),
+                                        child:
+                                            Image.asset("assets/noitems.png"))
+                                  ],
+                                )
+                              ],
+                            )
+                          : items == null
+                              ? Container(
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                )
+                              : ListView(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        showModal();
+                                      },
+                                      child: Container(
+                                        padding:
+                                            EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                        margin: EdgeInsets.only(
+                                            top: 10,
+                                            bottom: 10,
+                                            left: 5,
+                                            right: 5),
+                                        decoration: BoxDecoration(
+                                          color: Color.fromRGBO(
+                                              171, 237, 230, 0.4),
+                                          border: Border.all(
+                                            color: Color.fromRGBO(
+                                                0, 182, 188, 0.4),
+                                          ),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "What is premium and regular wash?",
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: Hexcolor('#00B6BC'),
+                                              height: 1.5),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: size.height * 0.64,
+                                      padding: EdgeInsets.only(bottom: 32),
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      child: GridView.count(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 0.55,
+                                        children: children,
+                                        mainAxisSpacing: 10,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              child: GestureDetector(
+                onTap: () {
+                  print(selecteditems);
+                  georderdetails();
+                },
+                child: Container(
+                    height: 55,
+                    padding: EdgeInsets.only(
+                      left: 16,
+                      top: 7,
+                      right: 16,
+                      bottom: 7,
+                    ),
+                    width: size.width,
+                    color: Hexcolor('#FFC233'),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "₹ " + "${totalprice}",
+                                  // "₹ " + totalprice.toString(),
+                                  style: TextStyle(
+                                    color: Hexcolor('#252525'),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  ' (Estimated)',
+                                  style: TextStyle(
+                                    color: Hexcolor('#404040'),
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              ],
+                            ),
+                            Text(
+                              totalitems.toString() + " pieces",
+                              style: TextStyle(
+                                color: Hexcolor('#404040'),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "View Basket",
+                              // "₹ " + totalprice.toString(),
+                              style: TextStyle(
+                                color: Hexcolor('#252525'),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 8)),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 14,
+                              color: Hexcolor('#252525'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return TabBarView(
+      controller: tabController,
+      children: majorchildren,
+    );
   }
 
   int _radioValue = 0;
@@ -691,16 +1500,6 @@ class _AddItemsState extends State<AddItems> {
         });
   }
 
-  // checkItemsEmpty() {
-  //   int cnt = 1;
-  //   for (int i = 0; i < selectedindex.length; i++) {
-  //     if (!(selecteditems[selectedindex][i]["count"]) == 0) {
-  //       cnt = 0;
-  //     }
-  //   }
-  //   setState(() {});
-  //   return cnt;
-  // }
   showModal() {
     return showModalBottomSheet(
       context: context,
@@ -757,14 +1556,6 @@ class _AddItemsState extends State<AddItems> {
     );
   }
 
-  // List<String> gridImages = [
-  //   'assets/capri.png',
-  //   'assets/shorts.png',
-  //   'assets/outfits.png',
-  //   'assets/shirt.png',
-  //   'assets/trousers.png',
-  //   'assets/upholestry.png',
-  // ];
   @override
   Widget build(BuildContext context) {
     Random r = new Random();
@@ -773,647 +1564,29 @@ class _AddItemsState extends State<AddItems> {
     var width = size.width;
 
     return DefaultTabController(
-      length: 6,
+      length: categories == null ? 1 : categories.length + 1,
       child: Scaffold(
         key: _scafoldkey,
         appBar: AppBar(
           title: Text("Select items for drycleaning"),
           backgroundColor: Hexcolor('#219251'),
           bottom: TabBar(
+            controller: tabController,
             indicatorSize: TabBarIndicatorSize.tab,
             indicatorColor: Hexcolor('#FFC233'),
             indicatorWeight: 4,
             isScrollable: true,
-            tabs: [
-              Tab(
-                text: 'All',
-              ),
-              Tab(
-                text: 'Bottoms',
-              ),
-              Tab(
-                text: 'Tops',
-              ),
-              Tab(
-                text: 'Upholstery',
-              ),
-              Tab(
-                text: 'Woolens',
-              ),
-              Tab(
-                text: 'Accessories',
-              ),
-            ],
+            tabs: categories == null
+                ? [
+                    Tab(
+                      text: "All",
+                    )
+                  ]
+                : gettabs(),
           ),
         ),
-        // floatingActionButton: FloatingActionButton.extended(
-        //   onPressed: () {
-        //     georderdetails();
-        //   },
-        //   icon: Icon(Icons.arrow_forward),
-        //   label: Text("next"),
-        //   backgroundColor: Color.fromRGBO(38, 179, 163, 1),
-        // ),
         backgroundColor: Colors.white,
-        body: TabBarView(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      //Search bar
-//                   SizedBox(
-//                     height: 40,
-//                     child: Row(
-//                       children: [
-//                         Container(
-//                           width: (80 / 100) * size.width,
-//                           child: TextFormField(
-//                             decoration: new InputDecoration(
-//                               hintText: "Search",
-//                               border: new OutlineInputBorder(
-//                                 borderRadius: const BorderRadius.all(
-//                                   const Radius.circular(5.0),
-//                                 ),
-//                               ),
-//                             ),
-//                             keyboardType: TextInputType.text,
-//                             controller: t1,
-//                             onChanged: (value) {
-// // _onChangeHandler(value);
-//                               setState(() {});
-//                             },
-//                           ),
-//                         ),
-//                         Container(
-//                           margin: EdgeInsets.only(left: 5),
-//                           child: SizedBox(
-//                             width: (12 / 100) * size.width,
-//                             child: RaisedButton(
-//                                 onPressed: () {
-//                                   // if(t1.text==""){
-//                                   //   showsnack("enter a keyword");
-//                                   // }else{
-
-//                                   search();
-//                                   // }
-//                                 },
-//                                 color: Color.fromRGBO(38, 179, 163, 1),
-//                                 padding: EdgeInsets.all(2.0),
-//                                 child: Icon(
-//                                   Icons.search,
-//                                   color: Colors.white,
-//                                 )),
-//                           ),
-//                         )
-//                       ],
-//                     ),
-//                   ),
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(10, 10, 10, 60),
-                          child: flag == 0
-                              ? ListView(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Container(
-                                            margin: EdgeInsets.only(top: 10),
-                                            child: Image.asset(
-                                                "assets/noitems.png"))
-                                      ],
-                                    )
-                                  ],
-                                )
-                              : items == null
-                                  ? Container(
-                                      child: Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    )
-                                  : ListView(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            showModal();
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                0, 12, 0, 12),
-                                            margin: EdgeInsets.only(
-                                                top: 10,
-                                                bottom: 10,
-                                                left: 5,
-                                                right: 5),
-                                            decoration: BoxDecoration(
-                                              color: Color.fromRGBO(
-                                                  171, 237, 230, 0.4),
-                                              border: Border.all(
-                                                color: Color.fromRGBO(
-                                                    0, 182, 188, 0.4),
-                                              ),
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "What is premium and regular wash?",
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Hexcolor('#00B6BC'),
-                                                  height: 1.5),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          height: size.height * 0.64,
-                                          padding: EdgeInsets.only(bottom:32),
-                                          margin: EdgeInsets.only(bottom:10),
-
-                                          child: GridView.builder(
-                                            gridDelegate:
-                                                SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 2,
-                                                    childAspectRatio: 0.57,
-                                                    crossAxisSpacing: 5,
-                                                    mainAxisSpacing: 5),
-                                            itemCount: selecteditems.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 5),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Color.fromRGBO(
-                                                          1, 25, 79, 0.2),
-                                                      blurRadius: 4,
-                                                      spreadRadius: 1,
-                                                      offset: Offset(0, 3),
-                                                    ),
-                                                  ],
-                                                ),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Container(
-                                                      color:
-                                                          Hexcolor('#EFE9E0'),
-                                                          width:
-                                                                  size.width *
-                                                                      0.4,
-                                                      margin: EdgeInsets.all(8),
-                                                      child: Column(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child:
-                                                                Image.network(
-                                                              items[index]
-                                                                  ["imageurl"],
-                                                              
-                                                              height:80
-                                                                 ,
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        8.0),
-                                                            child: Text(
-                                                              items[index]
-                                                                  ["name"],
-                                                              style: TextStyle(
-                                                                fontSize: 16,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                        margin: EdgeInsets.only(
-                                                            top: 5, left: 8),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: <Widget>[
-                                                            items[index][
-                                                                        "regularprice"] ==
-                                                                    "0"
-                                                                ? Container()
-                                                                : Container(
-                                                                    child:
-                                                                        Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Text(
-                                                                          "₹ " +
-                                                                              items[index]["regularprice"] +
-                                                                              " pp",
-                                                                          style: TextStyle(
-                                                                              fontSize: 14,
-                                                                              color: Hexcolor('#737373'),
-                                                                              fontWeight: FontWeight.w600),
-                                                                        ),
-                                                                        Container(
-                                                                          child:
-                                                                              Text(
-                                                                            "Regular Care ",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              fontSize: 12,
-                                                                              color: Hexcolor(
-                                                                                '#737373',
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                            items[index][
-                                                                        "delicateprice"] ==
-                                                                    '0'
-                                                                ? Container()
-                                                                : Container(
-                                                                    margin: EdgeInsets
-                                                                        .only(
-                                                                            top:
-                                                                                16),
-                                                                    child:
-                                                                        Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Text(
-                                                                          "₹ " +
-                                                                              items[index]["delicateprice"] +
-                                                                              " pp",
-                                                                          style: TextStyle(
-                                                                              fontSize: 14,
-                                                                              color: Hexcolor('#737373'),
-                                                                              fontWeight: FontWeight.w600),
-                                                                        ),
-                                                                        Container(
-                                                                          child:
-                                                                              Text(
-                                                                            "Premium Care ",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              fontSize: 12,
-                                                                              color: Hexcolor(
-                                                                                '#737373',
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                            Container(
-                                                              margin: EdgeInsets
-                                                                  .all(3),
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
-                                                                children: <
-                                                                    Widget>[],
-                                                              ),
-                                                            )
-                                                          ],
-                                                        )),
-                                                    Container(
-                                                      width: size.width * 0.4,
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              color: Hexcolor(
-                                                                  '#FFC233'),
-                                                              width: 1)),
-                                                      child: RaisedButton(
-                                                        color:
-                                                            Hexcolor('FFEDC2'),
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 16),
-                                                        onPressed: () {
-                                                          tempitems = 0;
-                                                          selectedservices = List<
-                                                                  int>.generate(
-                                                              selecteditems
-                                                                      .length +
-                                                                  1,
-                                                              (i) => 0);
-
-                                                          print(selecteditems[
-                                                                  index]
-                                                              .containsKey(
-                                                                  'paymenttype'));
-                                                          print(
-                                                              selectedservices);
-                                                          // return;
-                                                          if (selecteditems[
-                                                                  index]
-                                                              .containsKey(
-                                                                  'paymenttype')) {
-                                                            for (var x = 0;
-                                                                x <
-                                                                    selecteditems[index]
-                                                                            [
-                                                                            "paymenttype"]
-                                                                        .length;
-                                                                x++) {
-                                                              selectedservices[
-                                                                  selecteditems[
-                                                                          index]
-                                                                      [
-                                                                      "paymenttype"][x]]++;
-                                                              tempitems += 1;
-                                                            }
-                                                          }
-                                                          print(tempitems);
-                                                          print(
-                                                              selectedservices);
-                                                          // return;
-                                                          priceoption(
-                                                              selecteditems[
-                                                                      index]
-                                                                  ["name"],
-                                                              selecteditems[
-                                                                      index][
-                                                                  "regularprice"],
-                                                              selecteditems[
-                                                                      index][
-                                                                  "delicateprice"],
-                                                              index,
-                                                              "p");
-                                                        },
-                                                        elevation: 0,
-                                                        child: Text(
-                                                          selecteditems[index][
-                                                                          "count"] ==
-                                                                      null ||
-                                                                  selecteditems[
-                                                                              index]
-                                                                          [
-                                                                          "count"] ==
-                                                                      "0"
-                                                              ? 'Add to basket'
-                                                              : 'Edit',
-                                                        ),
-                                                      ),
-                                                    ),
-
-                                                    // Row(
-                                                    //   mainAxisAlignment:
-                                                    //       MainAxisAlignment.spaceAround,
-                                                    //   crossAxisAlignment:
-                                                    //       CrossAxisAlignment.center,
-                                                    //   children: <Widget>[
-                                                    //     Container(
-                                                    //       width: (6 / 100) * width,
-                                                    //       height: (6 / 100) * width,
-                                                    //       child: RaisedButton(
-                                                    //         onPressed: () {
-                                                    //           itemcount(index, "m", 0);
-                                                    //         },
-                                                    //         color: Colors.white,
-                                                    //         padding:
-                                                    //             EdgeInsets.all(2.0),
-                                                    //         child: Icon(
-                                                    //           LineAwesomeIcons.minus,
-                                                    //           color: Colors.grey,
-                                                    //           size: (4 / 100) * width,
-                                                    //         ),
-                                                    //       ),
-                                                    //     ),
-                                                    //     // Padding(
-                                                    //     //     padding: EdgeInsets.all(3)),
-                                                    //     Container(
-                                                    //       width: (6 / 100) * width,
-                                                    //       height: (6 / 100) * width,
-                                                    //       decoration: BoxDecoration(
-                                                    //         border: Border.all(
-                                                    //             color: Colors.grey),
-                                                    //         borderRadius:
-                                                    //             new BorderRadius.circular(5),
-                                                    //       ),
-                                                    //       child: Align(
-                                                    //           alignment:
-                                                    //               Alignment.center,
-                                                    //           child: selecteditems[
-                                                    //                       index]
-                                                    //                   .containsKey(
-                                                    //                       'count')
-                                                    //               ? Text(
-                                                    //                   selecteditems[
-                                                    //                               index]
-                                                    //                           ["count"]
-                                                    //                       .toString(),
-                                                    //                   style: TextStyle(
-                                                    //                       fontSize: (4 /
-                                                    //                               100) *
-                                                    //                           width),
-                                                    //                 )
-                                                    //               : Text(
-                                                    //                   "0",
-                                                    //                   style: TextStyle(
-                                                    //                       fontSize: (4 /
-                                                    //                               100) *
-                                                    //                           width),
-                                                    //                 )),
-                                                    //     ),
-                                                    //     Padding(
-                                                    //         padding: EdgeInsets.all(3)),
-                                                    //     Container(
-                                                    //       width: (6 / 100) * width,
-                                                    //       height: (6 / 100) * width,
-                                                    //       child: RaisedButton(
-                                                    //         onPressed: () {
-                                                    //           // itemcount(index, "p");
-                                                    //           priceoption(
-                                                    //               selecteditems[index]
-                                                    //                   ["regularprice"],
-                                                    //               selecteditems[index]
-                                                    //                   ["delicateprice"],
-                                                    //               index,
-                                                    //               "p");
-                                                    //         },
-                                                    //         color: Colors.white,
-                                                    //         padding:
-                                                    //             EdgeInsets.all(2.0),
-                                                    //         child: Icon(
-                                                    //           Icons.add,
-                                                    //           color: Colors.grey,
-                                                    //           size: (4 / 100) * width,
-                                                    //         ),
-                                                    //       ),
-                                                    //     ),
-                                                    //   ],
-                                                    // ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                //Item pricing
-                // checkItemsEmpty() == 0 ?
-                // Container()
-                Positioned(
-                  bottom: 0,
-                  child: GestureDetector(
-                    onTap: () {
-                      print(selecteditems);
-                      // return;
-                      georderdetails();
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) =>
-                      //           CartScreen(orderdetails)),
-                    },
-                    child: Container(
-                        height: 55,
-                        padding: EdgeInsets.only(
-                          left: 16,
-                          top: 7,
-                          right: 16,
-                          bottom: 7,
-                        ),
-                        width: size.width,
-                        color: Hexcolor('#FFC233'),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "₹ " + "${totalprice}",
-                                      // "₹ " + totalprice.toString(),
-                                      style: TextStyle(
-                                        color: Hexcolor('#252525'),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Text(
-                                      ' (Estimated)',
-                                      style: TextStyle(
-                                        color: Hexcolor('#404040'),
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Text(
-                                  totalitems.toString() + " pieces",
-                                  style: TextStyle(
-                                    color: Hexcolor('#404040'),
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "View Basket",
-                                  // "₹ " + totalprice.toString(),
-                                  style: TextStyle(
-                                    color: Hexcolor('#252525'),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                Padding(padding: EdgeInsets.only(left: 8)),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 14,
-                                  color: Hexcolor('#252525'),
-                                ),
-                              ],
-                            ),
-                          ],
-                        )
-                        // ),
-                        // child: Container(
-                        //   margin: EdgeInsets.all(10),
-                        //   child: Column(
-                        //     children: <Widget>[
-                        //       GestureDetector(
-                        //         onTap: () {
-                        //           georderdetails();
-                        //         },
-                        //         child: Container(
-                        //           child: Row(
-                        //             mainAxisAlignment:
-                        //                 MainAxisAlignment.spaceBetween,
-                        //             children: <Widget>[
-                        //               Row(
-                        //                 children: <Widget>[
-                        //                   Icon(
-                        //                     LineAwesomeIcons.shopping_cart,
-                        //                     size: 27,
-                        //                   ),
-                        //                   Text(
-                        //                     totalitems.toString() + " item(s)",
-                        //                     style: TextStyle(
-                        //                         fontSize: 17,
-                        //                         color: Colors.black87,
-                        //                         fontWeight: FontWeight.bold),
-                        //                   ),
-                        //                 ],
-                        //               ),
-                        //               Text(
-                        //                 "₹ " + totalprice.toString(),
-                        //                 style: TextStyle(
-                        //                     fontSize: 17,
-                        //                     color: Colors.black87,
-                        //                     fontWeight: FontWeight.bold),
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         ),
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
-                        ),
-                  ),
-                ),
-              ],
-            ),
-            Container(),
-            Container(),
-            Container(),
-            Container(),
-            Container(),
-          ],
-        ),
+        body: selecteditems == null ? Stack() : getitemtabs(size),
       ),
     );
   }

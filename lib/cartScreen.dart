@@ -43,7 +43,7 @@ class _CartState extends State<Cart> {
   var specialservicename;
   var specialserviceprice;
   var specialserviceselected = "Select Addon service";
-  var safekeep30;
+  var safekeep90;
   var safekeep60;
   var ppddiscount;
   var planstatus;
@@ -74,7 +74,9 @@ class _CartState extends State<Cart> {
     var totalammount = orderdetails["price"];
     deliveryprice = 0;
     print("fir bad em yeh");
+    if (planstatus == 1) {
    await applyppddiscount(totalammount);
+    }
     if (planstatus == 1) {
       orderdetails["ppdstatus"] = 1;
       var disc = (ppddiscount / 100) * totalammount;
@@ -95,7 +97,7 @@ class _CartState extends State<Cart> {
     orderdetails["safekeeping"] = 0;
     setState(() {});
     // print(_result);
-    safekeep30 = ((20 / 100) * orderdetails["price"]).toInt();
+    safekeep90 = (3*(20 / 100) * orderdetails["price"]).toInt();
     safekeep60 = (2 * (20 / 100) * orderdetails["price"]).toInt();
   }
 
@@ -131,9 +133,9 @@ class _CartState extends State<Cart> {
     }
     print("plan api");
   }
-
+var applied=0;
   applyppddiscount(totalammount) {
-    var applied=0;
+    
     var caplimit=0;
     for (var item in allplans) {
       // print("hey1");
@@ -179,7 +181,9 @@ class _CartState extends State<Cart> {
           print("totalamt"+totalamount.toString());
           var tax = 0.0;
           // totalamount =
+          if(applied==1){
          await applyppddiscount(totalamount);
+          }
           if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
             discounttemp=disc.toString();
@@ -209,10 +213,11 @@ class _CartState extends State<Cart> {
           // totalamount = orderdetails["price"];
           deliveryprice = totalamount;
           totalamount += deliveryprice;
+          if(applied==1){
          await applyppddiscount(totalamount);
-
+          }
           print(totalamount);
-          if (planstatus == 1) {
+          if(planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
             discounttemp=disc.toString();
             totalamount = totalamount - disc.round();
@@ -233,8 +238,9 @@ class _CartState extends State<Cart> {
           var totalamount = 0;
           var tax = 0.0;
           totalamount = orderdetails["price"];
-          await applyppddiscount(totalamount);
-
+          if(applied==1){
+         await applyppddiscount(totalamount);
+          }
           if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
             discounttemp=disc.toString();
@@ -259,8 +265,9 @@ class _CartState extends State<Cart> {
           deliveryprice = safekeep60;
           var totalamount = orderdetails["price"] + deliveryprice;
           var tax = 0.0;
+          if(applied==1){
          await applyppddiscount(totalamount);
-
+          }
           if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
             discounttemp=disc.toString();
@@ -280,11 +287,12 @@ class _CartState extends State<Cart> {
         print(4);
 
           _result = 5;
-          deliveryprice = safekeep30;
+          deliveryprice = safekeep90;
           var totalamount = orderdetails["price"] + deliveryprice;
           var tax = 0.0;
+          if(applied==1){
          await applyppddiscount(totalamount);
-
+          }
           if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
             discounttemp=disc.toString();
@@ -307,8 +315,9 @@ class _CartState extends State<Cart> {
           // totalamount = orderdetails["price"];
           deliveryprice = ((50 / 100) * totalamount).round();
           totalamount += deliveryprice;
+          if(applied==1){
          await applyppddiscount(totalamount);
-
+          }
           if (planstatus == 1) {
             var disc = (ppddiscount / 100) * totalamount;
             discounttemp=disc.toString();
@@ -562,7 +571,7 @@ class _CartState extends State<Cart> {
 
 
 eachtotal(sel){
-
+  var ftotal=0;
     print(sel);
     // return;
     var amt = 0;
@@ -578,12 +587,14 @@ eachtotal(sel){
       if (count > 0) {
         // str += sel["services"][i]["name"] + "(" + count.toString() + ")";
         amt=count*int.parse(sel["services"][i]["price"].toString());
+        count = 0;
+        ftotal+=amt;
       }
-      count = 0;
+      
     }
 
     // }
-    return amt;
+    return ftotal;
 }
   showdiaplay(sel) {
     print("sel");
@@ -995,7 +1006,7 @@ eachtotal(sel){
                                                 ),
                                               ),
                                               Text(
-                                                '(for 30 days)',
+                                                '(for 90 days)',
                                                 style: TextStyle(fontSize: 12),
                                               ),
                                             ],
@@ -1003,7 +1014,7 @@ eachtotal(sel){
                                         ],
                                       ),
                                       Text(
-                                        '₹ ${safekeep30}',
+                                        '₹ ${safekeep90}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500),
                                       ),

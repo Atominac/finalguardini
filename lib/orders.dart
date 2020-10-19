@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guardini/addItems.dart';
 import 'package:guardini/orderdetails.dart';
 import 'package:guardini/outlets.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -20,8 +21,39 @@ class _OrdersState extends State<Orders> {
   @override
   void initState() {
     super.initState();
-    fetchorders();
+  start();
   }
+
+start () async{
+  await fetchoutlets();
+    fetchorders();
+  
+}
+
+var outlets;
+fetchoutlets() async {
+    final String url =
+        "http://34.93.1.41/guardini/public/listing.php/outlets/list";
+    var response = await http.get(
+      //encode url
+      Uri.encodeFull(url),
+      headers: {"accept": "application/json"},
+    );
+    //print("login response"+response.body);
+    var jsondecoded = json.decode(response.body);
+    print(jsondecoded);
+
+    if (jsondecoded['message'] == "success") {
+      setState(() {
+        outlets = jsondecoded["data"];
+      });
+      print(outlets.length);
+    } else {
+      showsnack("Some error has ouccered");
+    }
+  }
+
+
 
   fetchorders() async {
     final user = await SharedPreferences.getInstance();
@@ -38,8 +70,18 @@ class _OrdersState extends State<Orders> {
     print(jsondecoded);
 
     if (jsondecoded['message'] == "success") {
-      setState(() {
         orders = jsondecoded["data"];
+
+        for (var i = 0; i < orders.length; i++) {
+
+                  for (var j = 0; j < outlets.length; j++) {
+                    if(orders[i]["outletid"]==outlets[j]["id"]){
+                      orders[i]["outletname"]=outlets[j]["name"];
+                    }
+                  }
+
+        }
+      setState(() {
       });
     } else if (jsondecoded['message'] == "no_orders_found") {
       showsnack("No orders available");
@@ -125,14 +167,14 @@ class _OrdersState extends State<Orders> {
                                         Text(
                                           "Place Order",
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: Colors.black,
                                               fontSize: 17.5),
                                         ),
                                       ],
                                     ),
                                   ),
                                 ),
-                                color: Color.fromRGBO(38, 179, 163, 1),
+                                color: Hexcolor("#FFC233"),
                                 textTheme: ButtonTextTheme.normal,
                                 height: 50.0,
                                 minWidth: 600,
@@ -140,7 +182,7 @@ class _OrdersState extends State<Orders> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Outlets()),
+                                        builder: (context) => AddItems(0)),
                                   );
                                 },
                               ),
@@ -201,7 +243,8 @@ class _OrdersState extends State<Orders> {
                                                   ),
                                                   Padding(padding: EdgeInsets.only(top: 3)),
                                                   Text(
-                                                    'Guardini, Tempo House, Gurgoan',
+                                                    orders[index]
+                                                                ["outletname"],
                                                     style: TextStyle(
                                                       fontSize: 12,
                                                       color:

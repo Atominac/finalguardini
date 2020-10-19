@@ -701,12 +701,14 @@ class _OrderSummaryState extends State<OrderSummary> {
                   children: <Widget>[
                     TextField(
                         controller: t1,
+                        maxLines: 5,
                         inputFormatters: [
                           new WhitelistingTextInputFormatter(
                               RegExp("[a-zA-Z0-9 ]")),
                         ],
                         decoration: new InputDecoration(
                           hintText: "Write remarks, if any",
+                          
                         )),
                     // TextField(
                     //     controller: t2,

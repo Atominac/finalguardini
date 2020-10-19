@@ -44,6 +44,7 @@ class _HomeState extends State<Home> {
     fetchpromos();
     fetchbanner();
     getdetails();
+    fetchcategories();
     getlocation();
   }
 
@@ -345,22 +346,49 @@ class _HomeState extends State<Home> {
     _scafoldkey.currentState.showSnackBar(snackBar);
   }
 
-  List<String> gridImages = [
-    'assets/accessories.png',
-    'assets/lehenga.png',
-    'assets/outfits.png',
-    'assets/shirt.png',
-    'assets/trousers.png',
-    'assets/upholestry.png',
-  ];
-  List<String> itemName = [
-    'Accessories',
-    'Lehenga',
-    'Outfits',
-    'Shirt',
-    'Trousers',
-    'Upholestry',
-  ];
+  // List<String> gridImages = [
+  //   'assets/accessories.png',
+  //   'assets/lehenga.png',
+  //   'assets/outfits.png',
+  //   'assets/shirt.png',
+  //   'assets/trousers.png',
+  //   'assets/upholestry.png',
+  // ];
+  // List<String> itemName = [
+  //   'Accessories',
+  //   'Lehenga',
+  //   'Outfits',
+  //   'Shirt',
+  //   'Trousers',
+  //   'Upholestry',
+  // ];
+
+
+var categories;
+  fetchcategories() async {
+    final String url =
+        "http://34.93.1.41/guardini/public/listing.php/orders/itemcategory";
+    var response = await http.get(
+      //encode url
+      Uri.encodeFull(url),
+      headers: {"accept": "application/json"},
+    );
+    ////print("login response"+response.body);
+    var jsondecoded = json.decode(response.body);
+    print(jsondecoded);
+
+    if (jsondecoded['message'] == "success") {
+      setState(() {
+        categories = jsondecoded["data"];
+      });
+    } else {
+      setState(() {});
+      showsnack("No categories found");
+    }
+  }
+
+
+
 
   final GlobalKey<ScaffoldState> _scafoldkey = GlobalKey<ScaffoldState>();
 
@@ -483,7 +511,7 @@ class _HomeState extends State<Home> {
                               ),
                               GestureDetector(
                                 child: Text(
-                                  'Change Outlet',
+                                  'Change Store',
                                   style: TextStyle(
                                     fontSize: 13,
                                     color: Hexcolor('#ABEDE6'),
@@ -564,7 +592,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ),
-                    Expanded(
+                    categories==null?Center(child: CircularProgressIndicator()): Expanded(
                       child: GridView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -573,7 +601,7 @@ class _HomeState extends State<Home> {
                           mainAxisSpacing: 15,
                           childAspectRatio: 0.65,
                         ),
-                        itemCount: gridImages.length,
+                        itemCount: categories.length,
                         itemBuilder: (BuildContext context, int index) =>
                             Column(
                           children: [
@@ -586,8 +614,8 @@ class _HomeState extends State<Home> {
                                   padding: EdgeInsets.all(10),
                                   // height: 10,
                                   // width: 10,
-                                  child: Image.asset(
-                                    gridImages[index],
+                                  child: Image.network(
+                                    categories[index]["imgurl"],
                                     fit: BoxFit.contain,
                                   ),
                                 ),
@@ -596,7 +624,7 @@ class _HomeState extends State<Home> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => AddItems(),
+                                    builder: (context) => AddItems(index),
                                   ),
                                 );
                               },
@@ -605,7 +633,7 @@ class _HomeState extends State<Home> {
                               padding: EdgeInsets.only(top: 3),
                               alignment: Alignment.center,
                               child: Text(
-                                itemName[index],
+                                categories[index]["name"],
                                 style: TextStyle(
                                   fontSize: 12,
                                 ),
