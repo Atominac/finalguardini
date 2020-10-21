@@ -24,7 +24,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     var ending = "?" +
         "masterhash=${user.getString("masterhash")}&order_id=${widget.order["orderid"]}";
     var full =
-        "http://guardini.conexo.in/gatewaytest/NON_SEAMLESS_KIT/dataFrom.php" +
+        "http://guardini.conexo.in/gateway/NON_SEAMLESS_KIT/dataFrom.php" +
             ending;
     print(full);
     Navigator.push(

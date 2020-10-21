@@ -50,8 +50,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
     await fetchitems();
     tabController = TabController(
       vsync: this,
-      length: categories.length+1,
-      initialIndex: widget.tab+1,
+      length: categories.length + 1,
+      initialIndex: widget.tab + 1,
     );
   }
 
@@ -148,75 +148,6 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
               ),
             ),
             Container(
-                margin: EdgeInsets.only(top: 5, left: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    items[index]["regularprice"] == "0"
-                        ? Container()
-                        : Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "₹ " + items[index]["regularprice"] + " pp",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Hexcolor('#737373'),
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Container(
-                                  child: Text(
-                                    "Regular Care ",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Hexcolor(
-                                        '#737373',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                    items[index]["delicateprice"] == '0'
-                        ? Container()
-                        : Container(
-                            margin: EdgeInsets.only(top: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "₹ " + items[index]["delicateprice"] + " pp",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Hexcolor('#737373'),
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Container(
-                                  child: Text(
-                                    "Premium Care ",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Hexcolor(
-                                        '#737373',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                    Container(
-                      margin: EdgeInsets.all(3),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[],
-                      ),
-                    )
-                  ],
-                )),
-            Container(
               width: size.width * 0.4,
               decoration: BoxDecoration(
                   border: Border.all(color: Hexcolor('#FFC233'), width: 1)),
@@ -226,7 +157,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                 onPressed: () {
                   tempitems = 0;
                   selectedservices =
-                      List<int>.generate(selecteditems.length + 1, (i) => 0);
+                      List<int>.generate(selecteditems[index]["services"].length, (i) => 0);
 
                   print(selecteditems[index].containsKey('paymenttype'));
                   print(selectedservices);
@@ -377,7 +308,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                                     margin: EdgeInsets.only(bottom: 10),
                                     child: GridView.count(
                                       crossAxisCount: 2,
-                                      childAspectRatio: 0.55,
+                                      childAspectRatio: 0.90,
                                       children: children,
                                       mainAxisSpacing: 10,
                                     ),
@@ -516,79 +447,6 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.only(top: 5, left: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        items[index]["regularprice"] == "0"
-                            ? Container()
-                            : Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "₹ " +
-                                          items[index]["regularprice"] +
-                                          " pp",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Hexcolor('#737373'),
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        "Regular Care ",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Hexcolor(
-                                            '#737373',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                        items[index]["delicateprice"] == '0'
-                            ? Container()
-                            : Container(
-                                margin: EdgeInsets.only(top: 16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "₹ " +
-                                          items[index]["delicateprice"] +
-                                          " pp",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Hexcolor('#737373'),
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        "Premium Care ",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Hexcolor(
-                                            '#737373',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                        Container(
-                          margin: EdgeInsets.all(3),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[],
-                          ),
-                        )
-                      ],
-                    )),
-                Container(
                   width: size.width * 0.4,
                   decoration: BoxDecoration(
                       border: Border.all(color: Hexcolor('#FFC233'), width: 1)),
@@ -597,8 +455,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                     padding: EdgeInsets.symmetric(vertical: 16),
                     onPressed: () {
                       tempitems = 0;
-                      selectedservices = List<int>.generate(
-                          selecteditems.length + 1, (i) => 0);
+                       selectedservices= List<int>.generate(selecteditems[index]["services"].length, (i) => 0);
+
 
                       print(selecteditems[index].containsKey('paymenttype'));
                       print(selectedservices);
@@ -751,7 +609,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                                       margin: EdgeInsets.only(bottom: 10),
                                       child: GridView.count(
                                         crossAxisCount: 2,
-                                        childAspectRatio: 0.55,
+                                        childAspectRatio: 0.90,
                                         children: children,
                                         mainAxisSpacing: 10,
                                       ),
@@ -962,13 +820,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
       itemdialogue = selectedservices[x];
       itemcount(index, "p", x);
     }
-    // if (category[0] == 0 && category[1] == 0 && category[2] == 0) {
-    //   selectedindex.removeWhere((item) => item == index);
-    // }
-    // for (var x = 0; x < category.length; x++) {
-    //   category[x] = 0;
-    // }
-    //yha
+   
     tempitems = 0;
   }
 
@@ -977,17 +829,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
     // return;
     var price;
     selecteditems[index]["packgingtype"] = pkgoption;
-    // if (pricetype == 0) {
-    //   price = int.parse(selecteditems[index]["regularprice"]);
-    // } else if (pricetype == 1) {
-    //   price = int.parse(selecteditems[index]["delicateprice"]);
-    // } else if (pricetype == 2) {
-    //   price = int.parse(selecteditems[index]["premiumpressing"]);
-    // }
-
-    // for (var x = 0; x < selectedservices[index]["services"].length; x++) {
-    //       if(selectedservices)
-    // }
+   
     print("hey yo bitch");
     // print(selecteditems[index]["services"][pricetype]["price"]);
     price = selecteditems[index]["services"][pricetype]["price"];
