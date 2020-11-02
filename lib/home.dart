@@ -664,12 +664,9 @@ var categories;
                             color: Colors.white,
                             margin: EdgeInsets.only(top: 10, bottom: 0),
                             padding: EdgeInsets.fromLTRB(16, 24, 16, 0),
-                            child: ListView(
-                              physics: NeverScrollableScrollPhysics(),
-                              // crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Column(
                               children: [
-                                //"Other Guardini outlets near you"
-                                Container(
+                                 Container(
                                   width: size.width * 0.75,
                                   child: Text(
                                     'Other Guardini outlets near you',
@@ -690,214 +687,212 @@ var categories;
                                     ),
                                   ),
                                 ),
-                                Expanded(
-                                  child: ListView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: 3,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Container(
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                //Outlet Image
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 16),
-                                                  child: outlets[index]
-                                                              ["imageurl"] ==
-                                                          null
-                                                      ? Image.asset(
-                                                          "assets/logohd.png")
-                                                      : Image.network(
-                                                          outlets[index]
-                                                              ["imageurl"],
-                                                          height: 70,
-                                                          width: 70,
-                                                        ),
-                                                ),
+                                ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: 3,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Container(
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              //Outlet Image
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    right: 16),
+                                                child: outlets[index]
+                                                            ["imageurl"] ==
+                                                        null
+                                                    ? Image.asset(
+                                                        "assets/logohd.png")
+                                                    : Image.network(
+                                                        outlets[index]
+                                                            ["imageurl"],
+                                                        height: 70,
+                                                        width: 70,
+                                                      ),
+                                              ),
 
-                                                Container(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Container(
-                                                        // margin: EdgeInsets.only(
-                                                        //     bottom: 8,),
-                                                        child: Text(
-                                                          outlets[index]["locality"]
-                                                                      .length >
-                                                                  15
-                                                              ? outlets[index][
-                                                                          "locality"]
-                                                                      .substring(
-                                                                          0,
-                                                                          12) +
-                                                                  "..."
-                                                              : outlets[index]
-                                                                  ["locality"],
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
+                                              Container(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .start,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      // margin: EdgeInsets.only(
+                                                      //     bottom: 8,),
+                                                      child: Text(
+                                                        outlets[index]["locality"]
+                                                                    .length >
+                                                                15
+                                                            ? outlets[index][
+                                                                        "locality"]
+                                                                    .substring(
+                                                                        0,
+                                                                        12) +
+                                                                "..."
+                                                            : outlets[index]
+                                                                ["locality"],
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
                                                       ),
-                                                      //Chips
-                                                      Container(
-                                                        margin: EdgeInsets.only(
-                                                            top: 8, bottom: 16),
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          8,
-                                                                      vertical:
-                                                                          3),
-                                                              decoration: BoxDecoration(
-                                                                  color: Hexcolor(
-                                                                      '#219251'),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20)),
-                                                              child: Text(
-                                                                outlets[index][
-                                                                    "workingdays"],
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 12,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left: 8),
-                                                            ),
-                                                            Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          8,
-                                                                      vertical:
-                                                                          3),
-                                                              decoration: BoxDecoration(
-                                                                  color: Hexcolor(
-                                                                      '#219251'),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              20)),
-                                                              child: Text(
-                                                                outlets[index][
-                                                                    "workinghours"],
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 12,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      //Outlet Address
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                    ),
+                                                    //Chips
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          top: 8, bottom: 16),
+                                                      child: Row(
                                                         children: [
-                                                          Icon(
-                                                            Icons.location_on,
-                                                            size: 20,
-                                                            color: Colors.green,
+                                                          Container(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        8,
+                                                                    vertical:
+                                                                        3),
+                                                            decoration: BoxDecoration(
+                                                                color: Hexcolor(
+                                                                    '#219251'),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20)),
+                                                            child: Text(
+                                                              outlets[index][
+                                                                  "workingdays"],
+                                                              style:
+                                                                  TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: EdgeInsets
+                                                                .only(
+                                                                    left: 8),
                                                           ),
                                                           Container(
-                                                            width: size.width *
-                                                                0.4,
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        8,
+                                                                    vertical:
+                                                                        3),
+                                                            decoration: BoxDecoration(
+                                                                color: Hexcolor(
+                                                                    '#219251'),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20)),
                                                             child: Text(
-                                                              'DDA Complex, Rd Number 4, Sector 2, Shanti Niketan, New Delhi, Delhi 110021',
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
+                                                              outlets[index][
+                                                                  "workinghours"],
+                                                              style:
+                                                                  TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
                                                             ),
                                                           ),
                                                         ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                fetchdist != 1
-                                                    ? Container()
-                                                    : Container(
-                                                        margin:
-                                                            EdgeInsets.all(3),
-                                                        child: Row(
-                                                          children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .subdirectory_arrow_right,
-                                                              size: 15,
-                                                              color: Color
-                                                                  .fromRGBO(
-                                                                      28,
-                                                                      147,
-                                                                      85,
-                                                                      1),
-                                                            ),
-                                                            Text(
-                                                              " " +
-                                                                  getdist(outlets[
-                                                                          index]
-                                                                      [
-                                                                      "geolocation"]) +
-                                                                  " Km",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black54,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                          ],
+                                                    ),
+                                                    //Outlet Address
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.location_on,
+                                                          size: 20,
+                                                          color: Colors.green,
                                                         ),
+                                                        Container(
+                                                          width: size.width *
+                                                              0.4,
+                                                          child: Text(
+                                                            'DDA Complex, Rd Number 4, Sector 2, Shanti Niketan, New Delhi, Delhi 110021',
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              fetchdist != 1
+                                                  ? Container()
+                                                  : Container(
+                                                      margin:
+                                                          EdgeInsets.all(3),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .subdirectory_arrow_right,
+                                                            size: 15,
+                                                            color: Color
+                                                                .fromRGBO(
+                                                                    28,
+                                                                    147,
+                                                                    85,
+                                                                    1),
+                                                          ),
+                                                          Text(
+                                                            " " +
+                                                                getdist(outlets[
+                                                                        index]
+                                                                    [
+                                                                    "geolocation"]) +
+                                                                " Km",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
                                                       ),
-                                              ],
-                                            ),
+                                                    ),
+                                            ],
                                           ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 8.0),
-                                            child: Divider(
-                                              thickness: 0.2,
-                                              color: Colors.black,
-                                            ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
+                                          child: Divider(
+                                            thickness: 0.2,
+                                            color: Colors.black,
                                           ),
-                                        ],
-                                      );
-                                    },
-                                  ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 ),
+                         
                               ],
-                            ),
-                          ),
+                            ) ),
               ),
               //View all outlets button
               Container(
@@ -940,7 +935,7 @@ var categories;
                       ),
                     ),
                     Container(
-                      height: 190,
+                      height: 250,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
@@ -962,9 +957,9 @@ var categories;
                                     Container(
                                       margin:
                                           EdgeInsets.fromLTRB(16, 0, 16, 16),
-                                      width: size.shortestSide * 0.5,
+                                      width: size.shortestSide * 0.7,
                                       child: Text(
-                                        'Amazing services. Personalized and good standards for drycleaning. Fully satisfied',
+                                        'The services of Guardini are excellent. Guardini are always delivery person is very very reliable, the cleaning and packaging of clothing excellent and customer service by your good. I would highly recommend Guardini.',
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,
@@ -976,7 +971,7 @@ var categories;
                                           EdgeInsets.fromLTRB(16, 0, 16, 16),
                                       width: size.shortestSide * 0.5,
                                       child: Text(
-                                        '- Mr & Mrs John Doe',
+                                        '- Meenakshi Sharad Beverly Park 1',
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -1004,7 +999,7 @@ var categories;
                                           EdgeInsets.fromLTRB(16, 0, 16, 16),
                                       width: size.shortestSide * 0.5,
                                       child: Text(
-                                        'Amazing services. Personalized and good standards for drycleaning. Fully satisfied',
+                                        'Great customer service. Always around to help. Personalised and good standards of dry cleaning matching the competitive prices offered. Thanks.',
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,
@@ -1016,7 +1011,7 @@ var categories;
                                           EdgeInsets.fromLTRB(16, 0, 16, 16),
                                       width: size.shortestSide * 0.5,
                                       child: Text(
-                                        '- Mr & Mrs John Doe',
+                                        '- Mr. & Mrs. Murli Karthik Cricketer',
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
@@ -1044,7 +1039,7 @@ var categories;
                                           EdgeInsets.fromLTRB(16, 0, 16, 16),
                                       width: size.shortestSide * 0.5,
                                       child: Text(
-                                        'Amazing services. Personalized and good standards for drycleaning. Fully satisfied',
+                                        'Eye for detailing excellent service & extremely clean and good quality of work. Trust Guardini with my expensive garments like a blind eye.',
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,
@@ -1056,7 +1051,7 @@ var categories;
                                           EdgeInsets.fromLTRB(16, 0, 16, 16),
                                       width: size.shortestSide * 0.5,
                                       child: Text(
-                                        '- Mr & Mrs John Doe',
+                                        '- Gayatri Uppal Qutub Apptms',
                                         style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,

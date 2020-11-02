@@ -312,7 +312,13 @@ class _OutletsState extends State<Outlets> {
                                   Icons.arrow_back,
                                   color: Colors.white,
                                 ),
-                                onPressed: () => Navigator.of(context).pop(),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HomeScreen(),
+                                      ));
+                                },
                               ),
                             ),
                             Container(
@@ -427,7 +433,7 @@ class _OutletsState extends State<Outlets> {
                                                   HomeScreen()),
                                         );
                                       },
-                                      child:Column(
+                                      child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         children: [
@@ -466,32 +472,26 @@ class _OutletsState extends State<Outlets> {
                                                           outlets[index]["locality"]
                                                                       .length >
                                                                   20
-                                                              ? outlets[index]
-                                                                          [
+                                                              ? outlets[index][
                                                                           "locality"]
                                                                       .substring(
                                                                           0,
                                                                           17) +
                                                                   "..."
                                                               : outlets[index]
-                                                                  [
-                                                                  "locality"],
+                                                                  ["locality"],
                                                           style: TextStyle(
                                                             fontSize: 14,
-                                                            color:
-                                                                Colors.black,
+                                                            color: Colors.black,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w600,
+                                                                FontWeight.w600,
                                                           ),
                                                         ),
                                                       ),
                                                       //Chips
                                                       Container(
-                                                        margin:
-                                                            EdgeInsets.only(
-                                                                top: 8,
-                                                                bottom: 16),
+                                                        margin: EdgeInsets.only(
+                                                            top: 8, bottom: 16),
                                                         child: Row(
                                                           children: [
                                                             Container(
@@ -505,16 +505,15 @@ class _OutletsState extends State<Outlets> {
                                                                   color: Hexcolor(
                                                                       '#219251'),
                                                                   borderRadius:
-                                                                      BorderRadius.circular(
-                                                                          20)),
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20)),
                                                               child: Text(
-                                                                outlets[index]
-                                                                    [
+                                                                outlets[index][
                                                                     "workingdays"],
                                                                 style:
                                                                     TextStyle(
-                                                                  fontSize:
-                                                                      12,
+                                                                  fontSize: 12,
                                                                   color: Colors
                                                                       .white,
                                                                 ),
@@ -523,8 +522,7 @@ class _OutletsState extends State<Outlets> {
                                                             Padding(
                                                               padding: EdgeInsets
                                                                   .only(
-                                                                      left:
-                                                                          8),
+                                                                      left: 8),
                                                             ),
                                                             Container(
                                                               padding: EdgeInsets
@@ -537,16 +535,15 @@ class _OutletsState extends State<Outlets> {
                                                                   color: Hexcolor(
                                                                       '#219251'),
                                                                   borderRadius:
-                                                                      BorderRadius.circular(
-                                                                          20)),
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20)),
                                                               child: Text(
-                                                                outlets[index]
-                                                                    [
+                                                                outlets[index][
                                                                     "workinghours"],
                                                                 style:
                                                                     TextStyle(
-                                                                  fontSize:
-                                                                      12,
+                                                                  fontSize: 12,
                                                                   color: Colors
                                                                       .white,
                                                                 ),
@@ -564,18 +561,36 @@ class _OutletsState extends State<Outlets> {
                                                           Icon(
                                                             Icons.location_on,
                                                             size: 20,
-                                                            color:
-                                                                Colors.green,
+                                                            color: Colors.green,
                                                           ),
                                                           Container(
-                                                            width:
-                                                                size.width *
-                                                                    0.4,
+                                                            width: size.width *
+                                                                0.4,
                                                             child: Text(
-                                                              outlets[index]["address1"]+", "+outlets[index]["address2"]+", "+outlets[index]["locality"]+", "+outlets[index]["province"]+", "+outlets[index]["country"]+", "+outlets[index]["postcode"],
+                                                              outlets[index][
+                                                                      "address1"] +
+                                                                  ", " +
+                                                                  outlets[index]
+                                                                      [
+                                                                      "address2"] +
+                                                                  ", " +
+                                                                  outlets[index]
+                                                                      [
+                                                                      "locality"] +
+                                                                  ", " +
+                                                                  outlets[index]
+                                                                      [
+                                                                      "province"] +
+                                                                  ", " +
+                                                                  outlets[index]
+                                                                      [
+                                                                      "country"] +
+                                                                  ", " +
+                                                                  outlets[index]
+                                                                      [
+                                                                      "postcode"],
                                                               style: TextStyle(
-                                                                  fontSize:
-                                                                      14,
+                                                                  fontSize: 14,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w400),
@@ -625,8 +640,8 @@ class _OutletsState extends State<Outlets> {
                                             ),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8.0),
+                                            padding:
+                                                const EdgeInsets.only(top: 8.0),
                                             child: Divider(
                                               thickness: 0.2,
                                               color: Colors.black,

@@ -19,7 +19,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
     super.initState();
     final flutterWebviewPlugin = new FlutterWebviewPlugin();
     flutterWebviewPlugin.onUrlChanged.listen((String url) {
-      if (url.contains("success") && url.contains("guardini")) {
+      if (url.contains("success") && url.contains("guardini") || url.contains("fail") && url.contains("guardini")) {
         var timer = new Timer(const Duration(milliseconds: 5000), () {
           flutterWebviewPlugin.close();
           flutterWebviewPlugin.dispose();
