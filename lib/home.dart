@@ -567,7 +567,7 @@ var categories;
                     ),
               //GridView
               Container(
-                height: 365,
+                height:categories==null? 999:(150*double.parse((categories.length/4).ceil().toString()))+100,
                 color: Colors.white,
                 margin: EdgeInsets.only(top: 10),
                 padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
