@@ -577,7 +577,7 @@ var categories;
                     Container(
                       width: size.width * 0.75,
                       child: Text(
-                        'Drycleaning services for a wide range of options!',
+                        'Quality cleaning services for a wide range of options!',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),

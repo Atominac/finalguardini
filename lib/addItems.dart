@@ -127,6 +127,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
               width: size.width * 0.4,
               margin: EdgeInsets.all(8),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -137,10 +138,12 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(
-                      items[index]["name"],
-                      style: TextStyle(
-                        fontSize: 16,
+                    child: Container(height: 65,
+                                          child: Text(
+                        items[index]["name"],
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
@@ -308,7 +311,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                                     margin: EdgeInsets.only(bottom: 10),
                                     child: GridView.count(
                                       crossAxisCount: 2,
-                                      childAspectRatio: 0.90,
+                                      childAspectRatio: 0.78,
                                       children: children,
                                       mainAxisSpacing: 10,
                                     ),
@@ -1355,7 +1358,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Regular Care',
+                'Green Care',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
