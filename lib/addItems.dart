@@ -129,16 +129,16 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.network(
-                      items[index]["imageurl"],
-                      height: 80,
-                    ),
-                  ),
+                 Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.network(
+                          items[index]["imageurl"],
+                          height: 80,
+                        ),
+                      ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Container(height: 65,
+                    child: Container(height: 80,
                                           child: Text(
                         items[index]["name"],
                         style: TextStyle(
@@ -311,7 +311,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                                     margin: EdgeInsets.only(bottom: 10),
                                     child: GridView.count(
                                       crossAxisCount: 2,
-                                      childAspectRatio: 0.78,
+                                      childAspectRatio: 0.64,
                                       children: children,
                                       mainAxisSpacing: 10,
                                     ),
@@ -438,14 +438,16 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(
-                          items[index]["name"],
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Container(height: 80,
+                                          child: Text(
+                        items[index]["name"],
+                        style: TextStyle(
+                          fontSize: 16,
                         ),
                       ),
+                    ),
+                  ),
                     ],
                   ),
                 ),
@@ -612,7 +614,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                                       margin: EdgeInsets.only(bottom: 10),
                                       child: GridView.count(
                                         crossAxisCount: 2,
-                                        childAspectRatio: 0.90,
+                                        childAspectRatio: 0.64,
                                         children: children,
                                         mainAxisSpacing: 10,
                                       ),

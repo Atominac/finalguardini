@@ -567,7 +567,7 @@ var categories;
                     ),
               //GridView
               Container(
-                height:categories==null? 999:(150*double.parse((categories.length/4).ceil().toString()))+100,
+                height:categories==null? 999:(160*double.parse((categories.length/4).ceil().toString()))+100,
                 color: Colors.white,
                 margin: EdgeInsets.only(top: 10),
                 padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
@@ -599,7 +599,7 @@ var categories;
                           crossAxisCount: 4,
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 15,
-                          childAspectRatio: 0.65,
+                          childAspectRatio: 0.60,
                         ),
                         itemCount: categories.length,
                         itemBuilder: (BuildContext context, int index) =>
@@ -607,7 +607,7 @@ var categories;
                           children: [
                             GestureDetector(
                               child: Container(
-                                height: 90,
+                                height: 80,
                                 color: Hexcolor('#EFE9E0'),
                                 child: Container(
                                   // color: Colors.amber,
