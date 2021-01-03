@@ -362,7 +362,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                           borderRadius: BorderRadius.circular(3)),
                       padding: EdgeInsets.only(left: 30, right: 30, top: 10),
                       child: Text(
-                        'RESET PASSWORD',
+                        'CREATE PASSWORD',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,

@@ -334,37 +334,15 @@ class _RegisterState extends State<Register> {
                       ],
                     ),
                   ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    child: Container(
-                      height: size.height * 0.25,
-                      width: size.width,
-                      child: Image.asset(
-                        'assets/signup_bg.png',
-                        fit: BoxFit.cover,
-                      ),
+                  Container(
+                    height: size.height * 0.28,
+                    width: size.width,
+                    child: Image.asset(
+                      'assets/login-sgnup.jpeg',
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  Positioned(
-                    top: size.height * 0.196,
-                    left: 37.5,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(3)),
-                      padding: EdgeInsets.only(left: 30, right: 30, top: 10),
-                      child: Text(
-                        'SIGNUP',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: Hexcolor('#404040'),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+               ],
               ),
             ],
           ),

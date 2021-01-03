@@ -876,132 +876,184 @@ var deliverytime;
     var heading = (2.5 / 100) * height;
     var subheading = (2 / 100) * height;
     var i = 16;
-    return Scaffold(
-      key: _scafoldkey,
-      // floatingActionButton: FloatingActionButton.extended(
-      //   onPressed: () {
-      //     // georderdetails();
-      //     if (address == null) {
-      //       showsnack("Please enter address");
-      //     } else if (date == null || time == null) {
-      //       datetime();
-      //     } else if (orderdetails["deliverytype"] == null) {
-      //       deliveryoption();
-      //     } else {
-      //       remarks();
-      //     }
-      //   },
-      //   label: Text("Next"),
-      //   icon: Icon(Icons.arrow_forward),
-      //   backgroundColor: Color.fromRGBO(38, 179, 163, 1),
-      // ),
-      backgroundColor: Hexcolor('#EFE9E0'),
-      body: Stack(
-        children: [
-          ListView(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 165),
-                padding: EdgeInsets.only(top: 18, left: 16),
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Text(
-                        "Pickup Address and Date",
-                        style: TextStyle(
-                          fontSize: 16,
-                          // color: Colors.black54,
-                          fontWeight: FontWeight.w500,
+    return SafeArea(
+          child: Scaffold(
+        key: _scafoldkey,
+        // floatingActionButton: FloatingActionButton.extended(
+        //   onPressed: () {
+        //     // georderdetails();
+        //     if (address == null) {
+        //       showsnack("Please enter address");
+        //     } else if (date == null || time == null) {
+        //       datetime();
+        //     } else if (orderdetails["deliverytype"] == null) {
+        //       deliveryoption();
+        //     } else {
+        //       remarks();
+        //     }
+        //   },
+        //   label: Text("Next"),
+        //   icon: Icon(Icons.arrow_forward),
+        //   backgroundColor: Color.fromRGBO(38, 179, 163, 1),
+        // ),
+        backgroundColor: Hexcolor('#EFE9E0'),
+        body: Stack(
+          children: [
+            ListView(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 165),
+                  padding: EdgeInsets.only(top: 18, left: 16),
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Text(
+                          "Pickup Address and Date",
+                          style: TextStyle(
+                            fontSize: 16,
+                            // color: Colors.black54,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      width: size.width * 0.8,
-                      child: Text(
-                        'Our correspondent will arrive at this address on the specified date to pickup clothes',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Hexcolor('#737373'),
-                          fontWeight: FontWeight.w500,
+                      Container(
+                        width: size.width * 0.8,
+                        child: Text(
+                          'Our correspondent will arrive at this address on the specified date to pickup clothes',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Hexcolor('#737373'),
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
+                    ],
+                  ),
+                ),
+                //Divider
+                Container(
+                  color: Colors.white,
+                  child: Divider(
+                    thickness: 1.2,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    address = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => EnterAddress()),
+                    );
+                    setState(() {});
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: Colors.grey[400],
+                              size: 14,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 6),
+                            ),
+                            Text(
+                              address == null
+                                  ? "SET PICKUP ADRESS"
+                                  : address.length > 30
+                                      ? address.substring(0, 30) + "..."
+                                      : address,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Hexcolor('#00B6BC'),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Hexcolor('#00B6BC'),
+                          size: heading,
+                        )
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-              //Divider
-              Container(
-                color: Colors.white,
-                child: Divider(
-                  thickness: 1.2,
+                //Divider
+                Container(
+                  color: Colors.white,
+                  child: Divider(
+                    thickness: 1.2,
+                  ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () async {
-                  address = await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EnterAddress()),
-                  );
-                  setState(() {});
-                },
-                child: Container(
+
+                Container(
                   color: Colors.white,
                   padding: EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: Colors.grey[400],
-                            size: 14,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 6),
-                          ),
-                          Text(
-                            address == null
-                                ? "SET PICKUP ADRESS"
-                                : address.length > 30
-                                    ? address.substring(0, 30) + "..."
-                                    : address,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.watch_later,
+                              color: Hexcolor('#737373'),
+                              size: 14,
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 8)),
+                            Text(
+                              'SET DATE',
+                              style: TextStyle(
+                                color: Hexcolor('#737373'),
+                                fontSize: 12,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      printdates(),
+                      GestureDetector(
+                        onTap: () {
+                          _selectdate(context);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            "SELECT A CUSTOM DATE",
                             style: TextStyle(
-                              fontSize: 14,
                               color: Hexcolor('#00B6BC'),
-                              fontWeight: FontWeight.w500,
+                              fontSize: 10,
                             ),
                           ),
-                        ],
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: Hexcolor('#00B6BC'),
-                        size: heading,
+                        ),
                       )
                     ],
                   ),
                 ),
-              ),
-              //Divider
-              Container(
-                color: Colors.white,
-                child: Divider(
-                  thickness: 1.2,
+                //Divider
+                Container(
+                  color: Colors.white,
+                  child: Divider(
+                    thickness: 1.2,
+                  ),
                 ),
-              ),
 
-              Container(
-                color: Colors.white,
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Row(
+                Container(
+                  // height: 150,
+                  padding: EdgeInsets.only(left: 16, bottom: 40, top: 8),
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
                           Icon(
                             Icons.watch_later,
@@ -1010,7 +1062,7 @@ var deliverytime;
                           ),
                           Padding(padding: EdgeInsets.only(left: 8)),
                           Text(
-                            'SET DATE',
+                            'SET PICKUP TIME',
                             style: TextStyle(
                               color: Hexcolor('#737373'),
                               fontSize: 12,
@@ -1018,890 +1070,838 @@ var deliverytime;
                           )
                         ],
                       ),
-                    ),
-                    printdates(),
-                    GestureDetector(
-                      onTap: () {
-                        _selectdate(context);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(top: 20),
-                        child: Text(
-                          "SELECT A CUSTOM DATE",
-                          style: TextStyle(
-                            color: Hexcolor('#00B6BC'),
-                            fontSize: 10,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              //Divider
-              Container(
-                color: Colors.white,
-                child: Divider(
-                  thickness: 1.2,
-                ),
-              ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Wrap(
+                          children: [
+                            DateTime.parse(date.toString().substring(0, 10) +
+                                            " 09:00:00")
+                                        .difference(DateTime.now())
+                                        .inMinutes <=
+                                    0
+                                ? Container()
+                                : GestureDetector(
+                                    onTap: () {
+                                      this.time = "9am-10am";
+                                      slotselected = 1;
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: slotselected == 1
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
 
-              Container(
-                // height: 150,
-                padding: EdgeInsets.only(left: 16, bottom: 40, top: 8),
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.watch_later,
-                          color: Hexcolor('#737373'),
-                          size: 14,
-                        ),
-                        Padding(padding: EdgeInsets.only(left: 8)),
-                        Text(
-                          'SET PICKUP TIME',
-                          style: TextStyle(
-                            color: Hexcolor('#737373'),
-                            fontSize: 12,
-                          ),
-                        )
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Wrap(
-                        children: [
-                          DateTime.parse(date.toString().substring(0, 10) +
-                                          " 09:00:00")
-                                      .difference(DateTime.now())
-                                      .inMinutes <=
-                                  0
-                              ? Container()
-                              : GestureDetector(
-                                  onTap: () {
-                                    this.time = "9am-10am";
-                                    slotselected = 1;
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: slotselected == 1
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-
-                                      border: Border.all(
+                                        border: Border.all(
+                                            color: Hexcolor('#00B6BC'),
+                                            width: 0.7),
+                                        // borderRadius: BorderRadius.circular(5.0),
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "9 am - 10 am",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                            DateTime.parse(date.toString().substring(0, 10) +
+                                            " 10:00:00")
+                                        .difference(DateTime.now())
+                                        .inMinutes <=
+                                    0
+                                ? Container()
+                                : GestureDetector(
+                                    onTap: () {
+                                      slotselected = 2;
+                                      this.time = "10am-12pm";
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: slotselected == 2
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
+                                        border: Border.all(
                                           color: Hexcolor('#00B6BC'),
-                                          width: 0.7),
-                                      // borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "9 am - 10 am",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                          DateTime.parse(date.toString().substring(0, 10) +
-                                          " 10:00:00")
-                                      .difference(DateTime.now())
-                                      .inMinutes <=
-                                  0
-                              ? Container()
-                              : GestureDetector(
-                                  onTap: () {
-                                    slotselected = 2;
-                                    this.time = "10am-12pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: slotselected == 2
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
+                                          width: 0.7,
+                                        ),
                                       ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "10 am - 12 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                          DateTime.parse(date.toString().substring(0, 10) +
-                                          " 12:00:00")
-                                      .difference(DateTime.now())
-                                      .inMinutes <=
-                                  0
-                              ? Container()
-                              : GestureDetector(
-                                  onTap: () {
-                                    slotselected = 3;
-                                    this.time = "12 pm - 2 pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: slotselected == 3
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "12 pm - 2 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                          DateTime.parse(date.toString().substring(0, 10) +
-                                          " 14:00:00")
-                                      .difference(DateTime.now())
-                                      .inMinutes <=
-                                  0
-                              ? Container()
-                              : GestureDetector(
-                                  onTap: () {
-                                    slotselected = 4;
-                                    this.time = "2 pm - 4 pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: slotselected == 4
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "2 pm - 4 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                          DateTime.parse(date.toString().substring(0, 10) +
-                                          " 16:00:00")
-                                      .difference(DateTime.now())
-                                      .inMinutes <=
-                                  0
-                              ? Container()
-                              : GestureDetector(
-                                  onTap: () {
-                                    this.time = "4 pm - 6 pm";
-                                    slotselected = 5;
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: slotselected == 5
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "4 pm - 6 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                          DateTime.parse(date.toString().substring(0, 10) +
-                                          " 18:00:00")
-                                      .difference(DateTime.now())
-                                      .inMinutes <=
-                                  0
-                              ? Container()
-                              : GestureDetector(
-                                  onTap: () {
-                                    slotselected = 6;
-                                    this.time = "6pm-7pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: slotselected == 6
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "6 pm - 7 pm",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.black87,
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "10 am - 12 pm",
+                                        style: TextStyle(fontSize: 13),
                                       ),
                                     ),
                                   ),
-                                ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-
-
-               Container(
-                // height: 150,
-                padding: EdgeInsets.only(left: 16, bottom: 40, top: 8),
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.watch_later,
-                          color: Hexcolor('#737373'),
-                          size: 14,
-                        ),
-                        Padding(padding: EdgeInsets.only(left: 8)),
-                        Text(
-                          'SUITABLE DELIVERY TIME',
-                          style: TextStyle(
-                            color: Hexcolor('#737373'),
-                            fontSize: 12,
-                          ),
-                        )
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: Wrap(
-                        children: [
-                          GestureDetector(
-                                  onTap: () {
-                                    this.deliverytime = "9am-10am";
-                                    delslotselected = 1;
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 1
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-
-                                      border: Border.all(
+                            DateTime.parse(date.toString().substring(0, 10) +
+                                            " 12:00:00")
+                                        .difference(DateTime.now())
+                                        .inMinutes <=
+                                    0
+                                ? Container()
+                                : GestureDetector(
+                                    onTap: () {
+                                      slotselected = 3;
+                                      this.time = "12 pm - 2 pm";
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: slotselected == 3
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
+                                        border: Border.all(
                                           color: Hexcolor('#00B6BC'),
-                                          width: 0.7),
-                                      // borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "9 am - 10 am",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                          GestureDetector(
-                                  onTap: () {
-                                    delslotselected = 2;
-                                    deliverytime = "10am-12pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 2
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
+                                          width: 0.7,
+                                        ),
                                       ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "10 am - 12 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                          GestureDetector(
-                                  onTap: () {
-                                    delslotselected = 3;
-                                    deliverytime = "12 pm - 2 pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 3
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "12 pm - 2 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                         GestureDetector(
-                                  onTap: () {
-                                    delslotselected = 4;
-                                    deliverytime = "2 pm - 4 pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 4
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "2 pm - 4 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                          GestureDetector(
-                                  onTap: () {
-                                    deliverytime = "4 pm - 6 pm";
-                                    delslotselected = 5;
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 5
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "4 pm - 6 pm",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ),
-                                ),
-                          GestureDetector(
-                                  onTap: () {
-                                    delslotselected = 6;
-                                    deliverytime = "6pm-7pm";
-                                    print(time);
-                                    setState(() {});
-                                    // Navigator.pop(context);
-                                    // datetime();
-                                  },
-                                  child: Container(
-                                    width: size.width * 0.27,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: delslotselected == 6
-                                          ? Hexcolor('#00B6BC')
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color: Hexcolor('#00B6BC'),
-                                        width: 0.7,
-                                      ),
-                                    ),
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 4),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    child: Text(
-                                      "6 pm - 7 pm",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.black87,
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "12 pm - 2 pm",
+                                        style: TextStyle(fontSize: 13),
                                       ),
                                     ),
                                   ),
-                                ),
-                        ],
+                            DateTime.parse(date.toString().substring(0, 10) +
+                                            " 14:00:00")
+                                        .difference(DateTime.now())
+                                        .inMinutes <=
+                                    0
+                                ? Container()
+                                : GestureDetector(
+                                    onTap: () {
+                                      slotselected = 4;
+                                      this.time = "2 pm - 4 pm";
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: slotselected == 4
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
+                                        border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7,
+                                        ),
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "2 pm - 4 pm",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                            DateTime.parse(date.toString().substring(0, 10) +
+                                            " 16:00:00")
+                                        .difference(DateTime.now())
+                                        .inMinutes <=
+                                    0
+                                ? Container()
+                                : GestureDetector(
+                                    onTap: () {
+                                      this.time = "4 pm - 6 pm";
+                                      slotselected = 5;
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: slotselected == 5
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
+                                        border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7,
+                                        ),
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "4 pm - 6 pm",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                            DateTime.parse(date.toString().substring(0, 10) +
+                                            " 18:00:00")
+                                        .difference(DateTime.now())
+                                        .inMinutes <=
+                                    0
+                                ? Container()
+                                : GestureDetector(
+                                    onTap: () {
+                                      slotselected = 6;
+                                      this.time = "6pm-7pm";
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: slotselected == 6
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
+                                        border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7,
+                                        ),
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "6 pm - 7 pm",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                height: 50,
-                color: Colors.white,
-              )
-              // Container(
-              //   height: 300,
-              //   color: Colors.red,
-              //   child: Column(
-              //     children: <Widget>[
-              //       SizedBox(
-              //         child: Column(
-              //           children: <Widget>[
-              //             Row(
-              //               children: <Widget>[
-              //                 GestureDetector(
-              //                   onTap: () {
-              //                     datetime();
-              //                     print("hey");
-              //                   },
-              //                   child: Card(
-              //                     shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(10.0),
-              //                     ),
-              //                     color: Color.fromRGBO(253, 186, 37, 1),
-              //                     child: Card(
-              //                       margin: EdgeInsetsDirectional.only(bottom: 5),
-              //                       child: Container(
-              //                         width:
-              //                             (MediaQuery.of(context).size.width / 2) -
-              //                                 40,
-              //                         margin: EdgeInsets.all(10),
-              //                         child: Column(
-              //                           children: <Widget>[
-              //                             Row(
-              //                               mainAxisAlignment:
-              //                                   MainAxisAlignment.spaceBetween,
-              //                               children: <Widget>[
-              //                                 Text(
-              //                                   "Pickup time",
-              //                                   style: TextStyle(
-              //                                       fontSize: heading,
-              //                                       color: Colors.black87,
-              //                                       fontWeight: FontWeight.bold),
-              //                                 ),
-              //                                 Icon(
-              //                                   Icons.keyboard_arrow_down,
-              //                                   size: heading,
-              //                                 )
-              //                               ],
-              //                             ),
-              //                             Container(
-              //                               child: Divider(),
-              //                             ),
-              //                             Container(
-              //                               child: Text(
-              //                                 date == null || time == null
-              //                                     ? "-"
-              //                                     : formatter
-              //                                             .format(date)
-              //                                             .toString() +
-              //                                         " " +
-              //                                         time,
-              //                                 style: TextStyle(
-              //                                     fontSize: subheading,
-              //                                     color: Colors.black54,
-              //                                     fontWeight: FontWeight.bold),
-              //                               ),
-              //                             )
-              //                           ],
-              //                         ),
-              //                       ),
-              //                     ),
-              //                   ),
-              //                 ),
-              //                 GestureDetector(
-              //                   onTap: () {
-              //                     deliveryoption();
-              //                   },
-              //                   child: Card(
-              //                     shape: RoundedRectangleBorder(
-              //                       borderRadius: BorderRadius.circular(10.0),
-              //                     ),
-              //                     color: Color.fromRGBO(253, 186, 37, 1),
-              //                     child: Card(
-              //                       margin: EdgeInsetsDirectional.only(bottom: 5),
-              //                       child: Container(
-              //                         width:
-              //                             (MediaQuery.of(context).size.width / 2) -
-              //                                 40,
-              //                         margin: EdgeInsets.all(10),
-              //                         child: Column(
-              //                           children: <Widget>[
-              //                             Row(
-              //                               mainAxisAlignment:
-              //                                   MainAxisAlignment.spaceBetween,
-              //                               children: <Widget>[
-              //                                 Text(
-              //                                   "Delivery type",
-              //                                   style: TextStyle(
-              //                                       fontSize: heading,
-              //                                       color: Colors.black87,
-              //                                       fontWeight: FontWeight.bold),
-              //                                 ),
-              //                                 Icon(
-              //                                   Icons.keyboard_arrow_down,
-              //                                   size: heading,
-              //                                 )
-              //                               ],
-              //                             ),
-              //                             Container(
-              //                               child: Divider(),
-              //                             ),
-              //                             Container(
-              //                               child: Text(
-              //                                 orderdetails["deliverytype"] == null
-              //                                     ? "-"
-              //                                     : orderdetails["deliverytype"] ==
-              //                                             "0"
-              //                                         ? "Pickup"
-              //                                         : orderdetails[
-              //                                                     "deliverytype"] ==
-              //                                                 "1"
-              //                                             ? "Normal Rs " +
-              //                                                 orderdetails[
-              //                                                         "deliveryprice"]
-              //                                                     .toString()
-              //                                             : "Express Rs " +
-              //                                                 orderdetails[
-              //                                                         "deliveryprice"]
-              //                                                     .toString(),
-              //                                 style: TextStyle(
-              //                                     fontSize: subheading,
-              //                                     color: Colors.black54,
-              //                                     fontWeight: FontWeight.bold),
-              //                               ),
-              //                             )
-              //                           ],
-              //                         ),
-              //                       ),
-              //                     ),
-              //                   ),
-              //                 ),
-              //               ],
-              //             )
-              //           ],
-              //         ),
-              //       ),
-              //       Expanded(
-              //           flex: 11,
-              //           child: Card(
-              //             shape: RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(10.0),
-              //             ),
-              //             color: Color.fromRGBO(253, 186, 37, 1),
-              //             child: Card(
-              //               margin: EdgeInsetsDirectional.only(bottom: 5),
-              //               child: Container(
-              //                 padding: EdgeInsets.all(10),
-              //                 child: Column(
-              //                   children: <Widget>[
-              //                     Row(
-              //                       children: <Widget>[
-              //                         Text(
-              //                           "Price : ",
-              //                           style: TextStyle(
-              //                               fontSize: subheading,
-              //                               color: Colors.black54,
-              //                               fontWeight: FontWeight.bold),
-              //                         ),
-              //                         Text(
-              //                           "₹ " +
-              //                               orderdetails["price"].toString() +
-              //                               " (" +
-              //                               orderdetails["quantity"].toString() +
-              //                               " item(s) )",
-              //                           style: TextStyle(
-              //                               fontSize: subheading,
-              //                               color: Colors.black87,
-              //                               fontWeight: FontWeight.bold),
-              //                         )
-              //                       ],
-              //                     ),
-              //                     Row(
-              //                       children: <Widget>[
-              //                         Text(
-              //                           "Delivery Charges : ",
-              //                           style: TextStyle(
-              //                               fontSize: subheading,
-              //                               color: Colors.black54,
-              //                               fontWeight: FontWeight.bold),
-              //                         ),
-              //                         Text(
-              //                           orderdetails["deliveryprice"] == null
-              //                               ? "₹ 0"
-              //                               : "₹ " +
-              //                                   orderdetails["deliveryprice"]
-              //                                       .toString(),
-              //                           style: TextStyle(
-              //                               fontSize: subheading,
-              //                               color: Colors.black87,
-              //                               fontWeight: FontWeight.bold),
-              //                         )
-              //                       ],
-              //                     ),
-              //                     Divider(),
-              //                     Row(
-              //                       children: <Widget>[
-              //                         Text(
-              //                           "Total price : ",
-              //                           style: TextStyle(
-              //                               fontSize: subheading,
-              //                               color: Colors.black54,
-              //                               fontWeight: FontWeight.bold),
-              //                         ),
-              //                         Text(
-              //                           "₹ " +
-              //                               orderdetails["totalprice"].toString() +
-              //                               " (GST extra as applicable)",
-              //                           style: TextStyle(
-              //                               fontSize: subheading,
-              //                               color: Colors.black87,
-              //                               fontWeight: FontWeight.bold),
-              //                         )
-              //                       ],
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ),
-              //           ))
-              //     ],
-              //   ),
-              // ),
-            ],
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Container(
-              height: 180,
-              width: size.width,
-              padding: EdgeInsets.only(top: 20),
-              color: Hexcolor('#219251'),
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 8),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          child: IconButton(
-                            icon: Icon(Icons.arrow_back),
-                            onPressed: () => Navigator.of(context).pop(),
-                            color: Colors.white,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 16),
-                          child: Text(
-                            'Pickup Details',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 16, left: 16),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.store_mall_directory,
-                          color: Colors.white.withOpacity(0.7),
-                          size: 14,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 5),
-                          child: Text(
-                            'Outlet',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(16, 10, 16, 24),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: size.width * 0.7,
-                            child: Text(
-                              outletname==null?"Loading..":outletname,
-                              // address == null ? disp : address,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            child: GestureDetector(
-              onTap: (){
-                 if (address == null) {
-                          showsnack("Please enter address");
-                        } else if (date == null || time == null) {
-                          showsnack("Please select date and time");
-                        } else {
-                          remarks();
-                          print(widget.order);
-                        }
-              },
-                          child: Container(
-                  height: 55,
-                  padding: EdgeInsets.only(
-                    left: 16,
-                    top: 7,
-                    right: 16,
-                    bottom: 7,
-                  ),
-                  width: size.width,
-                  color: Hexcolor('#FFC233'),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+
+
+
+                 Container(
+                  // height: 150,
+                  padding: EdgeInsets.only(left: 16, bottom: 40, top: 8),
+                  color: Colors.white,
+                  child: Column(
                     children: [
                       Row(
                         children: [
-                          Text(
-                            "Review Details",
-                            // "₹ " + totalprice.toString(),
-                            style: TextStyle(
-                              color: Hexcolor('#252525'),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.only(left: 5)),
                           Icon(
-                            Icons.arrow_forward_ios,
+                            Icons.watch_later,
+                            color: Hexcolor('#737373'),
                             size: 14,
-                            color: Hexcolor('#252525'),
                           ),
+                          Padding(padding: EdgeInsets.only(left: 8)),
+                          Text(
+                            'SUITABLE DELIVERY TIME',
+                            style: TextStyle(
+                              color: Hexcolor('#737373'),
+                              fontSize: 12,
+                            ),
+                          )
                         ],
                       ),
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Wrap(
+                          children: [
+                            GestureDetector(
+                                    onTap: () {
+                                      this.deliverytime = "9am-10am";
+                                      delslotselected = 1;
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: delslotselected == 1
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
+
+                                        border: Border.all(
+                                            color: Hexcolor('#00B6BC'),
+                                            width: 0.7),
+                                        // borderRadius: BorderRadius.circular(5.0),
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "9 am - 10 am",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                            GestureDetector(
+                                    onTap: () {
+                                      delslotselected = 2;
+                                      deliverytime = "10am-12pm";
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: delslotselected == 2
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
+                                        border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7,
+                                        ),
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "10 am - 12 pm",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                            GestureDetector(
+                                    onTap: () {
+                                      delslotselected = 3;
+                                      deliverytime = "12 pm - 2 pm";
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: delslotselected == 3
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
+                                        border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7,
+                                        ),
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "12 pm - 2 pm",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                           GestureDetector(
+                                    onTap: () {
+                                      delslotselected = 4;
+                                      deliverytime = "2 pm - 4 pm";
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: delslotselected == 4
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
+                                        border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7,
+                                        ),
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "2 pm - 4 pm",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                            GestureDetector(
+                                    onTap: () {
+                                      deliverytime = "4 pm - 6 pm";
+                                      delslotselected = 5;
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: delslotselected == 5
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
+                                        border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7,
+                                        ),
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "4 pm - 6 pm",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                            GestureDetector(
+                                    onTap: () {
+                                      delslotselected = 6;
+                                      deliverytime = "6pm-7pm";
+                                      print(time);
+                                      setState(() {});
+                                      // Navigator.pop(context);
+                                      // datetime();
+                                    },
+                                    child: Container(
+                                      width: size.width * 0.27,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: delslotselected == 6
+                                            ? Hexcolor('#00B6BC')
+                                            : Colors.white,
+                                        border: Border.all(
+                                          color: Hexcolor('#00B6BC'),
+                                          width: 0.7,
+                                        ),
+                                      ),
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 2, vertical: 4),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 5),
+                                      child: Text(
+                                        "6 pm - 7 pm",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          ],
+                        ),
+                      ),
                     ],
-                  )),
+                  ),
+                ),
+                Container(
+                  height: 50,
+                  color: Colors.white,
+                )
+                // Container(
+                //   height: 300,
+                //   color: Colors.red,
+                //   child: Column(
+                //     children: <Widget>[
+                //       SizedBox(
+                //         child: Column(
+                //           children: <Widget>[
+                //             Row(
+                //               children: <Widget>[
+                //                 GestureDetector(
+                //                   onTap: () {
+                //                     datetime();
+                //                     print("hey");
+                //                   },
+                //                   child: Card(
+                //                     shape: RoundedRectangleBorder(
+                //                       borderRadius: BorderRadius.circular(10.0),
+                //                     ),
+                //                     color: Color.fromRGBO(253, 186, 37, 1),
+                //                     child: Card(
+                //                       margin: EdgeInsetsDirectional.only(bottom: 5),
+                //                       child: Container(
+                //                         width:
+                //                             (MediaQuery.of(context).size.width / 2) -
+                //                                 40,
+                //                         margin: EdgeInsets.all(10),
+                //                         child: Column(
+                //                           children: <Widget>[
+                //                             Row(
+                //                               mainAxisAlignment:
+                //                                   MainAxisAlignment.spaceBetween,
+                //                               children: <Widget>[
+                //                                 Text(
+                //                                   "Pickup time",
+                //                                   style: TextStyle(
+                //                                       fontSize: heading,
+                //                                       color: Colors.black87,
+                //                                       fontWeight: FontWeight.bold),
+                //                                 ),
+                //                                 Icon(
+                //                                   Icons.keyboard_arrow_down,
+                //                                   size: heading,
+                //                                 )
+                //                               ],
+                //                             ),
+                //                             Container(
+                //                               child: Divider(),
+                //                             ),
+                //                             Container(
+                //                               child: Text(
+                //                                 date == null || time == null
+                //                                     ? "-"
+                //                                     : formatter
+                //                                             .format(date)
+                //                                             .toString() +
+                //                                         " " +
+                //                                         time,
+                //                                 style: TextStyle(
+                //                                     fontSize: subheading,
+                //                                     color: Colors.black54,
+                //                                     fontWeight: FontWeight.bold),
+                //                               ),
+                //                             )
+                //                           ],
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ),
+                //                 GestureDetector(
+                //                   onTap: () {
+                //                     deliveryoption();
+                //                   },
+                //                   child: Card(
+                //                     shape: RoundedRectangleBorder(
+                //                       borderRadius: BorderRadius.circular(10.0),
+                //                     ),
+                //                     color: Color.fromRGBO(253, 186, 37, 1),
+                //                     child: Card(
+                //                       margin: EdgeInsetsDirectional.only(bottom: 5),
+                //                       child: Container(
+                //                         width:
+                //                             (MediaQuery.of(context).size.width / 2) -
+                //                                 40,
+                //                         margin: EdgeInsets.all(10),
+                //                         child: Column(
+                //                           children: <Widget>[
+                //                             Row(
+                //                               mainAxisAlignment:
+                //                                   MainAxisAlignment.spaceBetween,
+                //                               children: <Widget>[
+                //                                 Text(
+                //                                   "Delivery type",
+                //                                   style: TextStyle(
+                //                                       fontSize: heading,
+                //                                       color: Colors.black87,
+                //                                       fontWeight: FontWeight.bold),
+                //                                 ),
+                //                                 Icon(
+                //                                   Icons.keyboard_arrow_down,
+                //                                   size: heading,
+                //                                 )
+                //                               ],
+                //                             ),
+                //                             Container(
+                //                               child: Divider(),
+                //                             ),
+                //                             Container(
+                //                               child: Text(
+                //                                 orderdetails["deliverytype"] == null
+                //                                     ? "-"
+                //                                     : orderdetails["deliverytype"] ==
+                //                                             "0"
+                //                                         ? "Pickup"
+                //                                         : orderdetails[
+                //                                                     "deliverytype"] ==
+                //                                                 "1"
+                //                                             ? "Normal Rs " +
+                //                                                 orderdetails[
+                //                                                         "deliveryprice"]
+                //                                                     .toString()
+                //                                             : "Express Rs " +
+                //                                                 orderdetails[
+                //                                                         "deliveryprice"]
+                //                                                     .toString(),
+                //                                 style: TextStyle(
+                //                                     fontSize: subheading,
+                //                                     color: Colors.black54,
+                //                                     fontWeight: FontWeight.bold),
+                //                               ),
+                //                             )
+                //                           ],
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ],
+                //             )
+                //           ],
+                //         ),
+                //       ),
+                //       Expanded(
+                //           flex: 11,
+                //           child: Card(
+                //             shape: RoundedRectangleBorder(
+                //               borderRadius: BorderRadius.circular(10.0),
+                //             ),
+                //             color: Color.fromRGBO(253, 186, 37, 1),
+                //             child: Card(
+                //               margin: EdgeInsetsDirectional.only(bottom: 5),
+                //               child: Container(
+                //                 padding: EdgeInsets.all(10),
+                //                 child: Column(
+                //                   children: <Widget>[
+                //                     Row(
+                //                       children: <Widget>[
+                //                         Text(
+                //                           "Price : ",
+                //                           style: TextStyle(
+                //                               fontSize: subheading,
+                //                               color: Colors.black54,
+                //                               fontWeight: FontWeight.bold),
+                //                         ),
+                //                         Text(
+                //                           "₹ " +
+                //                               orderdetails["price"].toString() +
+                //                               " (" +
+                //                               orderdetails["quantity"].toString() +
+                //                               " item(s) )",
+                //                           style: TextStyle(
+                //                               fontSize: subheading,
+                //                               color: Colors.black87,
+                //                               fontWeight: FontWeight.bold),
+                //                         )
+                //                       ],
+                //                     ),
+                //                     Row(
+                //                       children: <Widget>[
+                //                         Text(
+                //                           "Delivery Charges : ",
+                //                           style: TextStyle(
+                //                               fontSize: subheading,
+                //                               color: Colors.black54,
+                //                               fontWeight: FontWeight.bold),
+                //                         ),
+                //                         Text(
+                //                           orderdetails["deliveryprice"] == null
+                //                               ? "₹ 0"
+                //                               : "₹ " +
+                //                                   orderdetails["deliveryprice"]
+                //                                       .toString(),
+                //                           style: TextStyle(
+                //                               fontSize: subheading,
+                //                               color: Colors.black87,
+                //                               fontWeight: FontWeight.bold),
+                //                         )
+                //                       ],
+                //                     ),
+                //                     Divider(),
+                //                     Row(
+                //                       children: <Widget>[
+                //                         Text(
+                //                           "Total price : ",
+                //                           style: TextStyle(
+                //                               fontSize: subheading,
+                //                               color: Colors.black54,
+                //                               fontWeight: FontWeight.bold),
+                //                         ),
+                //                         Text(
+                //                           "₹ " +
+                //                               orderdetails["totalprice"].toString() +
+                //                               " (GST extra as applicable)",
+                //                           style: TextStyle(
+                //                               fontSize: subheading,
+                //                               color: Colors.black87,
+                //                               fontWeight: FontWeight.bold),
+                //                         )
+                //                       ],
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ),
+                //             ),
+                //           ))
+                //     ],
+                //   ),
+                // ),
+              ],
             ),
-          ),
-        ],
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                height: 140,
+                width: size.width,
+                color: Hexcolor('#219251'),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            child: IconButton(
+                              icon: Icon(Icons.arrow_back),
+                              onPressed: () => Navigator.of(context).pop(),
+                              color: Colors.white,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 16),
+                            child: Text(
+                              'Pickup Details',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 16, left: 16),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.store_mall_directory,
+                            color: Colors.white.withOpacity(0.7),
+                            size: 14,
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 5),
+                            child: Text(
+                              'Outlet',
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.7),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(16, 10, 16, 24),
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              width: size.width * 0.7,
+                              child: Text(
+                                outletname==null?"Loading..":outletname,
+                                // address == null ? disp : address,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              child: GestureDetector(
+                onTap: (){
+                   if (address == null) {
+                            showsnack("Please enter address");
+                          } else if (date == null || time == null) {
+                            showsnack("Please select date and time");
+                          } else {
+                            remarks();
+                            print(widget.order);
+                          }
+                },
+                            child: Container(
+                    height: 55,
+                    padding: EdgeInsets.only(
+                      left: 16,
+                      top: 7,
+                      right: 16,
+                      bottom: 7,
+                    ),
+                    width: size.width,
+                    color: Hexcolor('#FFC233'),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              "Review Details",
+                              // "₹ " + totalprice.toString(),
+                              style: TextStyle(
+                                color: Hexcolor('#252525'),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 5)),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              size: 14,
+                              color: Hexcolor('#252525'),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

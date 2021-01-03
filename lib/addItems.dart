@@ -64,9 +64,9 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
       Uri.encodeFull(url),
       headers: {"accept": "application/json"},
     );
-    ////print("login response"+response.body);
+    //////print("login response"+response.body);
     var jsondecoded = json.decode(response.body);
-    print(jsondecoded);
+    //print(jsondecoded);
 
     if (jsondecoded['message'] == "success") {
       setState(() {
@@ -79,8 +79,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
   }
 
   gettabs() {
-    print("categories start hui");
-    print(categories);
+    //print("categories start hui");
+    //print(categories);
 
     List<Widget> children = new List<Widget>();
     children.add(Tab(
@@ -95,8 +95,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
   }
 
   getitemtabs(size) {
-    print("categories start hui");
-    print(categories);
+    //print("categories start hui");
+    //print(categories);
 
     List<Widget> children = new List<Widget>();
     List<Widget> majorchildren = new List<Widget>();
@@ -162,8 +162,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                   selectedservices =
                       List<int>.generate(selecteditems[index]["services"].length, (i) => 0);
 
-                  print(selecteditems[index].containsKey('paymenttype'));
-                  print(selectedservices);
+                  //print(selecteditems[index].containsKey('paymenttype'));
+                  //print(selectedservices);
                   // return;
                   if (selecteditems[index].containsKey('paymenttype')) {
                     for (var x = 0;
@@ -174,8 +174,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                       tempitems += 1;
                     }
                   }
-                  print(tempitems);
-                  print(selectedservices);
+                  //print(tempitems);
+                  //print(selectedservices);
                   // return;
                   priceoption(
                       selecteditems[index]["name"],
@@ -327,7 +327,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
             bottom: 0,
             child: GestureDetector(
               onTap: () {
-                print(selecteditems);
+                //print(selecteditems);
                 georderdetails();
               },
               child: Container(
@@ -463,8 +463,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                        selectedservices= List<int>.generate(selecteditems[index]["services"].length, (i) => 0);
 
 
-                      print(selecteditems[index].containsKey('paymenttype'));
-                      print(selectedservices);
+                      //print(selecteditems[index].containsKey('paymenttype'));
+                      //print(selectedservices);
                       // return;
                       if (selecteditems[index].containsKey('paymenttype')) {
                         for (var x = 0;
@@ -475,8 +475,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                           tempitems += 1;
                         }
                       }
-                      print(tempitems);
-                      print(selectedservices);
+                      //print(tempitems);
+                      //print(selectedservices);
                       // return;
                       priceoption(
                           selecteditems[index]["name"],
@@ -630,7 +630,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
               bottom: 0,
               child: GestureDetector(
                 onTap: () {
-                  print(selecteditems);
+                  //print(selecteditems);
                   georderdetails();
                 },
                 child: Container(
@@ -749,7 +749,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
       }
       setState(() {});
 
-      print(_result);
+      //print(_result);
       return;
     });
   }
@@ -764,9 +764,9 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
       Uri.encodeFull(url),
       headers: {"accept": "application/json"},
     );
-    ////print("login response"+response.body);
+    //////print("login response"+response.body);
     var jsondecoded = json.decode(response.body);
-    print(jsondecoded);
+    //print(jsondecoded);
 
     if (jsondecoded['message'] == "success") {
       setState(() {
@@ -792,9 +792,9 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
         Uri.encodeFull(url),
         headers: {"accept": "application/json"},
         body: {"masterhash": user.getString('masterhash'), "search": t1.text});
-    //print("login response"+response.body);
+    ////print("login response"+response.body);
     var jsondecoded = json.decode(response.body);
-    print(jsondecoded);
+    //print(jsondecoded);
 
     if (jsondecoded['message'] == "success") {
       flag = 1;
@@ -802,7 +802,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
         items = jsondecoded["data"];
       });
       // sortoutlets(outlets);
-      print(items.length);
+      //print(items.length);
     } else if (jsondecoded['message'] == "no_item_found") {
       flag = 0;
       showsnack("No items found");
@@ -813,11 +813,11 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
 
   var category = [0, 0, 0]; //[2,3]
   additems(index) {
-    print(category);
-    print("category");
+    //print(category);
+    //print("category");
 
     selecteditems[index]["count"] = 0.toString();
-    print("category");
+    //print("category");
 
     selecteditems[index]["paymenttype"] = [];
 
@@ -830,15 +830,15 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
   }
 
   itemcount(index, action, pricetype) {
-    print("price type=" + pricetype.toString());
+    //print("price type=" + pricetype.toString());
     // return;
     var price;
     selecteditems[index]["packgingtype"] = pkgoption;
    
-    print("hey yo bitch");
-    // print(selecteditems[index]["services"][pricetype]["price"]);
+    //print("hey yo bitch");
+    // //print(selecteditems[index]["services"][pricetype]["price"]);
     price = selecteditems[index]["services"][pricetype]["price"];
-    print(price);
+    //print(price);
     // return;
     price = int.parse(price);
     if (action == "p") {
@@ -859,9 +859,9 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
           }
         }
         totalitems += 1;
-        print("price");
+        //print("price");
         totalprice += int.parse(price.toString());
-        print("price");
+        //print("price");
 
         // var ptype={"ptype":pricetype};
         if (selecteditems[index]["paymenttype"] == null) {
@@ -887,9 +887,9 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
             }
           }
           totalitems += 1;
-          print("here");
+          //print("here");
           totalprice += price;
-          print("here");
+          //print("here");
 
           // var ptype={"ptype":pricetype};
           if (selecteditems[index]["paymenttype"] == null) {
@@ -902,7 +902,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
       itemdialogue = 1;
     }
 
-    print(selecteditems);
+    //print(selecteditems);
     // return;
     // if (action == "m") {
     //   if (selecteditems[index].containsKey('count')) {
@@ -935,7 +935,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
     var temptotalcount = 0;
     for (int i = 0; i < selectedindex.length; i++) {
       var paymenttype = selecteditems[selectedindex[i]]["paymenttype"];
-      print(paymenttype.length);
+      //print(paymenttype.length);
       for (int j = 0; j < paymenttype.length; j++) {
         var price;
         // if (paymenttype[j] == 0) {
@@ -948,24 +948,24 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
         price = selecteditems[selectedindex[i]]["services"][paymenttype[j]]
             ["price"];
         // price = selecteditems[index]["services"][pricetype]["price"];
-        print(price);
+        //print(price);
         // return;
 
-        print("object");
+        //print("object");
         temptotalcount += 1;
-        print(price);
+        //print(price);
         tempprice += int.parse(price);
-        print("object yeh");
+        //print("object yeh");
       }
     }
     totalprice = tempprice;
     totalitems = temptotalcount;
     setState(() {
-      print("hey" + selecteditems[index]["count"].toString());
-      print("yo" + selectedindex.toString());
+      //print("hey" + selecteditems[index]["count"].toString());
+      //print("yo" + selectedindex.toString());
     });
 
-    print(selecteditems);
+    //print(selecteditems);
   }
 
   georderdetails() async {
@@ -973,14 +973,14 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
     var item;
     final user = await SharedPreferences.getInstance();
 
-    // print("bdy");
-    // print(orderdetails["outlet"]);
+    // //print("bdy");
+    // //print(orderdetails["outlet"]);
 
     // return;
     var flag = 0;
     for (int i = 0; i < selectedindex.length; i++) {
       var paymenttype = selecteditems[selectedindex[i]]["paymenttype"];
-      // print(paymenttype.length);
+      // //print(paymenttype.length);
       for (int j = 0; j < paymenttype.length; j++) {
         var price;
         // if (paymenttype[j] == 0) {
@@ -1006,14 +1006,14 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
               [paymenttype[j]]["name"],
           "packagingoption": selecteditems[selectedindex[i]]["packgingtype"]
         };
-        // print("item");
-        // print(item);
+        // //print("item");
+        // //print(item);
         blank.add(item);
-        // print(blank);
+        // //print(blank);
         flag++;
       }
     }
-    // print(blank);
+    // //print(blank);
     orderdetails = item;
     orderdetails = {};
     if (user.getString("outletid") == null) {
@@ -1026,7 +1026,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
     orderdetails["totalprice"] = totalprice;
     orderdetails["items"] = blank;
 
-    print(orderdetails);
+    //print(orderdetails);
     // return;
     if (flag == 0) {
       showsnack('Please add items');
@@ -1044,10 +1044,10 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
   var selectedservices;
   getlist(name, regular, delicate, index, action) {
     // double height=200* double.parse(items.length);
-    // print(selectedservices);
+    // //print(selectedservices);
     List<Widget> children = new List<Widget>();
     for (var i = 0; i < selecteditems[index]["services"].length; i++) {
-      // print(selecteditems[index]["services"]);
+      // //print(selecteditems[index]["services"]);
       children.add(
         Container(
           margin: EdgeInsets.only(top: 10),
@@ -1089,14 +1089,14 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                           } else {
                             selectedservices[i] -= 1;
                           }
-                          print(selectedservices);
+                          //print(selectedservices);
 
                           if (tempitems < 2) {
                             tempitems = 0;
                           } else {
                             tempitems -= 1;
                           }
-                          print("temp" + tempitems.toString());
+                          //print("temp" + tempitems.toString());
                           Navigator.pop(context);
                           priceoption(name, regular, delicate, index, action);
                         },
@@ -1134,8 +1134,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                         onTap: () {
                           selectedservices[i] += 1;
                           tempitems += 1;
-                          print("cat" + selectedservices[i].toString());
-                          print(selectedservices);
+                          //print("cat" + selectedservices[i].toString());
+                          //print(selectedservices);
                           Navigator.pop(context);
                           priceoption(name, regular, delicate, index, action);
                         },
@@ -1329,7 +1329,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
   }
 
   showsnack(String message) {
-    //////print(message);
+    ////////print(message);
     final snackBar = SnackBar(content: Text(message));
     _scafoldkey.currentState.showSnackBar(snackBar);
   }
@@ -1412,28 +1412,30 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
 
     return DefaultTabController(
       length: categories == null ? 1 : categories.length + 1,
-      child: Scaffold(
-        key: _scafoldkey,
-        appBar: AppBar(
-          title: Text("Select items for drycleaning"),
-          backgroundColor: Hexcolor('#219251'),
-          bottom: TabBar(
-            controller: tabController,
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorColor: Hexcolor('#FFC233'),
-            indicatorWeight: 4,
-            isScrollable: true,
-            tabs: categories == null
-                ? [
-                    Tab(
-                      text: "All",
-                    )
-                  ]
-                : gettabs(),
+      child: SafeArea(
+              child: Scaffold(
+          key: _scafoldkey,
+          appBar: AppBar(
+            title: Text("Select items for drycleaning"),
+            backgroundColor: Hexcolor('#219251'),
+            bottom: TabBar(
+              controller: tabController,
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicatorColor: Hexcolor('#FFC233'),
+              indicatorWeight: 4,
+              isScrollable: true,
+              tabs: categories == null
+                  ? [
+                      Tab(
+                        text: "All",
+                      )
+                    ]
+                  : gettabs(),
+            ),
           ),
+          backgroundColor: Colors.white,
+          body: selecteditems == null ? Stack() : getitemtabs(size),
         ),
-        backgroundColor: Colors.white,
-        body: selecteditems == null ? Stack() : getitemtabs(size),
       ),
     );
   }
