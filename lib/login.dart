@@ -477,38 +477,15 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     //Top background
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      child: Container(
-                        height: size.height * 0.25,
-                        width: size.width,
-                        child: Image.asset(
-                          'assets/signup_bg.png',
-                          fit: BoxFit.cover,
-                        ),
+                    Container(
+                      height: size.height * 0.28,
+                      width: size.width,
+                      child: Image.asset(
+                        'assets/login-sgnup.jpeg',
+                        fit: BoxFit.cover,
                       ),
                     ),
                     //company logo
-                    Positioned(
-                      top: size.height * 0.124,
-                      left: width * 0.126,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                        padding: EdgeInsets.only(left: 30, right: 30, top: 10),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              "assets/logoguardini.png",
-                              height: 80,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ],

@@ -44,7 +44,7 @@ class Onboarding4 extends StatelessWidget {
               Container(
                 height: size.longestSide * 0.35,
                 margin: EdgeInsets.only(top: size.height * 0.1),
-                child: Image.asset('assets/onboarding4.png'),
+                child: Image.asset('assets/33.jpeg'),
               ),
               Container(
                 margin: EdgeInsets.only(top: size.height * 0.04),

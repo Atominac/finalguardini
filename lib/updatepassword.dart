@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:guardini/homescreen.dart';
 import 'login.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class UpdatePassword extends StatefulWidget {
   var mobile,otp ;
@@ -83,61 +84,69 @@ class _UpdatePasswordState extends State<UpdatePassword> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scafoldkey,
-      appBar: AppBar(
-        title: Text("Create new password"),
-        backgroundColor: Color.fromRGBO(38, 179, 163, 1),
-      ),
-      backgroundColor: Color.fromRGBO(240, 248, 255, 1),
-      body: ListView(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-            child: Column(
-              children: <Widget>[
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Please fill a few details below",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    )),
-                Card(                    margin: EdgeInsets.only(top: 20),
+    var size = MediaQuery.of(context).size;
 
-                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+     return Scaffold(
+      key: _scafoldkey,
+      // appBar: AppBar(
+      //   title: Text("Create Password"),
+      //   backgroundColor: Hexcolor('#219251'),
+      // ),
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          ListView(
+            children: <Widget>[
+              Stack(
+                children: [
+                  Container(
+                    margin: EdgeInsets.fromLTRB(16, size.height * 0.3, 16, 0),
+                    child: Column(
+                      children: <Widget>[
+                        // Align(
+                        //   alignment: Alignment.centerLeft,
+                        //   child: Text(
+                        //     "Please fill a few details below",
+                        //     style: TextStyle(
+                        //         fontSize: 20, fontWeight: FontWeight.bold),
+                        //   ),
+                        // ),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Password ",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Hexcolor('#737373'),
+                                    ),
                                   ),
-                                  color: Color.fromRGBO(253, 186, 37, 1),
-                                  child: Card(
-                                    margin:
-                                        EdgeInsetsDirectional.only(bottom: 5),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Form(
-                              key: _formKey,
-                              child: Column(
-                                children: <Widget>[
-                                  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "Password ",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
-                                      )),
                                   Container(
-                                    margin: EdgeInsets.only(top: 10),
+                                    margin: EdgeInsets.only(top: 5),
                                     child: TextFormField(
                                       decoration: new InputDecoration(
-                                        border: new OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                            const Radius.circular(5.0),
+                                        helperText:
+                                            'Min.6 characters atleast 1 number',
+                                        filled: true,
+                                        fillColor: Color.fromRGBO(
+                                          239,
+                                          233,
+                                          224,
+                                          0.5,
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Hexcolor('#00B6BC'),
                                           ),
                                         ),
+                                        border: InputBorder.none,
                                       ),
                                       obscureText: true,
                                       controller: t1,
@@ -150,75 +159,136 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                                       },
                                     ),
                                   ),
-                                  Padding(padding: EdgeInsets.all(10)),
-                                  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "Confirm Password ",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
-                                      )),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    child: TextFormField(
-                                      decoration: new InputDecoration(
-                                        border: new OutlineInputBorder(
-                                          borderRadius: const BorderRadius.all(
-                                            const Radius.circular(5.0),
-                                          ),
-                                        ),
-                                      ),
-                                      obscureText: true,
-                                      validator: (value) {
-                                        if (value != t1.text) {
-                                          return 'Password dosent match';
-                                        }
-                                      },
-                                    ),
-                                  ),
                                 ],
-                              )),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: MaterialButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(5.0),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.all(10.0),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "Create Password",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 17.5),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Confirm Password ",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Hexcolor('#737373'),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 10),
+                                      child: TextFormField(
+                                        decoration: new InputDecoration(
+                                          filled: true,
+                                          fillColor: Color.fromRGBO(
+                                            239,
+                                            233,
+                                            224,
+                                            0.5,
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: Hexcolor('#00B6BC'),
+                                            ),
+                                          ),
+                                          border: InputBorder.none,
+                                        ),
+                                        obscureText: true,
+                                        validator: (value) {
+                                          if (value != t1.text) {
+                                            return 'Password dosent match';
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: size.height * 0.12, bottom: 10),
+                          child: InkWell(
+                            onTap: () {
+                              if (_formKey.currentState.validate()) {
+                                      updatepassword();
+                              }
+                            },
+                            // enableFeedback: true,
+                            splashColor: Color.fromRGBO(255, 194, 51, 0.3),
+                            highlightColor: Color.fromRGBO(255, 194, 51, 0.25),
+                            child: Container(
+                              width: size.width,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(255, 194, 51, 0.4),
+                                  border: Border.all(
+                                    color: Hexcolor('#FFC233'),
+                                    width: 0.5,
+                                  )),
+                              height: 50,
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Reset Password',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Hexcolor('#404040'),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: -25,
+                    left: 0,
+                    child: Container(
+                      height: size.height * 0.25,
+                      width: size.width,
+                      child: Image.asset(
+                        'assets/signup_bg.png',
+                        fit: BoxFit.cover,
                       ),
-                      color: Color.fromRGBO(38, 179, 163, 1),
-                      textTheme: ButtonTextTheme.normal,
-                      height: 50.0,
-                      minWidth: 600,
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          updatepassword();
-                        }
-                      }),
-                ),
-              ],
-            ),
+                    ),
+                  ),
+                  Positioned(
+                    top: size.height * 0.16,
+                    left: 30,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3)),
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 10),
+                      child: Text(
+                        'RESET PASSWORD',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Hexcolor('#404040'),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Positioned(
+                  //     top: 5,
+                  //     child: IconButton(
+                  //         icon: Icon(Icons.arrow_back),
+                  //         onPressed: () {
+                  //           Navigator.of(context).pop();
+                  //         }))
+                ],
+              ),
+            ],
           ),
+          Container(
+            color: Hexcolor('#219251'),
+            height: MediaQuery.of(context).padding.top,
+          )
         ],
       ),
     );

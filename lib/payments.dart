@@ -4,7 +4,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
+import 'package:flutter/services.dart';
+import 'dart:math' as math;
 class PaymentScreen extends StatefulWidget {
   var order;
   PaymentScreen(this.order);
@@ -17,7 +18,54 @@ class _PaymentScreenState extends State<PaymentScreen> {
     super.initState();
     // selectedRadio = 0;
     selectedRadioTile = 0;
+    // var CHANNEL = "com.example.guardini"; //CHANNEL as set in MainActivity of android project. 
+
   }
+  var random;
+  final platform = const MethodChannel('com.example.guardini/epic');
+
+  initiatepaytm(txnToken) async{
+
+   
+  
+    var arguments = <String, dynamic>{
+    "mid": "KMGarm24032455962814",
+    "orderId": widget.order["orderid"]  ,
+    "amount": widget.order["amount"],
+    "txnToken": txnToken,
+    "callbackUrl": "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID="+widget.order["orderid"].toString(), //send this if custom callback url is required
+    "isStaging": true
+};
+ print(arguments);
+    // return;
+try {
+    var result = await platform.invokeMethod("startTransaction", arguments);
+    result=jsonDecode(result);
+    print("Vps aa gya bedu");
+
+      
+    if(result["result"]=="TXN_SUCCESS"){
+    showsnack("Payment successful");
+    print("payment hoo gyi peeche chlo");
+    Navigator.pop(context,1);
+    }else{
+    showsnack("Payment failed");
+    print("payment nai hoo gyi peeche chlo");
+    Navigator.pop(context,1);
+
+
+    }
+
+    print(result.toString());
+} catch (err) {
+    print(err.message);
+    print("payment naiiiiii hoo gyi peeche chlo");
+    Navigator.pop(context,1);
+
+
+}
+  }
+
 
   payviagateway() async {
     final user = await SharedPreferences.getInstance();
@@ -86,7 +134,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   walletpay() async {
     _showdialogue();
     final user = await SharedPreferences.getInstance();
-
+    // print({"masterhash": user.getString("masterhash"),"amount":widget.order["totalprice"],"orderid":widget.order["orderid"]});
+    // return;
     final String url =
         "http://34.93.1.41/guardini/public/authenticate.php/user/balancededuct";
     var response = await http.post(
@@ -96,7 +145,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       body: {"masterhash": user.getString("masterhash"),"amount":widget.order["totalprice"],"orderid":widget.order["orderid"]},
     );
 
-    //print("login response"+response.body);
+    print("login response"+response.body);
     var jsondecoded = json.decode(response.body);
     print(jsondecoded);
     if (jsondecoded['message'] == "success") {
@@ -132,9 +181,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   payviacash() async{
 
-_showdialogue();
+    _showdialogue();
     final user = await SharedPreferences.getInstance();
-
     final String url =
         "http://34.93.1.41/guardini/public/authenticate.php/user/paycash";
     var response = await http.post(
@@ -185,291 +233,349 @@ _showdialogue();
     _scafoldkey.currentState.showSnackBar(snackBar);
   }
 
+
+var callbackUrl="http://guardini.conexo.in/paytm/responsehandler.php";
+  payviapaytm() async{
+    _showdialogue();
+  //   var rnd = new math.Random();
+  // var next = rnd.nextDouble() * 1000000;
+  // while (next < 100000) {
+  //   next *= 10;
+  // }
+    // print(next.round());
+    // random=next.round();
+
+    // return;
+    // print(widget.order["orderid"]);
+
+ final user = await SharedPreferences.getInstance();
+    print("start tranx");
+    print({"masterhash": user.getString("masterhash"),"order_id":widget.order["orderid"]});
+    // return;
+    final String url =
+        "http://34.93.1.41/paytm/checksum/generatechecksum.php";
+    var response = await http.post(
+      //encode url
+      Uri.encodeFull(url),
+      headers: {"accept": "application/json"},
+      body: {"masterhash": user.getString("masterhash"),"order_id":widget.order["orderid"]},
+    );
+
+    //print("login response"+response.body);
+    var jsondecoded = json.decode(response.body);
+    print(jsondecoded);
+    // return;
+    if (jsondecoded['message'] == "success") {
+      // showsnack("Payment successfull");
+      // return;
+      // Navigator.pop(context);
+      Navigator.pop(context);
+      initiatepaytm(jsondecoded['txnToken']);
+
+    }else {
+      Navigator.pop(context);
+      showsnack("Some error has ouccered");
+    }
+
+  }
+
+
+
+
+
+
+
   final GlobalKey<ScaffoldState> _scafoldkey = GlobalKey<ScaffoldState>();
 
   int selectedRadioTile;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scafoldkey,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Payments'),
-        backgroundColor: Hexcolor('#219251'),
-      ),
-      body: ListView(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 25),
-            alignment: Alignment.center,
-            child: Text(
-              'Booking Id: #${widget.order["orderid"].toString()}',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 16),
-            alignment: Alignment.center,
-            child: Text(
-              '₹ ${widget.order["totalprice"].toString()}',
-              style: TextStyle(
-                color: Hexcolor('#404040'),
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+    return WillPopScope(
+      onWillPop: (){
+        Navigator.pop(context,0);
+      },
+          child: Scaffold(
+        key: _scafoldkey,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text('Payments'),
+          backgroundColor: Hexcolor('#219251'),
+        ),
+        body: ListView(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 25),
+              alignment: Alignment.center,
+              child: Text(
+                'Booking Id: #${widget.order["orderid"].toString()}',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
               ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 5),
-            alignment: Alignment.center,
-            child: Text(
-              '${widget.order["quantity"].toString()} items',
-              style: TextStyle(
-                color: Hexcolor('#737373'),
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+            Container(
+              margin: EdgeInsets.only(top: 16),
+              alignment: Alignment.center,
+              child: Text(
+                '₹ ${widget.order["totalprice"].toString()}',
+                style: TextStyle(
+                  color: Hexcolor('#404040'),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 24),
-            // color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Padding(
-                //   padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
-                //   child: Text(
-                //     'BILL DETAILS',
-                //     style: TextStyle(
-                //       fontSize: 14,
-                //       color: Hexcolor('#595959'),
-                //     ),
-                //   ),
-                // ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Cart Total',
-                        style: TextStyle(
-                          fontSize: 12,
+            Container(
+              margin: EdgeInsets.only(top: 5),
+              alignment: Alignment.center,
+              child: Text(
+                '${widget.order["quantity"].toString()} items',
+                style: TextStyle(
+                  color: Hexcolor('#737373'),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 24),
+              // color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Padding(
+                  //   padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+                  //   child: Text(
+                  //     'BILL DETAILS',
+                  //     style: TextStyle(
+                  //       fontSize: 14,
+                  //       color: Hexcolor('#595959'),
+                  //     ),
+                  //   ),
+                  // ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Cart Total',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                      Text(
-                        '₹ ${widget.order["amount"].toString()}',
-                        // '₹ ${widget.totalPrice}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          '₹ ${widget.order["amount"].toString()}',
+                          // '₹ ${widget.totalPrice}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Promo Code',
-                        style: TextStyle(
-                          fontSize: 12,
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Promo Code',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                      Text(
-                        widget.order["discount"] == null
-                            ? '₹ 0'
-                            : '₹ ${widget.order["discount"].toString()}',
-                        style: TextStyle(
-                          color: Hexcolor('#72DF97'),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          widget.order["discount"] == null
+                              ? '₹ 0'
+                              : '₹ ${widget.order["discount"].toString()}',
+                          style: TextStyle(
+                            color: Hexcolor('#72DF97'),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Delivery Charges',
-                        style: TextStyle(
-                          fontSize: 12,
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Delivery Charges',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                      Text(
-                        '₹ ${widget.order["delieverycharges"].toString()}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          '₹ ${widget.order["delieverycharges"].toString()}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Taxes',
-                        style: TextStyle(
-                          fontSize: 12,
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Taxes',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                      Text(
-                        '₹ ${widget.order["tax"].toString()}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          '₹ ${widget.order["tax"].toString()}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Divider(
-                  indent: 16,
-                  endIndent: 16,
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Total Price',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        '₹ ${widget.order["totalprice"].toString()}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
+                  Divider(
+                    indent: 16,
+                    endIndent: 16,
                   ),
-                ),
-                Divider(
-                  indent: 16,
-                  endIndent: 16,
-                ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Total Price',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          '₹ ${widget.order["totalprice"].toString()}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    indent: 16,
+                    endIndent: 16,
+                  ),
 
-                Container(
-                  margin: EdgeInsets.fromLTRB(16, 40, 16, 0),
-                  child: Text(
-                    'PAYMENT METHOD',
-                    style: TextStyle(
-                      color: Hexcolor('#404040'),
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                Container(
-                  child: Column(
-                    children: [
-                      Container(
-                        child: RadioListTile(
-                          value: 1,
-                          groupValue: selectedRadioTile,
-                          title: Text(
-                            "Wallet / PPD Adjustment",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                          onChanged: (val) {
-                            print("Radio Tile pressed $val");
-                            setSelectedRadioTile(val);
-                          },
-                          // activeColor: Colors.green,
-                          // selected: true,
-                        ),
-                      ),
-                      Container(
-                        child: RadioListTile(
-                          value: 2,
-                          groupValue: selectedRadioTile,
-                          title: Text("Online Payment"),
-                          onChanged: (val) {
-                            print("Radio Tile pressed $val");
-                            setSelectedRadioTile(val);
-                          },
-                          // activeColor: Colors.green,
-                          // selected: true,
-                        ),
-                      ),
-                      Container(
-                        child: RadioListTile(
-                          value: 3,
-                          groupValue: selectedRadioTile,
-                          title: Text(
-                            "Cash",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                          onChanged: (val) {
-                            print("Radio Tile pressed $val");
-                            setSelectedRadioTile(val);
-                          },
-                          // activeColor: Colors.green,
-                          // selected: true,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 40, bottom: 10, left: 25),
-                  child: InkWell(
-                    onTap: () {
-                      print(widget.order);
-                      // verifyotp(mainotp);
-                      if (paytype == 1) {
-                        payviawallet();
-                      } else if (paytype == 2) {
-                        payviagateway();
-                      } else if (paytype == 3) {
-                        payviacash();
-                      } else {
-                        showsnack("No orders available");
-                      }
-                    },
-                    splashColor: Color.fromRGBO(255, 194, 51, 0.3),
-                    highlightColor: Color.fromRGBO(255, 194, 51, 0.25),
-                    child: Container(
-                      width: 180,
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(255, 194, 51, 0.4),
-                          border: Border.all(
-                            color: Hexcolor('#FFC233'),
-                            width: 0.5,
-                          )),
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Make Payment',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Hexcolor('#404040'),
-                        ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(16, 40, 16, 0),
+                    child: Text(
+                      'PAYMENT METHOD',
+                      style: TextStyle(
+                        color: Hexcolor('#404040'),
+                        fontSize: 14,
                       ),
                     ),
                   ),
-                ),
-              ],
+                  Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          child: RadioListTile(
+                            value: 1,
+                            groupValue: selectedRadioTile,
+                            title: Text(
+                              "Wallet / PPD Adjustment",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            onChanged: (val) {
+                              print("Radio Tile pressed $val");
+                              setSelectedRadioTile(val);
+                            },
+                            // activeColor: Colors.green,
+                            // selected: true,
+                          ),
+                        ),
+                        Container(
+                          child: RadioListTile(
+                            value: 2,
+                            groupValue: selectedRadioTile,
+                            title: Text("Online Payment"),
+                            onChanged: (val) {
+                              print("Radio Tile pressed $val");
+                              setSelectedRadioTile(val);
+                            },
+                            // activeColor: Colors.green,
+                            // selected: true,
+                          ),
+                        ),
+                        Container(
+                          child: RadioListTile(
+                            value: 3,
+                            groupValue: selectedRadioTile,
+                            title: Text(
+                              "Cash",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            onChanged: (val) {
+                              print("Radio Tile pressed $val");
+                              setSelectedRadioTile(val);
+                            },
+                            // activeColor: Colors.green,
+                            // selected: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 40, bottom: 10, left: 25),
+                    child: InkWell(
+                      onTap: () {
+                        // print(widget.order);
+                        // verifyotp(mainotp);
+                        if (paytype == 1) {
+                          payviawallet();
+                        } else if (paytype == 2) {
+                          // payviagateway();
+                          payviapaytm();
+                        } else if (paytype == 3) {
+                          payviacash();
+                        } else {
+                          showsnack("No orders available");
+                        }
+                      },
+                      splashColor: Color.fromRGBO(255, 194, 51, 0.3),
+                      highlightColor: Color.fromRGBO(255, 194, 51, 0.25),
+                      child: Container(
+                        width: 180,
+                        decoration: BoxDecoration(
+                            color: Color.fromRGBO(255, 194, 51, 0.4),
+                            border: Border.all(
+                              color: Hexcolor('#FFC233'),
+                              width: 0.5,
+                            )),
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Make Payment',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Hexcolor('#404040'),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

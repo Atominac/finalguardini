@@ -39,6 +39,9 @@ class _PromosState extends State<Promos> {
         promos = jsondecoded["data"];
       });
     } else if (jsondecoded['message'] == "no_promos_found") {
+      promos=[];
+      setState(() {
+      });
       showsnack("No promos available");
     } else {
       showsnack("Some error has ouccered");
@@ -110,7 +113,7 @@ class _PromosState extends State<Promos> {
                   child: CircularProgressIndicator(),
                 ),
               )
-            : Column(
+            :promos.isEmpty?Center(child: Container(child: Text("No Promos"),)) :Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Container(

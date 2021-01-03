@@ -133,6 +133,8 @@ class _EnterAddressState extends State<EnterAddress> {
       flag = 1;
       setState(() {});
       user.setString("savedaddress", address);
+      print("dfghjk");
+      print(user.getString("savedaddress"));
       print(1);
       return 1;
     } else if (jsondecoded['message'] == "missing_parameters") {

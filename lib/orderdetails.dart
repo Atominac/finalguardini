@@ -57,6 +57,12 @@ class _OrderDetailsState extends State<OrderDetails> {
       setState(() {
         orders = jsondecoded["order"][0];
         items = jsondecoded["orderdetails"];
+
+        if(orders["paymentstatus"]=="0"){
+          finalstatus=0;
+        }else{
+          finalstatus=1;
+        }
         print("items");
         print(items);
       });
@@ -71,6 +77,44 @@ class _OrderDetailsState extends State<OrderDetails> {
       showsnack("No orders available");
     } else {
       showsnack("Some error has ouccered");
+    }
+  }
+
+
+
+
+ verifyresponse() async {
+   _showdialogue();
+    final user = await SharedPreferences.getInstance();
+
+    final String url =
+        "http://guardini.conexo.in/paytm/checksum/verifyresponse.php";
+    var response = await http.post(
+        //encode url
+        Uri.encodeFull(url),
+        headers: {
+          "accept": "application/json"
+        },
+        body: {
+          "masterhash": user.getString("masterhash"),
+          "orderid": widget.orderid
+        });
+    ////print("login response"+response.body);
+    var jsondecoded = json.decode(response.body);
+    print(jsondecoded);
+
+    if (jsondecoded['message'] == "success") {
+      finalstatus=1;
+      showsnack("Payment Success");
+
+      Navigator.pop(context);
+      setState(() {
+      
+      });
+      } else {
+      showsnack("Payment Failed");
+      Navigator.pop(context);
+
     }
   }
 
@@ -492,6 +536,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     super.initState();
     fetchorders();
   }
+  var finalstatus=0;
 
   var formatter = new DateFormat("dd-MMM-yy");
 
@@ -804,6 +849,47 @@ class _OrderDetailsState extends State<OrderDetails> {
                             children: [
                               Container(
                                 child: Text(
+                                  'Status',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Hexcolor('#737373'),
+                                  ),
+                                ),
+                              ),
+                               orders["paymentstatus"] == "2"?Text(
+                                      'Failed',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Hexcolor('#595959'),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ):
+                            finalstatus==0
+                                  ? Text(
+                                      'Pending',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Hexcolor('#595959'),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    )
+                                  : Text(
+                                      'Paid',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Hexcolor('#595959'),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                            ],
+                          ),
+                            Padding(padding: EdgeInsets.only(left: 30)),
+                       
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: Text(
                                   'Total Price',
                                   style: TextStyle(
                                     fontSize: 12,
@@ -824,7 +910,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ],
                           ),
                           Padding(padding: EdgeInsets.only(left: 30)),
-                          Column(
+                         orders["paymentstatus"] == "0" &&  orders["paymentmode"] == null
+                                  ? Container()
+                                  : Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
@@ -836,18 +924,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   ),
                                 ),
                               ),
-                              orders["paymentstatus"] == "0" &&  orders["paymentmode"] == null
-                                  ? Container(
-                                      child: Text(
-                                        'Pending',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Hexcolor('#595959'),
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    )
-                                  : Text(
+                               Text(
                                       '${orders["paymentmode"]}',
                                       style: TextStyle(
                                         fontSize: 12,
@@ -859,21 +936,28 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                         ],
                       ),
-                      int.parse(orders["orderstatus"]) > 1 &&
-                              orders["paymentstatus"] == "0" &&   orders["paymentmode"] == null
+                   (int.parse(orders["orderstatus"]) > 1 &&
+                              orders["paymentstatus"] == "0" &&   orders["paymentmode"] == null) && finalstatus==0
                           ? Row(
                               children: [
                                 Container(
                                     margin: EdgeInsets.only(top: 10),
                                     child: FlatButton(
                                       onPressed: () async{
-                                      await  Navigator.push(
+                                  var ret=  await  Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => PaymentScreen(orders),
                                       ),
                                     );
+
+                                    print("yo bro chl gy ahai yeh");
+                                  if(ret==1){
+
+                                    verifyresponse();
+                                  }else{
                                     fetchorders();
+                                  }
                                       },
                                       child: Text("PAY"),
                                       textColor: Colors.white,

@@ -18,6 +18,9 @@ allprojects {
         jcenter()
          maven {
             url 'https://google.bintray.com/exoplayer/'
+            url "https://artifactory.paytm.in/libs-release-local"
+
+
         }
     }
 }
