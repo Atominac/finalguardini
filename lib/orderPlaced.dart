@@ -35,7 +35,7 @@ class OrderPlaced extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/orderPlaced.png'),
+              Image.asset('assets/successfinal.jpeg',height: 200),
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: 40),

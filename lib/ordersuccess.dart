@@ -28,7 +28,7 @@ class _OrdersuccessState extends State<Ordersuccess> {
           flex: 12,
                 child: Column(
             children: <Widget>[
-              Container(margin: EdgeInsets.only(top:20),child: Image.asset("assets/success.png",height: 230,)),
+              Container(margin: EdgeInsets.only(top:20),child: Image.asset("assets/successfinal.jpeg",height: 230,)),
               Container(
                 margin: EdgeInsets.only(top: 10),
                 child: Align(

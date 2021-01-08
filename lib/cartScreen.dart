@@ -240,6 +240,7 @@ var applied=0;
           orderdetails["tax"] = tax.round();
           orderdetails["totalprice"] = totalamount + tax.round();
           orderdetails["safekeeping"] = 0;
+          orderdetails["discount"]=discounttemp;
 
           break;
         case 2:
@@ -266,6 +267,8 @@ var applied=0;
           orderdetails["totalprice"] =
           totalamount + tax.round() + deliveryprice;
           orderdetails["safekeeping"] = 0;
+          orderdetails["discount"]=discounttemp;
+
 
           break;
         case 3:
@@ -1140,7 +1143,7 @@ eachtotal(sel){
                           child: ListTile(
                             title: Text(
                               ppddiscount.toString() +
-                                  " Special discount applicable for PPD members",
+                                  "% Special discount applicable for PPD members",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Hexcolor('#00B6BC'),
@@ -1310,60 +1313,6 @@ eachtotal(sel){
                       ),
                     ),
                   ), // Positioned(
-                  //   child: Container(
-                  //     padding: EdgeInsets.all(10),
-                  //     child: Column(
-                  //       children: <Widget>[
-                  //         Row(
-                  //           children: <Widget>[
-                  //             Text(
-                  //               "₹ " +
-                  //                   orderdetails["price"].toString() +
-                  //                   " (" +
-                  //                   orderdetails["quantity"].toString() +
-                  //                   " item(s) )",
-                  //               style: TextStyle(
-                  //                   fontSize: subheading,
-                  //                   color: Colors.black87,
-                  //                   fontWeight: FontWeight.bold),
-                  //             )
-                  //           ],
-                  //         ),
-                  // Text(
-                  //   orderdetails["deliveryprice"] == null
-                  //       ? "₹ 0"
-                  //       : "₹ " +
-                  //           orderdetails["deliveryprice"]
-                  //               .toString(),
-                  //   style: TextStyle(
-                  //       fontSize: subheading,
-                  //       color: Colors.black87,
-                  //       fontWeight: FontWeight.bold),
-                  // ),
-                  // Row(
-                  //   children: <Widget>[
-                  //     Text(
-                  //       "Total price : ",
-                  //       style: TextStyle(
-                  //           fontSize: subheading,
-                  //           color: Colors.black54,
-                  //           fontWeight: FontWeight.bold),
-                  //     ),
-                  //     Text(
-                  //       "₹ " +
-                  //           orderdetails["totalprice"].toString() +
-                  //           " (GST extra as applicable)",
-                  //       style: TextStyle(
-                  //           fontSize: subheading,
-                  //           color: Colors.black87,
-                  //           fontWeight: FontWeight.bold),
-                  //     )
-                  //   ],
-                  // ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),
