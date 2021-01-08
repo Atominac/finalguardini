@@ -289,381 +289,403 @@ class _OutletsState extends State<Outlets> {
               builder: (context) => HomeScreen(),
             ));
       },
-      child: Scaffold(
-        backgroundColor: Hexcolor('#EFE9E0'),
-        key: _scafoldkey,
-        body: Stack(
-          children: [
-            ListView(
-              children: <Widget>[
-                Container(
-                  // padding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
-                  color: Hexcolor('#219251'),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.arrow_back,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => HomeScreen(),
-                                      ));
-                                },
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                'All Outlets',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Hexcolor('#EFE9E0'),
+          key: _scafoldkey,
+          body: Stack(
+            children: [
+              ListView(
+                children: <Widget>[
+                  Container(
+                    // padding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+                    color: Hexcolor('#219251'),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_back,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => HomeScreen(),
+                                        ));
+                                  },
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                      //"Your location"
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        margin: EdgeInsets.only(top: 22),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.location_on,
-                              color: Colors.white.withOpacity(0.8),
-                              size: 14,
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 3),
-                              child: Text(
-                                'Your Location',
-                                style: TextStyle(
-                                  color: Colors.white.withOpacity(0.7),
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      //location display area
-                      Container(
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                          child: Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.all(5),
-                                  child: Text(
-                                    address == null
-                                        ? disp
-                                        : address.substring(0, 27) + "...",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+                              Container(
+                                child: Text(
+                                  'All Outlets',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                              ],
+                              )
+                            ],
+                          ),
+                        ),
+                        //"Your location"
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          margin: EdgeInsets.only(top: 22),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.location_on,
+                                color: Colors.white.withOpacity(0.8),
+                                size: 14,
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 3),
+                                child: Text(
+                                  'Your Location',
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.7),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        //location display area
+                        Container(
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.all(5),
+                                    child: Text(
+                                      address == null
+                                          ? disp
+                                          : address.substring(0, 27) + "...",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
 
-                //Other outlets
-                Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      outlets == null
-                          ? Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : outlets.isEmpty
-                              ? Container(
-                                  margin: EdgeInsets.only(
-                                    top: 10,
-                                  ),
-                                  child: Image.asset("assets/noitems.png"),
-                                )
-                              :
-                              //'We provide free pickup and delivery'
-                              ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: outlets.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return GestureDetector(
-                                      onTap: () async {
-                                        print(outlets[index]["geolocation"]);
-                                        var x = getdist(
-                                            outlets[index]["geolocation"]);
-                                        final user = await SharedPreferences
-                                            .getInstance();
-                                        user.setString(
-                                            "outletid", outlets[index]["id"]);
-                                        user.setString("outletname",
-                                            outlets[index]["name"]);
+                  //Other outlets
+                  Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        outlets == null
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : outlets.isEmpty
+                                ? Container(
+                                    margin: EdgeInsets.only(
+                                      top: 10,
+                                    ),
+                                    child: Image.asset("assets/noitems.png"),
+                                  )
+                                :
+                                //'We provide free pickup and delivery'
+                                ListView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: outlets.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return GestureDetector(
+                                        onTap: () async {
+                                          print(outlets[index]["geolocation"]);
+                                          var x = getdist(
+                                              outlets[index]["geolocation"]);
+                                          final user = await SharedPreferences
+                                              .getInstance();
+                                          user.setString(
+                                              "outletid", outlets[index]["id"]);
+                                          user.setString("outletname",
+                                              outlets[index]["name"]);
 
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeScreen()),
-                                        );
-                                      },
-                                      child: Container(
-                                                                              child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Container(
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  //Outlet Image
-                                                  Container(
-                                                    margin: EdgeInsets.only(
-                                                        right: 16),
-                                                    child: outlets[index]
-                                                                ["imageurl"] ==
-                                                            null
-                                                        ? Image.asset(
-                                                            "assets/logohd.png")
-                                                        : Image.network(
-                                                            outlets[index]
-                                                                ["imageurl"],
-                                                            height: 70,
-                                                            width: 70,
-                                                          ),
-                                                  ),
-
-                                                  Container(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Container(
-                                                          // margin: EdgeInsets.only(
-                                                          //     bottom: 8,),
-                                                          child: Text(
-                                                            outlets[index]["locality"]
-                                                                        .length >
-                                                                    20
-                                                                ? outlets[index][
-                                                                            "locality"]
-                                                                        .substring(
-                                                                            0,
-                                                                            17) +
-                                                                    "..."
-                                                                : outlets[index]
-                                                                    ["locality"],
-                                                            style: TextStyle(
-                                                              fontSize: 14,
-                                                              color: Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight.w600,
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    HomeScreen()),
+                                          );
+                                        },
+                                        child: Container(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Container(
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    //Outlet Image
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          right: 16),
+                                                      child: outlets[index]
+                                                                  [
+                                                                  "imageurl"] ==
+                                                              null
+                                                          ? Image.asset(
+                                                              "assets/logohd.png")
+                                                          : Image.network(
+                                                              outlets[index]
+                                                                  ["imageurl"],
+                                                              height: 70,
+                                                              width: 70,
                                                             ),
-                                                          ),
-                                                        ),
-                                                        //Chips
-                                                        Container(
-                                                          margin: EdgeInsets.only(
-                                                              top: 8, bottom: 16),
-                                                          child: Row(
-                                                            children: [
-                                                              Container(
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            8,
-                                                                        vertical:
-                                                                            3),
-                                                                decoration: BoxDecoration(
-                                                                    color: Hexcolor(
-                                                                        '#219251'),
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                20)),
-                                                                child: Text(
-                                                                  outlets[index][
-                                                                      "workingdays"],
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize: 12,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left: 8),
-                                                              ),
-                                                              Container(
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            8,
-                                                                        vertical:
-                                                                            3),
-                                                                decoration: BoxDecoration(
-                                                                    color: Hexcolor(
-                                                                        '#219251'),
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                20)),
-                                                                child: Text(
-                                                                  outlets[index][
-                                                                      "workinghours"],
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize: 12,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        //Outlet Address
-                                                        Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Icon(
-                                                              Icons.location_on,
-                                                              size: 20,
-                                                              color: Colors.green,
-                                                            ),
-                                                            Container(
-                                                              width: size.width *
-                                                                  0.4,
-                                                              child: Text(
-                                                                outlets[index][
-                                                                        "address1"] +
-                                                                    ", " +
-                                                                    outlets[index]
-                                                                        [
-                                                                        "address2"] +
-                                                                    ", " +
-                                                                    outlets[index]
-                                                                        [
-                                                                        "locality"] +
-                                                                    ", " +
-                                                                    outlets[index]
-                                                                        [
-                                                                        "province"] +
-                                                                    ", " +
-                                                                    outlets[index]
-                                                                        [
-                                                                        "country"] +
-                                                                    ", " +
-                                                                    outlets[index]
-                                                                        [
-                                                                        "postcode"],
-                                                                style: TextStyle(
-                                                                    fontSize: 14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
                                                     ),
-                                                  ),
-                                                  fetchdist != 1
-                                                      ? Container()
-                                                      : Container(
-                                                          margin:
-                                                              EdgeInsets.all(3),
-                                                          child: Row(
+
+                                                    Container(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Container(
+                                                            // margin: EdgeInsets.only(
+                                                            //     bottom: 8,),
+                                                            child: Text(
+                                                              outlets[index][
+                                                                              "locality"]
+                                                                          .length >
+                                                                      20
+                                                                  ? outlets[index]
+                                                                              [
+                                                                              "locality"]
+                                                                          .substring(
+                                                                              0,
+                                                                              17) +
+                                                                      "..."
+                                                                  : outlets[
+                                                                          index]
+                                                                      [
+                                                                      "locality"],
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          //Chips
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    top: 8,
+                                                                    bottom: 16),
+                                                            child: Row(
+                                                              children: [
+                                                                Container(
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              8,
+                                                                          vertical:
+                                                                              3),
+                                                                  decoration: BoxDecoration(
+                                                                      color: Hexcolor(
+                                                                          '#219251'),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              20)),
+                                                                  child: Text(
+                                                                    outlets[index]
+                                                                        [
+                                                                        "workingdays"],
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              8),
+                                                                ),
+                                                                Container(
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              8,
+                                                                          vertical:
+                                                                              3),
+                                                                  decoration: BoxDecoration(
+                                                                      color: Hexcolor(
+                                                                          '#219251'),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              20)),
+                                                                  child: Text(
+                                                                    outlets[index]
+                                                                        [
+                                                                        "workinghours"],
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          //Outlet Address
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
                                                             children: [
                                                               Icon(
                                                                 Icons
-                                                                    .subdirectory_arrow_right,
-                                                                size: 15,
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        28,
-                                                                        147,
-                                                                        85,
-                                                                        1),
+                                                                    .location_on,
+                                                                size: 20,
+                                                                color: Colors
+                                                                    .green,
                                                               ),
-                                                              Text(
-                                                                " " +
-                                                                    getdist(outlets[
-                                                                            index]
-                                                                        [
-                                                                        "geolocation"]) +
-                                                                    " Km",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black54,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
+                                                              Container(
+                                                                width:
+                                                                    size.width *
+                                                                        0.4,
+                                                                child: Text(
+                                                                  outlets[
+                                                                              index]
+                                                                          [
+                                                                          "address1"] +
+                                                                      ", " +
+                                                                      outlets[index]
+                                                                          [
+                                                                          "address2"] +
+                                                                      ", " +
+                                                                      outlets[index]
+                                                                          [
+                                                                          "locality"] +
+                                                                      ", " +
+                                                                      outlets[index]
+                                                                          [
+                                                                          "province"] +
+                                                                      ", " +
+                                                                      outlets[index]
+                                                                          [
+                                                                          "country"] +
+                                                                      ", " +
+                                                                      outlets[index]
+                                                                          [
+                                                                          "postcode"],
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
                                                               ),
                                                             ],
                                                           ),
-                                                        ),
-                                                ],
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    fetchdist != 1
+                                                        ? Container()
+                                                        : Container(
+                                                            margin:
+                                                                EdgeInsets.all(
+                                                                    3),
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons
+                                                                      .subdirectory_arrow_right,
+                                                                  size: 15,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          28,
+                                                                          147,
+                                                                          85,
+                                                                          1),
+                                                                ),
+                                                                Text(
+                                                                  " " +
+                                                                      getdist(outlets[
+                                                                              index]
+                                                                          [
+                                                                          "geolocation"]) +
+                                                                      " Km",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black54,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 8.0),
-                                              child: Divider(
-                                                thickness: 0.2,
-                                                color: Colors.black,
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0),
+                                                child: Divider(
+                                                  thickness: 0.2,
+                                                  color: Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            Container(
-              color: Hexcolor('#145730'),
-              height: 24,
-            )
-          ],
+                                      );
+                                    },
+                                  ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Container(
+                color: Hexcolor('#145730'),
+                height: 24,
+              )
+            ],
+          ),
         ),
       ),
     );

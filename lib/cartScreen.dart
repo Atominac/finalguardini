@@ -46,7 +46,7 @@ class _CartState extends State<Cart> {
   var safekeep90;
   var safekeep60;
   var ppddiscount;
-  var planstatus=0;
+  var planstatus = 0;
 
   List<dynamic> special;
   @override
@@ -66,13 +66,13 @@ class _CartState extends State<Cart> {
 
     await getppdplan();
 
-    print("Plan status"+planstatus.toString());
+    print("Plan status" + planstatus.toString());
     var tax = 0.0;
     var totalammount = orderdetails["price"];
     deliveryprice = 0;
     //print("fir bad em yeh");
     if (planstatus == 1) {
-   await applyppddiscount(totalammount);
+      await applyppddiscount(totalammount);
     }
     if (applied == 1) {
       orderdetails["ppdstatus"] = 1;
@@ -90,11 +90,12 @@ class _CartState extends State<Cart> {
     orderdetails["deliverytype"] = "1";
     orderdetails["tax"] = tax.round();
     // return;
-    orderdetails["totalprice"] = totalammount.round() + tax.round() + deliveryprice;
+    orderdetails["totalprice"] =
+        totalammount.round() + tax.round() + deliveryprice;
     orderdetails["safekeeping"] = 0;
     setState(() {});
     // //print(_result);
-    safekeep90 = (3*(20 / 100) * orderdetails["price"]).toInt();
+    safekeep90 = (3 * (20 / 100) * orderdetails["price"]).toInt();
     safekeep60 = (2 * (20 / 100) * orderdetails["price"]).toInt();
   }
 
@@ -130,24 +131,25 @@ class _CartState extends State<Cart> {
     }
     //print("plan api");
   }
-var applied=0;
+
+  var applied = 0;
   applyppddiscount(totalammount) {
-    applied=0;
-    ppddiscount=0;
-    var caplimit=0;
+    applied = 0;
+    ppddiscount = 0;
+    var caplimit = 0;
     for (var item in allplans) {
       // //print("hey1");
       var tempdisc = int.parse(item["discount"]);
       // //print("hey2");
 
       var disc = totalammount - ((tempdisc / 100) * totalammount);
-      caplimit=caplimit+int.parse(item["total_amount"]);
-      print("disc "+disc.toString());
-      print("cap "+caplimit.toString());
+      caplimit = caplimit + int.parse(item["total_amount"]);
+      print("disc " + disc.toString());
+      print("cap " + caplimit.toString());
 
-      if(disc<caplimit){
-        ppddiscount=tempdisc;
-        print("ppad disct"+ppddiscount.toString());
+      if (disc < caplimit) {
+        ppddiscount = tempdisc;
+        print("ppad disct" + ppddiscount.toString());
         applied++;
         break;
       }
@@ -157,200 +159,192 @@ var applied=0;
     // if(applied==0){
     //   planstatus=0;
     // }
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   var deliveryprice = 1;
 
   int _radioValue = 0;
   double _result = 0.0;
-  void _handleRadioValueChange(int value) async{
-   
-      _radioValue = value;
+  void _handleRadioValueChange(int value) async {
+    _radioValue = value;
 
-      switch (_radioValue) {
-        case 0:
+    switch (_radioValue) {
+      case 0:
         //print(0);
         //print("from here========================================");
-          _result = 1;
+        _result = 1;
 
-          deliveryprice = 0;
-          var totalamount = orderdetails["price"];
-          //print("totalamt"+totalamount.toString());
-          var tax = 0.0;
-          // totalamount =
-          print("Applied"+applied.toString());
+        deliveryprice = 0;
+        var totalamount = orderdetails["price"];
+        //print("totalamt"+totalamount.toString());
+        var tax = 0.0;
+        // totalamount =
+        print("Applied" + applied.toString());
 
-          if(planstatus==1){
-         await applyppddiscount(totalamount);
-          }
+        if (planstatus == 1) {
+          await applyppddiscount(totalamount);
+        }
 
-          print("Plan status"+planstatus.toString());
+        print("Plan status" + planstatus.toString());
 
-          if (applied == 1) {
-            var disc = (ppddiscount / 100) * totalamount;
-            discounttemp=disc.toString();
-            totalamount = totalamount - disc.round();
+        if (applied == 1) {
+          var disc = (ppddiscount / 100) * totalamount;
+          discounttemp = disc.toString();
+          totalamount = totalamount - disc.round();
           // //print("totalamt1"+totalamount.toString());
 
-          }
+        }
 
-          print("after");
+        print("after");
 
-          print(ppddiscount);
-          //print("totalamt1"+totalamount.toString());
+        print(ppddiscount);
+        //print("totalamt1"+totalamount.toString());
 
-          tax = ((18 / 100) * totalamount);
-          orderdetails["deliverytype"] = "1";
-          orderdetails["tax"] = tax.round();
-          orderdetails["deliveryprice"] = deliveryprice;
-          orderdetails["totalprice"] =
-          totalamount + tax.round() + deliveryprice;
-          orderdetails["safekeeping"] = 0;
+        tax = ((18 / 100) * totalamount);
+        orderdetails["deliverytype"] = "1";
+        orderdetails["tax"] = tax.round();
+        orderdetails["deliveryprice"] = deliveryprice;
+        orderdetails["totalprice"] = totalamount + tax.round() + deliveryprice;
+        orderdetails["safekeeping"] = 0;
         //print("to here========================================");
 
-          break;
-        case 1:
+        break;
+      case 1:
         //print(1);
 // return;
-          _result = 2;
+        _result = 2;
 
-          var totalamount = orderdetails["price"];
-          var tax = 0.0;
-          // totalamount = orderdetails["price"];
-          deliveryprice = totalamount;
-          totalamount += deliveryprice;
-          if(planstatus==1){
-         await applyppddiscount(totalamount);
-          }
-          print("after");
+        var totalamount = orderdetails["price"];
+        var tax = 0.0;
+        // totalamount = orderdetails["price"];
+        deliveryprice = totalamount;
+        totalamount += deliveryprice;
+        if (planstatus == 1) {
+          await applyppddiscount(totalamount);
+        }
+        print("after");
 
-          print(ppddiscount);
-          print("Plan status"+planstatus.toString());
-          if(applied == 1) {
-            var disc = (ppddiscount / 100) * totalamount;
-            discounttemp=disc.toString();
-            totalamount = totalamount - disc.round();
-          }
-          tax = ((18 / 100) * totalamount);
-          orderdetails["deliverytype"] = "2";
-          orderdetails["deliveryprice"] = deliveryprice;
-          orderdetails["tax"] = tax.round();
-          orderdetails["totalprice"] = totalamount + tax.round();
-          orderdetails["safekeeping"] = 0;
-          orderdetails["discount"]=discounttemp;
+        print(ppddiscount);
+        print("Plan status" + planstatus.toString());
+        if (applied == 1) {
+          var disc = (ppddiscount / 100) * totalamount;
+          discounttemp = disc.toString();
+          totalamount = totalamount - disc.round();
+        }
+        tax = ((18 / 100) * totalamount);
+        orderdetails["deliverytype"] = "2";
+        orderdetails["deliveryprice"] = deliveryprice;
+        orderdetails["tax"] = tax.round();
+        orderdetails["totalprice"] = totalamount + tax.round();
+        orderdetails["safekeeping"] = 0;
+        orderdetails["discount"] = discounttemp;
 
-          break;
-        case 2:
+        break;
+      case 2:
         //print(2);
 
-          _result = 3;
-          deliveryprice = 0;
-          var totalamount = 0;
-          var tax = 0.0;
-          totalamount = orderdetails["price"];
-          if(planstatus==1){
-         await applyppddiscount(totalamount);
-          }
-          if (applied == 1) {
-            var disc = (ppddiscount / 100) * totalamount;
-            discounttemp=disc.toString();
-            totalamount = totalamount - disc.round();
-          }
+        _result = 3;
+        deliveryprice = 0;
+        var totalamount = 0;
+        var tax = 0.0;
+        totalamount = orderdetails["price"];
+        if (planstatus == 1) {
+          await applyppddiscount(totalamount);
+        }
+        if (applied == 1) {
+          var disc = (ppddiscount / 100) * totalamount;
+          discounttemp = disc.toString();
+          totalamount = totalamount - disc.round();
+        }
 
-          tax = ((18 / 100) * totalamount);
-          orderdetails["deliverytype"] = "0";
-          orderdetails["deliveryprice"] = deliveryprice;
-          orderdetails["tax"] = tax.round();
-          orderdetails["totalprice"] =
-          totalamount + tax.round() + deliveryprice;
-          orderdetails["safekeeping"] = 0;
-          orderdetails["discount"]=discounttemp;
+        tax = ((18 / 100) * totalamount);
+        orderdetails["deliverytype"] = "0";
+        orderdetails["deliveryprice"] = deliveryprice;
+        orderdetails["tax"] = tax.round();
+        orderdetails["totalprice"] = totalamount + tax.round() + deliveryprice;
+        orderdetails["safekeeping"] = 0;
+        orderdetails["discount"] = discounttemp;
 
-
-          break;
-        case 3:
+        break;
+      case 3:
         //print(3);
 
-          //print("hey");
+        //print("hey");
 
-          _result = 4;
-          deliveryprice = safekeep60;
-          var totalamount = orderdetails["price"] + deliveryprice;
-          var tax = 0.0;
-          if(planstatus==1){
-         await applyppddiscount(totalamount);
-          }
-          if (applied == 1) {
-            var disc = (ppddiscount / 100) * totalamount;
-            discounttemp=disc.toString();
-            totalamount = totalamount - disc.round();
-          }
-          //print("yha se=" + totalamount.toString());
-          tax = ((18 / 100) * totalamount);
-          //print(tax);
-          orderdetails["deliverytype"] = "5";
-          orderdetails["deliveryprice"] = deliveryprice;
-          orderdetails["tax"] = tax.round();
-          orderdetails["totalprice"] = totalamount + tax.round();
-          orderdetails["safekeeping"] = 1;
-          //print("yha tk=" + orderdetails["totalprice"].toString());
-          break;
-        case 4:
+        _result = 4;
+        deliveryprice = safekeep60;
+        var totalamount = orderdetails["price"] + deliveryprice;
+        var tax = 0.0;
+        if (planstatus == 1) {
+          await applyppddiscount(totalamount);
+        }
+        if (applied == 1) {
+          var disc = (ppddiscount / 100) * totalamount;
+          discounttemp = disc.toString();
+          totalamount = totalamount - disc.round();
+        }
+        //print("yha se=" + totalamount.toString());
+        tax = ((18 / 100) * totalamount);
+        //print(tax);
+        orderdetails["deliverytype"] = "5";
+        orderdetails["deliveryprice"] = deliveryprice;
+        orderdetails["tax"] = tax.round();
+        orderdetails["totalprice"] = totalamount + tax.round();
+        orderdetails["safekeeping"] = 1;
+        //print("yha tk=" + orderdetails["totalprice"].toString());
+        break;
+      case 4:
         //print(4);
 
-          _result = 5;
-          deliveryprice = safekeep90;
-          var totalamount = orderdetails["price"] + deliveryprice;
-          var tax = 0.0;
-          if(planstatus==1){
-         await applyppddiscount(totalamount);
-          }
-          if (applied == 1) {
-            var disc = (ppddiscount / 100) * totalamount;
-            discounttemp=disc.toString();
-            totalamount = totalamount - disc.round();
-          }
-          tax = ((18 / 100) * totalamount);
-          orderdetails["deliverytype"] = "4";
-          orderdetails["deliveryprice"] = deliveryprice;
-          orderdetails["tax"] = tax.round();
-          orderdetails["totalprice"] = totalamount + tax.round();
-          orderdetails["safekeeping"] = 1;
-          break;
-        case 5:
+        _result = 5;
+        deliveryprice = safekeep90;
+        var totalamount = orderdetails["price"] + deliveryprice;
+        var tax = 0.0;
+        if (planstatus == 1) {
+          await applyppddiscount(totalamount);
+        }
+        if (applied == 1) {
+          var disc = (ppddiscount / 100) * totalamount;
+          discounttemp = disc.toString();
+          totalamount = totalamount - disc.round();
+        }
+        tax = ((18 / 100) * totalamount);
+        orderdetails["deliverytype"] = "4";
+        orderdetails["deliveryprice"] = deliveryprice;
+        orderdetails["tax"] = tax.round();
+        orderdetails["totalprice"] = totalamount + tax.round();
+        orderdetails["safekeeping"] = 1;
+        break;
+      case 5:
         //print(5);
 
-          _result = 5;
+        _result = 5;
 
-          var totalamount = orderdetails["price"];
-          var tax = 0.0;
-          // totalamount = orderdetails["price"];
-          deliveryprice = ((50 / 100) * totalamount).round();
-          totalamount += deliveryprice;
-          if(planstatus==1){
-         await applyppddiscount(totalamount);
-          }
-          if (applied == 1) {
-            var disc = (ppddiscount / 100) * totalamount;
-            discounttemp=disc.toString();
-            totalamount = totalamount - disc.round();
-          }
-          tax = ((18 / 100) * totalamount);
-          orderdetails["deliverytype"] = "2";
-          orderdetails["deliveryprice"] = deliveryprice;
-          orderdetails["tax"] = tax.round();
-          orderdetails["totalprice"] = totalamount + tax.round();
-          orderdetails["safekeeping"] = 0;
+        var totalamount = orderdetails["price"];
+        var tax = 0.0;
+        // totalamount = orderdetails["price"];
+        deliveryprice = ((50 / 100) * totalamount).round();
+        totalamount += deliveryprice;
+        if (planstatus == 1) {
+          await applyppddiscount(totalamount);
+        }
+        if (applied == 1) {
+          var disc = (ppddiscount / 100) * totalamount;
+          discounttemp = disc.toString();
+          totalamount = totalamount - disc.round();
+        }
+        tax = ((18 / 100) * totalamount);
+        orderdetails["deliverytype"] = "2";
+        orderdetails["deliveryprice"] = deliveryprice;
+        orderdetails["tax"] = tax.round();
+        orderdetails["totalprice"] = totalamount + tax.round();
+        orderdetails["safekeeping"] = 0;
 
-          break;
-
-      }
-      // //print(_result);
-       setState(() {
-    });
+        break;
+    }
+    // //print(_result);
+    setState(() {});
   }
 
   getspecialservices() async {
@@ -374,8 +368,6 @@ var applied=0;
       showsnack("Some error has ouccered");
     }
   }
-
-  
 
   final TextEditingController t1 = new TextEditingController(text: "");
   // final TextEditingController t2 = new TextEditingController(text: "");
@@ -583,10 +575,8 @@ var applied=0;
     return sum;
   }
 
-
-
-eachtotal(sel){
-  var ftotal=0;
+  eachtotal(sel) {
+    var ftotal = 0;
     //print(sel);
     // return;
     var amt = 0;
@@ -601,16 +591,16 @@ eachtotal(sel){
 
       if (count > 0) {
         // str += sel["services"][i]["name"] + "(" + count.toString() + ")";
-        amt=count*int.parse(sel["services"][i]["price"].toString());
+        amt = count * int.parse(sel["services"][i]["price"].toString());
         count = 0;
-        ftotal+=amt;
+        ftotal += amt;
       }
-      
     }
 
     // }
     return ftotal;
-}
+  }
+
   showdiaplay(sel) {
     //print("sel");
 
@@ -644,7 +634,7 @@ eachtotal(sel){
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return SafeArea(
-          child: Scaffold(
+      child: Scaffold(
         key: _scafoldkey,
         appBar: AppBar(
           title: Text("Your Basket"),
@@ -698,14 +688,15 @@ eachtotal(sel){
                                     padding: const EdgeInsets.all(8.0),
                                     child: Image.network(
                                       widget.selecteditems[widget
-                                              .selectedindex[index]]["imageurl"],
+                                          .selectedindex[index]]["imageurl"],
                                       scale: 1.5,
                                     ),
                                   ),
                                 ),
                                 Container(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
                                         child: Text(
@@ -736,8 +727,10 @@ eachtotal(sel){
                                 ),
                                 Container(
                                   child: Text(
-                                    "₹ "+eachtotal(widget.selecteditems[
-                                              widget.selectedindex[index]]).toString(),
+                                    "₹ " +
+                                        eachtotal(widget.selecteditems[
+                                                widget.selectedindex[index]])
+                                            .toString(),
                                     // calculateEachTotal(widget.selecteditems[
                                     //         widget.selectedindex[index]
 
@@ -859,8 +852,8 @@ eachtotal(sel){
                                     ),
                                     Text(
                                       '100 %',
-                                      style:
-                                          TextStyle(fontWeight: FontWeight.w500),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ],
                                 ),
@@ -901,8 +894,8 @@ eachtotal(sel){
                                     ),
                                     Text(
                                       '50 %',
-                                      style:
-                                          TextStyle(fontWeight: FontWeight.w500),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ],
                                 ),
@@ -933,8 +926,8 @@ eachtotal(sel){
                                     ),
                                     Text(
                                       '₹ 0',
-                                      style:
-                                          TextStyle(fontWeight: FontWeight.w500),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ],
                                 ),
@@ -968,7 +961,8 @@ eachtotal(sel){
                                             Radio(
                                               value: 3,
                                               groupValue: _radioValue,
-                                              onChanged: _handleRadioValueChange,
+                                              onChanged:
+                                                  _handleRadioValueChange,
                                               toggleable: true,
                                             ),
                                             Column(
@@ -984,7 +978,8 @@ eachtotal(sel){
                                                 ),
                                                 Text(
                                                   '(for 60 days)',
-                                                  style: TextStyle(fontSize: 12),
+                                                  style:
+                                                      TextStyle(fontSize: 12),
                                                 ),
                                               ],
                                             ),
@@ -1008,7 +1003,8 @@ eachtotal(sel){
                                             Radio(
                                               value: 4,
                                               groupValue: _radioValue,
-                                              onChanged: _handleRadioValueChange,
+                                              onChanged:
+                                                  _handleRadioValueChange,
                                               toggleable: true,
                                             ),
                                             Column(
@@ -1024,7 +1020,8 @@ eachtotal(sel){
                                                 ),
                                                 Text(
                                                   '(for 90 days)',
-                                                  style: TextStyle(fontSize: 12),
+                                                  style:
+                                                      TextStyle(fontSize: 12),
                                                 ),
                                               ],
                                             ),
@@ -1115,9 +1112,9 @@ eachtotal(sel){
                                 orderdetails["totalprice"] = totalammount;
                                 discounttemp = discount.toString();
                                 setState(() {});
+                                showsnack("Promo Applied");
                               }
                               orderdetails["discount"] = discounttemp;
-                              showsnack("Promo Applied");
                             }
                           },
                           child: Container(
@@ -1281,8 +1278,8 @@ eachtotal(sel){
                           ),
                         ),
                         Container(
-                          margin:
-                              EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 15),
                           child: Text(
                             'Note: The total price is only an estimate on the basis of the type of wash chosen and may change on close inspection on the material of the item.',
                             style: TextStyle(fontSize: 12),
