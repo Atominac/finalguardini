@@ -185,209 +185,190 @@ class _CreatePasswordState extends State<CreatePassword> {
 
     return Scaffold(
       key: _scafoldkey,
-      // appBar: AppBar(
-      //   title: Text("Create Password"),
-      //   backgroundColor: Hexcolor('#219251'),
-      // ),
+      appBar: AppBar(
+        title: Text("Create Password"),
+        backgroundColor: Hexcolor('#219251'),
+      ),
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          ListView(
+      body:  ListView(
             children: <Widget>[
-              Stack(
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(16, size.height * 0.3, 16, 0),
-                    child: Column(
-                      children: <Widget>[
-                        // Align(
-                        //   alignment: Alignment.centerLeft,
-                        //   child: Text(
-                        //     "Please fill a few details below",
-                        //     style: TextStyle(
-                        //         fontSize: 20, fontWeight: FontWeight.bold),
-                        //   ),
-                        // ),
-                        Form(
-                          key: _formKey,
-                          child: Column(
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Password ",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Hexcolor('#737373'),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 5),
-                                    child: TextFormField(
-                                      decoration: new InputDecoration(
-                                        helperText:
-                                            'Min.6 characters atleast 1 number',
-                                        filled: true,
-                                        fillColor: Color.fromRGBO(
-                                          239,
-                                          233,
-                                          224,
-                                          0.5,
-                                        ),
-                                        contentPadding: EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Hexcolor('#00B6BC'),
-                                          ),
-                                        ),
-                                        border: InputBorder.none,
-                                      ),
-                                      obscureText: true,
-                                      controller: t1,
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return 'Please enter password';
-                                        } else if (value.length < 6) {
-                                          return 'Password must be atleast 6 characters long';
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ],
+              Container(
+                margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: Column(
+                  children: <Widget>[
+                    // Align(
+                    //   alignment: Alignment.centerLeft,
+                    //   child: Text(
+                    //     "Please fill a few details below",
+                    //     style: TextStyle(
+                    //         fontSize: 20, fontWeight: FontWeight.bold),
+                    //   ),
+                    // ),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Password ",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Hexcolor('#737373'),
+                                ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Confirm Password ",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Hexcolor('#737373'),
+                                margin: EdgeInsets.only(top: 5),
+                                child: TextFormField(
+                                  decoration: new InputDecoration(
+                                    helperText:
+                                        'Min.6 characters atleast 1 number',
+                                    filled: true,
+                                    fillColor: Color.fromRGBO(
+                                      239,
+                                      233,
+                                      224,
+                                      0.5,
+                                    ),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Hexcolor('#00B6BC'),
                                       ),
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 10),
-                                      child: TextFormField(
-                                        decoration: new InputDecoration(
-                                          filled: true,
-                                          fillColor: Color.fromRGBO(
-                                            239,
-                                            233,
-                                            224,
-                                            0.5,
-                                          ),
-                                          contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 10,
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Hexcolor('#00B6BC'),
-                                            ),
-                                          ),
-                                          border: InputBorder.none,
-                                        ),
-                                        obscureText: true,
-                                        validator: (value) {
-                                          if (value != t1.text) {
-                                            return 'Password dosent match';
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  ],
+                                    border: InputBorder.none,
+                                  ),
+                                  obscureText: true,
+                                  controller: t1,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Please enter password';
+                                    } else if (value.length < 6) {
+                                      return 'Password must be atleast 6 characters long';
+                                    }
+                                  },
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              top: size.height * 0.12, bottom: 10),
-                          child: InkWell(
-                            onTap: () {
-                              if (_formKey.currentState.validate()) {
-                                register();
-                              }
-                            },
-                            // enableFeedback: true,
-                            splashColor: Color.fromRGBO(255, 194, 51, 0.3),
-                            highlightColor: Color.fromRGBO(255, 194, 51, 0.25),
-                            child: Container(
-                              width: size.width,
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(255, 194, 51, 0.4),
-                                  border: Border.all(
-                                    color: Hexcolor('#FFC233'),
-                                    width: 0.5,
-                                  )),
-                              height: 50,
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Create Password',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Hexcolor('#404040'),
+                          Container(
+                            margin: EdgeInsets.only(top: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Confirm Password ",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Hexcolor('#737373'),
+                                  ),
                                 ),
-                              ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  child: TextFormField(
+                                    decoration: new InputDecoration(
+                                      filled: true,
+                                      fillColor: Color.fromRGBO(
+                                        239,
+                                        233,
+                                        224,
+                                        0.5,
+                                      ),
+                                      contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Hexcolor('#00B6BC'),
+                                        ),
+                                      ),
+                                      border: InputBorder.none,
+                                    ),
+                                    obscureText: true,
+                                    validator: (value) {
+                                      if (value != t1.text) {
+                                        return 'Password dosent match';
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: size.height * 0.12, bottom: 10),
+                      child: InkWell(
+                        onTap: () {
+                          if (_formKey.currentState.validate()) {
+                            register();
+                          }
+                        },
+                        // enableFeedback: true,
+                        splashColor: Color.fromRGBO(255, 194, 51, 0.3),
+                        highlightColor: Color.fromRGBO(255, 194, 51, 0.25),
+                        child: Container(
+                          width: size.width,
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(255, 194, 51, 0.4),
+                              border: Border.all(
+                                color: Hexcolor('#FFC233'),
+                                width: 0.5,
+                              )),
+                          height: 50,
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Create Password',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Hexcolor('#404040'),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: -25,
-                    left: 0,
-                    child: Container(
-                      height: size.height * 0.25,
-                      width: size.width,
-                      child: Image.asset(
-                        'assets/signup_bg.png',
-                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                  Positioned(
-                    top: size.height * 0.16,
-                    left: 30,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(3)),
-                      padding: EdgeInsets.only(left: 30, right: 30, top: 10),
-                      child: Text(
-                        'CREATE PASSWORD',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: Hexcolor('#404040'),
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Positioned(
-                  //     top: 5,
-                  //     child: IconButton(
-                  //         icon: Icon(Icons.arrow_back),
-                  //         onPressed: () {
-                  //           Navigator.of(context).pop();
-                  //         }))
-                ],
+                  ],
+                ),
               ),
+              // Positioned(
+              //   top: -25,
+              //   left: 0,
+              //   child: Container(
+              //     height: size.height * 0.25,
+              //     width: size.width,
+              //     child: Image.asset(
+              //       'assets/signup_bg.png',
+              //       fit: BoxFit.cover,
+              //     ),
+              //   ),
+              // ),
+              // Positioned(
+              //   top: size.height * 0.16,
+              //   left: 30,
+              //   child: Container(
+              //     decoration: BoxDecoration(
+              //         color: Colors.white,
+              //         borderRadius: BorderRadius.circular(3)),
+              //     padding: EdgeInsets.only(left: 30, right: 30, top: 10),
+              //     child: Text(
+              //       'CREATE PASSWORD',
+              //       style: TextStyle(
+              //         fontSize: 18,
+              //         fontWeight: FontWeight.w700,
+              //         color: Hexcolor('#404040'),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
-          Container(
-            color: Hexcolor('#219251'),
-            height: MediaQuery.of(context).padding.top,
-          )
-        ],
-      ),
     );
   }
 }

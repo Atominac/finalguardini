@@ -265,236 +265,215 @@ class _LoginState extends State<Login> {
       child: Scaffold(
         key: _scafoldkey,
         backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            ListView(
-              children: <Widget>[
-                Stack(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                        16,
-                        size.height * 0.3,
-                        16,
-                        0,
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          // Login Form
-                          Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                //Mobile Number
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Mobile Number",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Hexcolor('#737373'),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5),
-                                        child: TextFormField(
-                                            decoration: new InputDecoration(
-                                              filled: true,
-                                              fillColor: Color.fromRGBO(
-                                                  239, 233, 224, 0.5),
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                horizontal: 10,
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: Hexcolor('#00B6BC'),
-                                                ),
-                                              ),
-                                              border: InputBorder.none,
-                                            ),
-                                            keyboardType: TextInputType.number,
-                                            controller: t1,
-                                            validator: (value) {
-                                              if (value.isEmpty) {
-                                                return 'Please enter Mobile no.';
-                                              } else if (value.length != 10) {
-                                                return 'Enter valid Mobile no.';
-                                              }
-                                            }),
-                                      ),
-                                    ],
-                                  ),
+        body: ListView(
+          children: <Widget>[
+            Container(
+              height: size.height * 0.28,
+              width: size.width,
+              child: Image.asset(
+                'assets/login-sgnup.jpeg',
+                fit: BoxFit.cover,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(
+                16,
+                16,
+                16,
+                0,
+              ),
+              child: Column(
+                children: <Widget>[
+                  // Login Form
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        //Mobile Number
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Mobile Number",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Hexcolor('#737373'),
                                 ),
-                                //Password
-                                Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Password",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Hexcolor('#737373'),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                child: TextFormField(
+                                    decoration: new InputDecoration(
+                                      filled: true,
+                                      fillColor:
+                                          Color.fromRGBO(239, 233, 224, 0.5),
+                                      contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Hexcolor('#00B6BC'),
                                         ),
                                       ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 10),
-                                        child: TextFormField(
-                                          decoration: new InputDecoration(
-                                            filled: true,
-                                            fillColor: Color.fromRGBO(
-                                                239, 233, 224, 0.5),
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Hexcolor('#00B6BC'),
-                                              ),
-                                            ),
-                                            border: InputBorder.none,
-                                          ),
-                                          obscureText: true,
-                                          controller: t2,
-                                          validator: (value) {
-                                            if (value.isEmpty) {
-                                              return 'Please enter password';
-                                            } else if (value.length < 6) {
-                                              return 'Password must be atleast 6 characters long';
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                      border: InputBorder.none,
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    controller: t1,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'Please enter Mobile no.';
+                                      } else if (value.length != 10) {
+                                        return 'Enter valid Mobile no.';
+                                      }
+                                    }),
+                              ),
+                            ],
+                          ),
+                        ),
+                        //Password
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Password",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Hexcolor('#737373'),
                                 ),
-                                //"Forgot Password?"
-                                GestureDetector(
-                                  onTap: () {
-                                    if (t1.text.length < 10) {
-                                      showsnack("please enter valid mobile");
-                                    } else {
-                                      verifymobile();
-                                    }
-                                  },
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Container(
-                                      margin: EdgeInsets.all(10),
-                                      child: Text(
-                                        "Forgot password?",
-                                        style: TextStyle(
-                                            color: Hexcolor('#219251'),
-                                            fontSize: 12),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 10),
+                                child: TextFormField(
+                                  decoration: new InputDecoration(
+                                    filled: true,
+                                    fillColor:
+                                        Color.fromRGBO(239, 233, 224, 0.5),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Hexcolor('#00B6BC'),
                                       ),
                                     ),
+                                    border: InputBorder.none,
                                   ),
+                                  obscureText: true,
+                                  controller: t2,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Please enter password';
+                                    } else if (value.length < 6) {
+                                      return 'Password must be atleast 6 characters long';
+                                    }
+                                  },
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          //Signin Button
-                          Container(
-                            margin: EdgeInsets.only(
-                                top: size.height * 0.16, bottom: 10),
-                            child: InkWell(
-                              onTap: () {
-                                if (_formKey.currentState.validate()) {
-                                  login();
-                                }
-                              },
-                              // enableFeedback: true,
-                              splashColor: Color.fromRGBO(255, 194, 51, 0.3),
-                              highlightColor:
-                                  Color.fromRGBO(255, 194, 51, 0.25),
-                              child: Container(
-                                width: width,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(255, 194, 51, 0.4),
-                                    border: Border.all(
-                                      color: Hexcolor('#FFC233'),
-                                      width: 0.5,
-                                    )),
-                                height: 50,
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Login',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: Hexcolor('#404040'),
-                                  ),
-                                ),
+                        ),
+                        //"Forgot Password?"
+                        GestureDetector(
+                          onTap: () {
+                            if (t1.text.length < 10) {
+                              showsnack("please enter valid mobile");
+                            } else {
+                              verifymobile();
+                            }
+                          },
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                              margin: EdgeInsets.all(10),
+                              child: Text(
+                                "Forgot password?",
+                                style: TextStyle(
+                                    color: Hexcolor('#219251'), fontSize: 12),
                               ),
                             ),
                           ),
-                          //"Do not have an account yet?"
-                          Container(
-                            margin: EdgeInsets.only(top: 20, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Text(
-                                    'Do not have an account yet? ',
-                                    style: TextStyle(
-                                      color: Hexcolor('#404040'),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Register()),
-                                      );
-                                    },
-                                    child: Text(
-                                      "SIGNUP",
-                                      style: TextStyle(
-                                        color: Hexcolor('#219251'),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  //Signin Button
+                  Container(
+                    margin:
+                        EdgeInsets.only(top: size.height * 0.16, bottom: 10),
+                    child: InkWell(
+                      onTap: () {
+                        if (_formKey.currentState.validate()) {
+                          login();
+                        }
+                      },
+                      // enableFeedback: true,
+                      splashColor: Color.fromRGBO(255, 194, 51, 0.3),
+                      highlightColor: Color.fromRGBO(255, 194, 51, 0.25),
+                      child: Container(
+                        width: width,
+                        decoration: BoxDecoration(
+                            color: Color.fromRGBO(255, 194, 51, 0.4),
+                            border: Border.all(
+                              color: Hexcolor('#FFC233'),
+                              width: 0.5,
+                            )),
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Login',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Hexcolor('#404040'),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  //"Do not have an account yet?"
+                  Container(
+                    margin: EdgeInsets.only(top: 20, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Text(
+                            'Do not have an account yet? ',
+                            style: TextStyle(
+                              color: Hexcolor('#404040'),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Register()),
+                              );
+                            },
+                            child: Text(
+                              "SIGNUP",
+                              style: TextStyle(
+                                color: Hexcolor('#219251'),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    //Top background
-                    Container(
-                      height: size.height * 0.28,
-                      width: size.width,
-                      child: Image.asset(
-                        'assets/login-sgnup.jpeg',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    //company logo
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
-            //Notificaton shade bg
-            Container(
-              color: Hexcolor('#145730'),
-              height: 24,
-            )
           ],
         ),
       ),

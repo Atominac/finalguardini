@@ -171,14 +171,70 @@ class _ReviewDetailsState extends State<ReviewDetails> {
           child: Scaffold(
         key: _scafoldkey,
         backgroundColor: Hexcolor('#EFE9E0'),
+        appBar: AppBar(title: Text("Review Details"),backgroundColor: Hexcolor('#219251'),),
         body: Stack(
           children: [
+            
             Container(
-              height: size.height,
               child: ListView(
                 children: <Widget>[
+                   Container(
+               height: 80,
+               width: size.width,
+               color: Hexcolor('#219251'),
+               child: Column(
+                 children: [
+                 Container(
+                     margin: EdgeInsets.only(top: 16, left: 16),
+                     child: Row(
+                       children: <Widget>[
+                         Icon(
+                           Icons.store_mall_directory,
+                           color: Colors.white.withOpacity(0.7),
+                           size: 14,
+                         ),
+                         Container(
+                           padding: EdgeInsets.only(left: 5),
+                           child: Text(
+                             'Outlet',
+                             style: TextStyle(
+                               color: Colors.white.withOpacity(0.7),
+                               fontWeight: FontWeight.w400,
+                               fontSize: 12,
+                             ),
+                           ),
+                         )
+                       ],
+                     ),
+                   ),
+                   Container(
+                     margin: EdgeInsets.fromLTRB(16, 10, 16, 20),
+                     child: Container(
+                       child: Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: <Widget>[
+                           Container(
+                             width: size.width * 0.7,
+                             child: Text(
+                               outletname == null ? "Loading.." : outletname,
+                               // address == null ? disp : address,
+                               overflow: TextOverflow.ellipsis,
+                               style: TextStyle(
+                                 fontSize: 14,
+                                 color: Colors.white,
+                                 fontWeight: FontWeight.w600,
+                               ),
+                             ),
+                           ),
+                         ],
+                       ),
+                     ),
+                   ),
+                 ],
+               ),
+             ),
                   Container(
-                    margin: EdgeInsets.only(top: 161),
+                    // margin: EdgeInsets.only(top: 80),
                     color: Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -456,88 +512,6 @@ class _ReviewDetailsState extends State<ReviewDetails> {
                     ),
                   ),
                 ],
-              ),
-            ),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Container(
-                height: 140,
-                width: size.width,
-                color: Hexcolor('#219251'),
-                child: Column(
-                  children: [
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            child: IconButton(
-                              icon: Icon(Icons.arrow_back),
-                              onPressed: () => Navigator.of(context).pop(),
-                              color: Colors.white,
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              'Review Details',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 16, left: 16),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.store_mall_directory,
-                            color: Colors.white.withOpacity(0.7),
-                            size: 14,
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(left: 5),
-                            child: Text(
-                              'Outlet',
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(16, 10, 16, 20),
-                      child: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              width: size.width * 0.7,
-                              child: Text(
-                                outletname == null ? "Loading.." : outletname,
-                                // address == null ? disp : address,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
             Positioned(

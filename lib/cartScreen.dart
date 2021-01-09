@@ -233,7 +233,7 @@ class _CartState extends State<Cart> {
           totalamount = totalamount - disc.round();
         }
         tax = ((18 / 100) * totalamount);
-        orderdetails["deliverytype"] = "2";
+        orderdetails["deliverytype"] = "3";
         orderdetails["deliveryprice"] = deliveryprice;
         orderdetails["tax"] = tax.round();
         orderdetails["totalprice"] = totalamount + tax.round();
@@ -629,7 +629,7 @@ class _CartState extends State<Cart> {
   var discounttemp = "0";
 
   final GlobalKey<ScaffoldState> _scafoldkey = GlobalKey<ScaffoldState>();
-
+var promoapplied=0;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -790,7 +790,6 @@ class _CartState extends State<Cart> {
                                               'Standard',
                                               style: TextStyle(
                                                 fontSize: 14,
-                                                color: Hexcolor('#00B6BC'),
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
@@ -798,7 +797,6 @@ class _CartState extends State<Cart> {
                                               '(3 days)',
                                               style: TextStyle(
                                                 fontSize: 12,
-                                                color: Hexcolor('#00B6BC'),
                                               ),
                                             ),
                                           ],
@@ -809,7 +807,6 @@ class _CartState extends State<Cart> {
                                       'Free',
                                       style: TextStyle(
                                         fontSize: 14,
-                                        color: Hexcolor('#00B6BC'),
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -915,13 +912,24 @@ class _CartState extends State<Cart> {
                                           onChanged: _handleRadioValueChange,
                                           toggleable: true,
                                         ),
-                                        Text(
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
                                           'Self Pickup from Outlet',
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 14,
                                           ),
                                         ),
+                                        Text(
+                                              '(3 days)',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ],
+                                        )
                                       ],
                                     ),
                                     Text(
@@ -1051,6 +1059,7 @@ class _CartState extends State<Cart> {
                             var totalammount = orderdetails["price"];
                             var discount;
                             var tax;
+                            
 
                             if (orderdetails["items"].length == 0) {
                               showsnack("Please select items to add an offer");
@@ -1111,6 +1120,7 @@ class _CartState extends State<Cart> {
                                 //print(totalammount);
                                 orderdetails["totalprice"] = totalammount;
                                 discounttemp = discount.toString();
+                                promoapplied=1;
                                 setState(() {});
                                 showsnack("Promo Applied");
                               }
@@ -1121,7 +1131,7 @@ class _CartState extends State<Cart> {
                             color: Colors.white,
                             child: ListTile(
                               title: Text(
-                                'APPLY PROMO CODE',
+                                promoapplied==0?'APPLY PROMO CODE':"PROMO APPLIED",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Hexcolor('#00B6BC'),

@@ -449,12 +449,18 @@ class _OrderDetailsState extends State<OrderDetails> {
                             color: Colors.black54,
                             fontWeight: FontWeight.bold),
                       ),
-                      Text(
+                   orders["ppdstatus"]==0?   Text(
                         orders["discounttype"] == null
                             ? "-"
                             : orders["discounttype"] == "0"
                                 ? "  " + orders["discount"] + "% off"
                                 : "  Rs " + orders["discount"] + " off",
+                        style: TextStyle(
+                            fontSize:
+                                (4 / 100) * MediaQuery.of(context).size.width,
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold),
+                      ):Text(orders["ppddiscount"]+" %",
                         style: TextStyle(
                             fontSize:
                                 (4 / 100) * MediaQuery.of(context).size.width,
@@ -828,12 +834,31 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                         ),
                       ),
-                      GestureDetector(
+                    orders["invoiceurl"]==null?  GestureDetector(
                                       onTap: () {
                                         amountdetails();
                                       },
                                       child: Text(
                                         'DETAILS',
+                                        style: TextStyle(
+                                          color: Hexcolor('#00B6BC'),
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ):GestureDetector(
+                                      onTap: () async{
+                                        //hereeee
+                                        var url = orders["invoiceurl"];
+                                        print(url);
+                                        if (await canLaunch(url)) {
+                                          await launch(url);
+                                        } else {
+                                          throw 'Could not launch $url';
+                                        }
+                                      },
+                                      child: Text(
+                                        'INVOICE',
                                         style: TextStyle(
                                           color: Hexcolor('#00B6BC'),
                                           fontSize: 10,
@@ -1433,74 +1458,74 @@ class _OrderDetailsState extends State<OrderDetails> {
                 //     ],
                 //   ),
                 // ),
-                // orders["status"] == "1"
-                //     ? Container()
-                //     : DateTime.now()
-                //                 .difference(DateTime.parse(orders["datetime"]))
-                //                 .inHours >
-                //             1
-                // ? Container(
-                //     margin: EdgeInsets.all(10),
-                //     child: MaterialButton(
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: new BorderRadius.circular(5.0),
-                //         ),
-                //         child: Container(
-                //           margin: EdgeInsets.all(10.0),
-                //           child: Align(
-                //             alignment: Alignment.center,
-                //             child: Row(
-                //               mainAxisAlignment:
-                //                   MainAxisAlignment.center,
-                //               children: <Widget>[
-                //                 Text(
-                //                   "Can't cancel order after one hour",
-                //                   style: TextStyle(
-                //                       color: Colors.white,
-                //                       fontSize: 17.5),
-                //                 ),
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //         color: Colors.grey,
-                //         textTheme: ButtonTextTheme.normal,
-                //         height: 50.0,
-                //         minWidth: 600,
-                //         onPressed: () {}),
-                //   )
-                // : Container(
-                //     margin: EdgeInsets.all(10),
-                //     child: MaterialButton(
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: new BorderRadius.circular(5.0),
-                //         ),
-                //         child: Container(
-                //           margin: EdgeInsets.all(10.0),
-                //           child: Align(
-                //             alignment: Alignment.center,
-                //             child: Row(
-                //               mainAxisAlignment:
-                //                   MainAxisAlignment.center,
-                //               children: <Widget>[
-                //                 Text(
-                //                   "Cancel Orders",
-                //                   style: TextStyle(
-                //                       color: Colors.white,
-                //                       fontSize: 17.5),
-                //                 ),
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //         color: Colors.red,
-                //         textTheme: ButtonTextTheme.normal,
-                //         height: 50.0,
-                //         minWidth: 600,
-                //         onPressed: () {
-                //           canceldialogue();
-                //         }),
-                //   ),
+                orders["status"] == "1"
+                    ? Container()
+                    : DateTime.now()
+                                .difference(DateTime.parse(orders["datetime"]))
+                                .inHours >
+                            1
+                ? Container(
+                    margin: EdgeInsets.all(10),
+                    child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(5.0),
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.all(10.0),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Can't cancel order after one hour",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17.5),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        color: Colors.grey,
+                        textTheme: ButtonTextTheme.normal,
+                        height: 50.0,
+                        minWidth: 600,
+                        onPressed: () {}),
+                  )
+                : Container(
+                    margin: EdgeInsets.all(10),
+                    child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(5.0),
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.all(10.0),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Cancel Orders",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17.5),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        color: Colors.red,
+                        textTheme: ButtonTextTheme.normal,
+                        height: 50.0,
+                        minWidth: 600,
+                        onPressed: () {
+                          canceldialogue();
+                        }),
+                  ),
               ],
             ),
     );

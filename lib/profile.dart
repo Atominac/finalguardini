@@ -16,7 +16,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  var name, mobile, email, status,address;
+  var name, mobile, email, status, address;
   final TextEditingController t1 = new TextEditingController(text: "");
 
   @override
@@ -26,9 +26,9 @@ class _ProfileState extends State<Profile> {
     getcredits();
   }
 
-var balancecredits;
+  var balancecredits;
 // var balancestatus="loading...";
-   getcredits() async {
+  getcredits() async {
     // _showdialogue();
     final user = await SharedPreferences.getInstance();
 
@@ -46,19 +46,13 @@ var balancecredits;
     var data = jsondecoded["data"];
     print(jsondecoded);
     if (jsondecoded['message'] == "success") {
-      balancecredits="₹ "+data[0]["balancecredits"].toString();
-      setState(() {
-        
-      });
-    
-    } 
-    else {
+      balancecredits = "₹ " + data[0]["balancecredits"].toString();
+      setState(() {});
+    } else {
       Navigator.pop(context);
       showsnack("Some error has ouccered");
-      balancecredits="NOT VALID";
-  setState(() {
-    
-  });
+      balancecredits = "NOT VALID";
+      setState(() {});
     }
     //parameter_missing
     //parameter_missing
@@ -71,7 +65,7 @@ var balancecredits;
     mobile = user.getString("mobileno");
     email = user.getString("email");
     address = user.getString("savedaddress");
-    if(address==null)fetchaddress();
+    if (address == null) fetchaddress();
     print(address);
     setState(() {
       status = "1"; // data is loaded
@@ -256,8 +250,6 @@ var balancecredits;
         });
   }
 
-
-
   fetchaddress() async {
     _showdialogue();
     final user = await SharedPreferences.getInstance();
@@ -323,314 +315,283 @@ var balancecredits;
     return 0;
   }
 
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var width = size.width;
-    return SafeArea(
-          child: Scaffold(
-        backgroundColor: Hexcolor('#F3EEE8'),
-        key: _scafoldkey,
-        body: status == null
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : Stack(
-                children: [
-                  ListView(
+    return Scaffold(
+      backgroundColor: Hexcolor('#F3EEE8'),
+      key: _scafoldkey,
+      body: status == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView(
+              children: [
+                Container(
+                  color: Hexcolor('#219251'),
+                  height: size.height * 0.2,
+                  width: size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Stack(
-                        children: [
-                                            Container(
-                    color: Hexcolor('#219251'),
-                    height: size.height * 0.2,
-                    width: size.width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          radius: 28,
-                          child: Image.asset('assets/newuser.png'),
-                        ),
-                        Padding(padding: EdgeInsets.all(3)),
-                        Text(
-                          name
-                              ,
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        )
-                      ],
-                    ),
+                      CircleAvatar(
+                        radius: 28,
+                        child: Image.asset('assets/newuser.png'),
+                      ),
+                      Padding(padding: EdgeInsets.all(3)),
+                      Text(
+                        name,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      )
+                    ],
                   ),
-                  Container(
-                    color: Hexcolor('#145730'),
-                    height: 24,
-                  )
-               ,
-                          Container(
-                            margin: EdgeInsets.fromLTRB(
-                              0,
-                              size.height * 0.21,
-                              0,
-                              0,
-                            ),
-                            child: Column(
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 7),
+                  child: Column(
+                    children: <Widget>[
+                      //Profile Details
+                      Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        color: Colors.white,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
                               children: <Widget>[
-                                //Profile Details
-                                 Container(
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 16),
-                                  color: Colors.white,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        children: <Widget>[
-                                          Container(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                //'PROFILE DETAILS'
-                                                Container(
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.perm_identity,
-                                                        size: 16,
-                                                        color:
-                                                            Hexcolor('#737373'),
-                                                      ),
-                                                      Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 5)),
-                                                      Text(
-                                                        'WALLET BALANCE',
-                                                        style: TextStyle(
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color:
-                                                              Hexcolor('#737373'),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                //Name
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 22, top: 14),
-                                                  child: Text(
-                                                    balancecredits==null?"Loading":balancecredits.toString(),
-                                                    style: TextStyle(
-                                                      color: Hexcolor('#404040'),
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ),
-                                               
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
                                 Container(
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 16),
-                                  color: Colors.white,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        children: <Widget>[
-                                          Container(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                //'PROFILE DETAILS'
-                                                Container(
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.perm_identity,
-                                                        size: 16,
-                                                        color:
-                                                            Hexcolor('#737373'),
-                                                      ),
-                                                      Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 5)),
-                                                      Text(
-                                                        'PROFILE DETAILS',
-                                                        style: TextStyle(
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color:
-                                                              Hexcolor('#737373'),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                //Name
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 22, top: 14),
-                                                  child: Text(
-                                                    name,
-                                                    style: TextStyle(
-                                                      color: Hexcolor('#404040'),
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ),
-                                                //Email
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 22, top: 3),
-                                                  child: Text(
-                                                    email,
-                                                    style: TextStyle(
-                                                      color: Hexcolor('#404040'),
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ),
-                                                //Phone no
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 22, top: 3),
-                                                  child: Text(
-                                                    '+91 ' + mobile,
-                                                    style: TextStyle(
-                                                      color: Hexcolor('#404040'),
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      // GestureDetector(
-                                      //   onTap: () {
-                                      //     Navigator.push(
-                                      //         context,
-                                      //         MaterialPageRoute(
-                                      //             builder: (context) =>
-                                      //                 EditProfile(
-                                      //                     name, mobile, email)));
-                                      //   },
-                                      //   child: Text(
-                                      //     'EDIT',
-                                      //     style: TextStyle(
-                                      //       color: Hexcolor('#00B6BC'),
-                                      //       fontSize: 10,
-                                      //       fontWeight: FontWeight.w500,
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
-                                ),
-                                //Saved Address
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 16),
-                                  color: Colors.white,
                                   child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
+                                      //'PROFILE DETAILS'
                                       Container(
                                         child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                //'PROFILE DETAILS'
-                                                Container(
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.location_on,
-                                                        size: 16,
-                                                        color:
-                                                            Hexcolor('#737373'),
-                                                      ),
-                                                      Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 5)),
-                                                      Text(
-                                                        'SAVED PICKUP ADDRESS',
-                                                        style: TextStyle(
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color:
-                                                              Hexcolor('#737373'),
-                                                        ),
-                                                      ),
-                                                    ],
+                                            Icon(
+                                              Icons.perm_identity,
+                                              size: 16,
+                                              color: Hexcolor('#737373'),
+                                            ),
+                                            Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 5)),
+                                            Text(
+                                              'WALLET BALANCE',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: Hexcolor('#737373'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      //Name
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(left: 22, top: 14),
+                                        child: Text(
+                                          balancecredits == null
+                                              ? "Loading"
+                                              : balancecredits.toString(),
+                                          style: TextStyle(
+                                            color: Hexcolor('#404040'),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        color: Colors.white,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      //'PROFILE DETAILS'
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.perm_identity,
+                                              size: 16,
+                                              color: Hexcolor('#737373'),
+                                            ),
+                                            Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 5)),
+                                            Text(
+                                              'PROFILE DETAILS',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: Hexcolor('#737373'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      //Name
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(left: 22, top: 14),
+                                        child: Text(
+                                          name,
+                                          style: TextStyle(
+                                            color: Hexcolor('#404040'),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                      //Email
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(left: 22, top: 3),
+                                        child: Text(
+                                          email,
+                                          style: TextStyle(
+                                            color: Hexcolor('#404040'),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                      //Phone no
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(left: 22, top: 3),
+                                        child: Text(
+                                          '+91 ' + mobile,
+                                          style: TextStyle(
+                                            color: Hexcolor('#404040'),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (context) =>
+                            //                 EditProfile(
+                            //                     name, mobile, email)));
+                            //   },
+                            //   child: Text(
+                            //     'EDIT',
+                            //     style: TextStyle(
+                            //       color: Hexcolor('#00B6BC'),
+                            //       fontSize: 10,
+                            //       fontWeight: FontWeight.w500,
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
+                      //Saved Address
+                      Container(
+                        margin: EdgeInsets.only(bottom: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        color: Colors.white,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      //'PROFILE DETAILS'
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.location_on,
+                                              size: 16,
+                                              color: Hexcolor('#737373'),
+                                            ),
+                                            Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 5)),
+                                            Text(
+                                              'SAVED PICKUP ADDRESS',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: Hexcolor('#737373'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      //'Home'
+                                      address == null
+                                          ? Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 22, top: 14),
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  await Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              EnterAddress()));
+                                                  setState(() {});
+                                                },
+                                                child: Text(
+                                                  'ADD ADDRESS',
+                                                  style: TextStyle(
+                                                    color: Hexcolor('#00B6BC'),
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
-                                                //'Home'
-                                                address==null?Container(margin: EdgeInsets.only(
-                                                      left: 22, top: 14),child: GestureDetector(
-                                              onTap: () async {
-                                               await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            EnterAddress()));
-                                                            setState(() {
-                                                              
-                                                            });
-                                              },
-                                              child: Text(
-                                                'ADD ADDRESS',
-                                                style: TextStyle(
-                                                  color: Hexcolor('#00B6BC'),
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
                                               ),
-                                            ),):Column(
-                                                  children: [
+                                            )
+                                          : Column(
+                                              children: [
                                                 //     Container(
                                                 //   margin: EdgeInsets.only(
                                                 //       left: 22, top: 14),
@@ -651,205 +612,202 @@ var balancecredits;
                                                   child: Text(
                                                     address,
                                                     style: TextStyle(
-                                                      color: Hexcolor('#595959'),
+                                                      color:
+                                                          Hexcolor('#595959'),
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                     ),
                                                   ),
                                                 ),
-                                                  ],
-                                                )
                                               ],
-                                            ),
-                                           address!=null? GestureDetector(
-                                              onTap: () async{
-                                              await  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            EnterAddress()));
-                                                            print("hry bitch");
-                                                            getdetails();
-                                                            
-                                              },
-                                              child: Text(
-                                                'EDIT',
-                                                style: TextStyle(
-                                                  color: Hexcolor('#00B6BC'),
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ):Container(),
-                                          ],
-                                        ),
-                                      )
+                                            )
                                     ],
                                   ),
-                                ),
-                                //Reset Password
-                                GestureDetector(
-                                  onTap: () {
-                                    // Navigator.pop(context);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ChangePassword()));
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(bottom: 5),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 16),
-                                    color: Colors.white,
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.lock_outline,
-                                            size: 16,
-                                            color: Hexcolor('#737373'),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 5),
-                                          ),
-                                          Text(
-                                            'RESET PASSWORD',
+                                  address != null
+                                      ? GestureDetector(
+                                          onTap: () async {
+                                            await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EnterAddress()));
+                                            print("hry bitch");
+                                            getdetails();
+                                          },
+                                          child: Text(
+                                            'EDIT',
                                             style: TextStyle(
-                                              fontSize: 12,
+                                              color: Hexcolor('#00B6BC'),
+                                              fontSize: 10,
                                               fontWeight: FontWeight.w500,
-                                              color: Hexcolor('#737373'),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                        )
+                                      : Container(),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      //Reset Password
+                      GestureDetector(
+                        onTap: () {
+                          // Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChangePassword()));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 16),
+                          color: Colors.white,
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.lock_outline,
+                                  size: 16,
+                                  color: Hexcolor('#737373'),
                                 ),
-                                //About Us
-                                GestureDetector(
-                                  onTap: () async {
-                                    var url = "https://www.guardini.in/";
-                                    if (await canLaunch(url)) {
-                                      await launch(url);
-                                    } else {
-                                      throw 'Could not launch $url';
-                                    }
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(bottom: 5),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 16),
-                                    color: Colors.white,
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.info_outline,
-                                            size: 16,
-                                            color: Hexcolor('#737373'),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 5),
-                                          ),
-                                          Text(
-                                            'ABOUT US',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              color: Hexcolor('#737373'),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5),
                                 ),
-                                //Privacy Policy
-                                GestureDetector(
-                                  onTap: () {
-                                    showAboutDialog(
-                                        context: context,
-                                        applicationVersion: "1.0.0",
-                                        applicationIcon: Image.asset(
-                                          "assets/logo-white.png",
-                                          height: 50,
-                                          width: 50,
-                                        ));
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(bottom: 5),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 16),
-                                    color: Colors.white,
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.vpn_key,
-                                            size: 16,
-                                            color: Hexcolor('#737373'),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 5),
-                                          ),
-                                          Text(
-                                            'PRIVACY POLICY',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              color: Hexcolor('#737373'),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                //Logout
-                                GestureDetector(
-                                  onTap: () {
-                                    logout();
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(bottom: 5),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 16),
-                                    color: Colors.white,
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.exit_to_app,
-                                            size: 16,
-                                            color: Hexcolor('#737373'),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 5),
-                                          ),
-                                          Text(
-                                            'LOGOUT',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              color: Hexcolor('#737373'),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                Text(
+                                  'RESET PASSWORD',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Hexcolor('#737373'),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ],
+                        ),
+                      ),
+                      //About Us
+                      GestureDetector(
+                        onTap: () async {
+                          var url = "https://www.guardini.in/";
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 16),
+                          color: Colors.white,
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.info_outline,
+                                  size: 16,
+                                  color: Hexcolor('#737373'),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                ),
+                                Text(
+                                  'ABOUT US',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Hexcolor('#737373'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      //Privacy Policy
+                      GestureDetector(
+                        onTap: () {
+                          showAboutDialog(
+                              context: context,
+                              applicationVersion: "1.0.0",
+                              applicationIcon: Image.asset(
+                                "assets/logo-white.png",
+                                height: 50,
+                                width: 50,
+                              ));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 16),
+                          color: Colors.white,
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.vpn_key,
+                                  size: 16,
+                                  color: Hexcolor('#737373'),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                ),
+                                Text(
+                                  'PRIVACY POLICY',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Hexcolor('#737373'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      //Logout
+                      GestureDetector(
+                        onTap: () {
+                          logout();
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 16),
+                          color: Colors.white,
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.exit_to_app,
+                                  size: 16,
+                                  color: Hexcolor('#737373'),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                ),
+                                Text(
+                                  'LOGOUT',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Hexcolor('#737373'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
- ],
-              ),
-      ),
+                ),
+              ],
+            ),
     );
   }
 }

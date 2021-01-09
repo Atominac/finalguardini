@@ -72,8 +72,8 @@ rateandreview() async {
       Navigator.pop(context);
       if (rate == 5) {
         // reffral();
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ReferralCodes(widget.detail)));
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => ReferralCodes(widget.detail)));
       
       } else {
         Navigator.push(
