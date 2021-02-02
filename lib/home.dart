@@ -49,6 +49,11 @@ class _HomeState extends State<Home> {
     getlocation();
   }
 
+  enabled(location) async{
+    return await location.serviceEnabled();
+
+  }
+
   var loc = 1;
   LocationData _locationData;
   var fetchdist = 1;
@@ -68,7 +73,7 @@ class _HomeState extends State<Home> {
     print("get location");
     disp = "Asking for permission...";
     setState(() {});
-    _serviceEnabled = await location.serviceEnabled();
+   _serviceEnabled= await enabled(location);
     print(_serviceEnabled);
 
     if (!_serviceEnabled) {
@@ -192,7 +197,7 @@ class _HomeState extends State<Home> {
       sortoutlets(outlets);
       print(outlets.length);
     } else {
-      showsnack("Some error has occured");
+      showsnack("Some error has occurred");
     }
   }
 
@@ -552,8 +557,8 @@ class _HomeState extends State<Home> {
                             color: Colors.white,
                             // width: size.width - 100,
                             height: size.shortestSide * 0.49,
-                            margin: EdgeInsets.fromLTRB(0, 16, 0, 0),
-                            padding: EdgeInsets.fromLTRB(16, 20, 16, 30),
+                            margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               // height: 200.0,
                               // width: 300.0,
@@ -1123,16 +1128,19 @@ class _HomeState extends State<Home> {
                     //Banner
                     : bannerflag == 2
                         ? Container()
-                        : Container(
-                            margin: EdgeInsets.only(top: 10),
-                            child: SizedBox(
-                              height: 520.0,
-                              child: Carousel(
-                                images: banner,
-                                showIndicator: false,
+                        : Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: Container(
+                              margin: EdgeInsets.only(top: 10),
+                              child: SizedBox(
+                                height: 800.0,
+                                child: Carousel(
+                                  images: banner,
+                                  showIndicator: false,
+                                ),
                               ),
                             ),
-                          ),
+                        ),
               ],
             ),
             Container(

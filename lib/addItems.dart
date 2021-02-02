@@ -106,6 +106,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
     // ));
 
     for (var index = 0; index < selecteditems.length; index++) {
+       if(items[index]["name"].toLowerCase().contains(t1.text.toLowerCase())){
       children.add(Container(
         margin: EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
@@ -129,17 +130,18 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                 Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.network(
-                          items[index]["imageurl"],
-                          height: 80,
-                        ),
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.network(
+                      items[index]["imageurl"],
+                      height: 80,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Container(height: 80,
-                                          child: Text(
+                    child: Container(
+                      height: 80,
+                      child: Text(
                         items[index]["name"],
                         style: TextStyle(
                           fontSize: 16,
@@ -159,8 +161,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                 padding: EdgeInsets.symmetric(vertical: 16),
                 onPressed: () {
                   tempitems = 0;
-                  selectedservices =
-                      List<int>.generate(selecteditems[index]["services"].length, (i) => 0);
+                  selectedservices = List<int>.generate(
+                      selecteditems[index]["services"].length, (i) => 0);
 
                   //print(selecteditems[index].containsKey('paymenttype'));
                   //print(selectedservices);
@@ -196,62 +198,44 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
           ],
         ),
       ));
-    }
+     } }
 
     majorchildren.add(
       Stack(
         children: [
           Container(
-            child: Column(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+             child: Column(
               children: <Widget>[
-                //Search bar
-//                   SizedBox(
-//                     height: 40,
-//                     child: Row(
-//                       children: [
-//                         Container(
-//                           width: (80 / 100) * size.width,
-//                           child: TextFormField(
-//                             decoration: new InputDecoration(
-//                               hintText: "Search",
-//                               border: new OutlineInputBorder(
-//                                 borderRadius: const BorderRadius.all(
-//                                   const Radius.circular(5.0),
-//                                 ),
-//                               ),
-//                             ),
-//                             keyboardType: TextInputType.text,
-//                             controller: t1,
-//                             onChanged: (value) {
-// // _onChangeHandler(value);
-//                               setState(() {});
-//                             },
-//                           ),
-//                         ),
-//                         Container(
-//                           margin: EdgeInsets.only(left: 5),
-//                           child: SizedBox(
-//                             width: (12 / 100) * size.width,
-//                             child: RaisedButton(
-//                                 onPressed: () {
-//                                   // if(t1.text==""){
-//                                   //   showsnack("enter a keyword");
-//                                   // }else{
-
-//                                   search();
-//                                   // }
-//                                 },
-//                                 color: Color.fromRGBO(38, 179, 163, 1),
-//                                 padding: EdgeInsets.all(2.0),
-//                                 child: Icon(
-//                                   Icons.search,
-//                                   color: Colors.white,
-//                                 )),
-//                           ),
-//                         )
-//                       ],
-//                     ),
-//                   ),
+                // Search bar
+                SizedBox(
+                  height: 40,
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left:12),
+                        width: (90 / 100) * size.width,
+                        child: TextFormField(
+                          decoration: new InputDecoration(
+                            hintText: "Search",
+                            border: new OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                const Radius.circular(0.0),
+                              ),
+                            ),
+                          ),
+                          keyboardType: TextInputType.text,
+                          controller: t1,
+                          onChanged: (value) {
+                            print("yo");
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      
+                    ],
+                  ),
+                ),
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.fromLTRB(10, 10, 10, 60),
@@ -297,7 +281,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                                       ),
                                       alignment: Alignment.center,
                                       child: Text(
-                                        "What is premium and regular wash?",
+                                        "What is Green and Premium care?",
                                         style: TextStyle(
                                             fontSize: 13,
                                             color: Hexcolor('#00B6BC'),
@@ -408,7 +392,9 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
       children = [];
       for (var index = 0; index < selecteditems.length; index++) {
         if (categories[i]["id"] == selecteditems[index]["categoryid"]) {
-          children.add(Container(
+          print(items[index]["name"].contains(t1.text));
+          if(items[index]["name"].toLowerCase().contains(t1.text.toLowerCase())){
+            children.add(Container(
             margin: EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -438,16 +424,17 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                         ),
                       ),
                       Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Container(height: 80,
-                                          child: Text(
-                        items[index]["name"],
-                        style: TextStyle(
-                          fontSize: 16,
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Container(
+                          height: 80,
+                          child: Text(
+                            items[index]["name"],
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
                     ],
                   ),
                 ),
@@ -460,8 +447,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                     padding: EdgeInsets.symmetric(vertical: 16),
                     onPressed: () {
                       tempitems = 0;
-                       selectedservices= List<int>.generate(selecteditems[index]["services"].length, (i) => 0);
-
+                      selectedservices = List<int>.generate(
+                          selecteditems[index]["services"].length, (i) => 0);
 
                       //print(selecteditems[index].containsKey('paymenttype'));
                       //print(selectedservices);
@@ -497,64 +484,48 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
               ],
             ),
           ));
-        }
+       
+          }
+          }
       }
 
       majorchildren.add(
         Stack(
           children: [
             Container(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+
               child: Column(
                 children: <Widget>[
                   //Search bar
-//                   SizedBox(
-//                     height: 40,
-//                     child: Row(
-//                       children: [
-//                         Container(
-//                           width: (80 / 100) * size.width,
-//                           child: TextFormField(
-//                             decoration: new InputDecoration(
-//                               hintText: "Search",
-//                               border: new OutlineInputBorder(
-//                                 borderRadius: const BorderRadius.all(
-//                                   const Radius.circular(5.0),
-//                                 ),
-//                               ),
-//                             ),
-//                             keyboardType: TextInputType.text,
-//                             controller: t1,
-//                             onChanged: (value) {
-// // _onChangeHandler(value);
-//                               setState(() {});
-//                             },
-//                           ),
-//                         ),
-//                         Container(
-//                           margin: EdgeInsets.only(left: 5),
-//                           child: SizedBox(
-//                             width: (12 / 100) * size.width,
-//                             child: RaisedButton(
-//                                 onPressed: () {
-//                                   // if(t1.text==""){
-//                                   //   showsnack("enter a keyword");
-//                                   // }else{
-
-//                                   search();
-//                                   // }
-//                                 },
-//                                 color: Color.fromRGBO(38, 179, 163, 1),
-//                                 padding: EdgeInsets.all(2.0),
-//                                 child: Icon(
-//                                   Icons.search,
-//                                   color: Colors.white,
-//                                 )),
-//                           ),
-//                         )
-//                       ],
-//                     ),
-//                   ),
-                  Expanded(
+                  SizedBox(
+                  height: 40,
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left:12),
+                        width: (90 / 100) * size.width,
+                        child: TextFormField(
+                          decoration: new InputDecoration(
+                            hintText: "Search",
+                            border: new OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                const Radius.circular(0.0),
+                              ),
+                            ),
+                          ),
+                          keyboardType: TextInputType.text,
+                          controller: t1,
+                          onChanged: (value) {
+                            print("yo");
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
                     child: Container(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 60),
                       child: flag == 0
@@ -825,7 +796,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
       itemdialogue = selectedservices[x];
       itemcount(index, "p", x);
     }
-   
+
     tempitems = 0;
   }
 
@@ -834,7 +805,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
     // return;
     var price;
     selecteditems[index]["packgingtype"] = pkgoption;
-   
+
     //print("hey yo bitch");
     // //print(selecteditems[index]["services"][pricetype]["price"]);
     price = selecteditems[index]["services"][pricetype]["price"];
@@ -1413,7 +1384,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
     return DefaultTabController(
       length: categories == null ? 1 : categories.length + 1,
       child: SafeArea(
-              child: Scaffold(
+        child: Scaffold(
           key: _scafoldkey,
           appBar: AppBar(
             title: Text("Select items for drycleaning"),

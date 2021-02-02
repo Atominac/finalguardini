@@ -29,12 +29,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
    
   
     var arguments = <String, dynamic>{
-    "mid": "KMGarm24032455962814",
+    "mid": "KMGarm68549879251960",
     "orderId": widget.order["orderid"]  ,
     "amount": widget.order["amount"],
     "txnToken": txnToken,
-    "callbackUrl": "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID="+widget.order["orderid"].toString(), //send this if custom callback url is required
-    "isStaging": true
+    "callbackUrl": "https://securegw.paytm.in/theia/paytmCallback?ORDER_ID="+widget.order["orderid"].toString(), //send this if custom callback url is required
+    "isStaging": false
 };
  print(arguments);
     // return;

@@ -1225,8 +1225,8 @@ var promoapplied=0;
                             children: [
                               Text(
                                 orderdetails["safekeeping"] == 0
-                                    ? 'Delivery Charges'
-                                    : "Safekeeping Charges",
+                                    ?  orderdetails["deliverytype"] == "3"?"Express Charges":'Delivery Charges'
+                                    : orderdetails["deliverytype"] == "3"?"Express Charges": "Safekeeping Charges",
                                 style: TextStyle(
                                   fontSize: 12,
                                 ),

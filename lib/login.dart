@@ -402,8 +402,8 @@ class _LoginState extends State<Login> {
                   ),
                   //Signin Button
                   Container(
-                    margin:
-                        EdgeInsets.only(top: size.height * 0.16, bottom: 10),
+                    // margin:
+                        // EdgeInsets.only(top: size.height * 0.16, bottom: 10),
                     child: InkWell(
                       onTap: () {
                         if (_formKey.currentState.validate()) {
@@ -471,6 +471,10 @@ class _LoginState extends State<Login> {
                       ],
                     ),
                   ),
+                Container(
+                  // margin: EdgeInsets.all(10),
+                  child:Image.asset("assets/loginimg.jpeg") ,
+                )
                 ],
               ),
             ),

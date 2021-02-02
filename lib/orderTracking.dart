@@ -24,6 +24,8 @@ class _DeliveryTimelineState extends State<DeliveryTimeline> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        
+      appBar: AppBar(title: Text("Order Status"),backgroundColor: Hexcolor('#219251'),),
       body: Container(
       child: ListView(
         shrinkWrap: true,

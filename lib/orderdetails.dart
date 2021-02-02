@@ -1458,7 +1458,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 //     ],
                 //   ),
                 // ),
-                orders["status"] == "1"
+                orders["status"] == "1" || int.parse(orders["orderstatus"])>0 
                     ? Container()
                     : DateTime.now()
                                 .difference(DateTime.parse(orders["datetime"]))
