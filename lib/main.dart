@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if(user.getString("first")==null){
             Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Onboarding1()),
+            MaterialPageRoute(builder: (context) => Onboarding2()),
           );
           }else{
           Navigator.push(

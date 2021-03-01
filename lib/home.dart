@@ -558,7 +558,7 @@ class _HomeState extends State<Home> {
                             // width: size.width - 100,
                             height: size.shortestSide * 0.49,
                             margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            // padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             child: Container(
                               // height: 200.0,
                               // width: 300.0,
@@ -573,6 +573,7 @@ class _HomeState extends State<Home> {
                                 dotSpacing: 15,
                                 dotSize: 6,
                                 dotVerticalPadding: -10,
+                                autoplayDuration: Duration(seconds: 7),
                               ),
                             ),
                           ),

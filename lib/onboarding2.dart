@@ -86,12 +86,12 @@ class Onboarding2 extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       maxRadius: 4,
-                      backgroundColor: Hexcolor('D1D1D1'),
+                      backgroundColor: Hexcolor('FFC233'),
                     ),
                     Padding(padding: EdgeInsets.only(left: 6)),
                     CircleAvatar(
                       maxRadius: 4,
-                      backgroundColor: Hexcolor('FFC233'),
+                      backgroundColor: Hexcolor('D1D1D1'),
                     ),
                     Padding(padding: EdgeInsets.only(left: 6)),
                     CircleAvatar(

@@ -231,17 +231,12 @@ class _PromosState extends State<Promos> {
                                               color: Hexcolor('#404040')),
                                         ),
                                       ),
-                                      Text(
-                                        'APPLY',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                            color: Hexcolor('#00B6BC')),
-                                      )
+                                      
                                     ],
                                   ),
                                 ),
-                                Container(
+                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
+                                   Container(
                                   margin: EdgeInsets.only(top: 16),
                                   child: Column(
                                     crossAxisAlignment:
@@ -281,7 +276,15 @@ class _PromosState extends State<Promos> {
                                     ],
                                   ),
                                 ),
-                                index == promos.length - 1
+                                Text(
+                                        'APPLY',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: Hexcolor('#00B6BC')),
+                                      )
+                                ],),
+                               index == promos.length - 1
                                     ? Container()
                                     : Divider(),
                               ],

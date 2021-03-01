@@ -264,14 +264,14 @@ class _LoginState extends State<Login> {
       onWillPop: _leave,
       child: Scaffold(
         key: _scafoldkey,
-        backgroundColor: Colors.white,
+        backgroundColor:Color.fromRGBO(252,214,152, 1),
         body: ListView(
           children: <Widget>[
             Container(
               height: size.height * 0.28,
               width: size.width,
               child: Image.asset(
-                'assets/login-sgnup.jpeg',
+                'assets/loginimg.jpeg',
                 fit: BoxFit.cover,
               ),
             ),
@@ -471,13 +471,15 @@ class _LoginState extends State<Login> {
                       ],
                     ),
                   ),
-                Container(
-                  // margin: EdgeInsets.all(10),
-                  child:Image.asset("assets/loginimg.jpeg") ,
-                )
+               
                 ],
               ),
             ),
+            Container(
+                  // margin: EdgeInsets.all(10),
+                  // margin: EdgeInsets.only(bottom:10),
+                  child:Image.asset("assets/login223.jpeg") ,
+                )
           ],
         ),
       ),

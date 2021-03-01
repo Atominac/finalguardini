@@ -281,7 +281,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                                       ),
                                       alignment: Alignment.center,
                                       child: Text(
-                                        "What is Green and Premium care?",
+                                        "What is Green care and Premium care?",
                                         style: TextStyle(
                                             fontSize: 13,
                                             color: Hexcolor('#00B6BC'),
@@ -291,7 +291,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                                   ),
                                   Container(
                                     height: size.height * 0.64,
-                                    padding: EdgeInsets.only(bottom: 32),
+                                    padding: EdgeInsets.only(bottom:62),
                                     margin: EdgeInsets.only(bottom: 10),
                                     child: GridView.count(
                                       crossAxisCount: 2,
@@ -527,7 +527,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                 ),
                 Expanded(
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 60),
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 40),
                       child: flag == 0
                           ? ListView(
                               children: [
@@ -571,7 +571,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                                         ),
                                         alignment: Alignment.center,
                                         child: Text(
-                                          "What is premium and regular wash?",
+                                          "What is Green care and Premium care?",
                                           style: TextStyle(
                                               fontSize: 13,
                                               color: Hexcolor('#00B6BC'),
@@ -581,7 +581,7 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                                     ),
                                     Container(
                                       height: size.height * 0.64,
-                                      padding: EdgeInsets.only(bottom: 32),
+                                      padding: EdgeInsets.only(bottom: 62),
                                       margin: EdgeInsets.only(bottom: 10),
                                       child: GridView.count(
                                         crossAxisCount: 2,
@@ -590,6 +590,8 @@ class _AddItemsState extends State<AddItems> with TickerProviderStateMixin {
                                         mainAxisSpacing: 10,
                                       ),
                                     ),
+            // SizedBox(height: 100,),
+
                                   ],
                                 ),
                     ),

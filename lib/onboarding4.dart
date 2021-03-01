@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guardini/onboarding1.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -97,12 +98,12 @@ class Onboarding4 extends StatelessWidget {
                     Padding(padding: EdgeInsets.only(left: 6)),
                     CircleAvatar(
                       maxRadius: 4,
-                      backgroundColor: Hexcolor('D1D1D1'),
+                      backgroundColor: Hexcolor('FFC233'),
                     ),
                     Padding(padding: EdgeInsets.only(left: 6)),
                     CircleAvatar(
                       maxRadius: 4,
-                      backgroundColor: Hexcolor('FFC233'),
+                      backgroundColor: Hexcolor('D1D1D1'),
                     ),
                     Padding(padding: EdgeInsets.only(left: 6)),
                     CircleAvatar(
@@ -120,7 +121,7 @@ class Onboarding4 extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Onboarding5(),
+                        builder: (context) => Onboarding1(),
                       ),
                     );
                   },

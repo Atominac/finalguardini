@@ -304,9 +304,9 @@ class _ReviewDetailsState extends State<ReviewDetails> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                widget.order["safekeeping"] == 1
-                                    ? "Safekeeping Charges"
-                                    : 'Delivery Charges',
+                                widget.order["safekeeping"] == 0
+                                    ?  widget.order["deliverytype"] == "3" ||  widget.order["deliverytype"] == "2"?"Express Charges":'Delivery Charges'
+                                    : widget.order["deliverytype"] == "3" ||  widget.order["deliverytype"] == "2"?"Express Charges": "Safekeeping Charges",
                                 style: TextStyle(
                                   fontSize: 12,
                                 ),

@@ -1201,7 +1201,7 @@ var promoapplied=0;
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Promo Code',
+                                applied==0?'Promo Discount':"PPD Discount",
                                 style: TextStyle(
                                   fontSize: 12,
                                 ),
@@ -1225,8 +1225,8 @@ var promoapplied=0;
                             children: [
                               Text(
                                 orderdetails["safekeeping"] == 0
-                                    ?  orderdetails["deliverytype"] == "3"?"Express Charges":'Delivery Charges'
-                                    : orderdetails["deliverytype"] == "3"?"Express Charges": "Safekeeping Charges",
+                                    ?  orderdetails["deliverytype"] == "3" ||  orderdetails["deliverytype"] == "2"?"Express Charges":'Delivery Charges'
+                                    : orderdetails["deliverytype"] == "3"|| orderdetails["deliverytype"] == "2"?"Express Charges": "Safekeeping Charges",
                                 style: TextStyle(
                                   fontSize: 12,
                                 ),
